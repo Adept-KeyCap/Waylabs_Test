@@ -22,6 +22,10 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = cameraTransform.forward * moveInput.y + cameraTransform.right * moveInput.x;
         
         rb.AddForce(move.normalized * speed, ForceMode.VelocityChange);
+
+        //character body rotation to camera rotation
+        Vector3 eulerRotation = new Vector3(0, cameraTransform.eulerAngles.y, 0);
+        transform.rotation = Quaternion.Euler(eulerRotation);
     }
 
     public void OnMove(InputAction.CallbackContext context)
