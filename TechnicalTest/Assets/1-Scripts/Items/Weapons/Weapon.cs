@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class Weapon : MonoBehaviour
 {
@@ -16,12 +17,18 @@ public class Weapon : MonoBehaviour
 
     [Header("Modifiers")]
     [SerializeField] private bool automatic; // Determines if the weapon is full-auto
-    [SerializeField] private bool laser;
     [SerializeField] private TMP_Text ammoTxt;
     [SerializeField] private LayerMask mask;
     [SerializeField] private Transform socketEjection; // Bullets Casting Particle System
     [SerializeField] private Vector2 shotOffset;
     [SerializeField] private Transform positionCrosshair;
+
+    [Header("Laser")]
+    [SerializeField] private bool laser;
+    [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
+    [Tooltip("0 = Standard Material \n1 = Laser Material")]
+    [SerializeField] private List<Material> materials;
+
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip audioClipReload;
@@ -139,7 +146,7 @@ public class Weapon : MonoBehaviour
         }
         else
         {
-            // No hit → Shoot straight
+            // No hit, then Shoot straight
             rotation = Quaternion.LookRotation(rayDirection);
         }
 
@@ -193,6 +200,22 @@ public class Weapon : MonoBehaviour
                 ammoTxt.gameObject.transform.parent.gameObject.SetActive(true);
                 positionCrosshair.gameObject.SetActive(true);
                 mainCrosshair.gameObject.SetActive(false);
+                break;
+        }
+    }
+
+    private void AmmoSwap(bool logic) // Decides how to dsiplay the weapon depending on the type of Ammo
+    {
+        switch(logic)
+        {
+            case false:
+                laser = false;
+                skinnedMeshRenderer.materials[0] = materials[0];
+                break;
+
+            case true:
+                laser = true;
+                skinnedMeshRenderer.materials[0] = materials[1];
                 break;
         }
     }
