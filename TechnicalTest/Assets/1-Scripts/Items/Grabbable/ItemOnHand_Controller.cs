@@ -113,17 +113,22 @@ public class ItemOnHand_Controller : MonoBehaviour
 
     #region Weapon Methods
 
-    public void FireWeapon()
+    public void FireWeapon(InputAction.CallbackContext context)
     {
         if (held_Item != null && held_Item.TryGetComponent(out Weapon weapon))
         {
-            weapon.Fire();
-        }
-        else
-        {
-            return;
+            if (context.performed) // Button is held down
+            {
+                weapon.StartFire(true);
+            }
+            else if (context.canceled) // Button is released
+            {
+                weapon.StartFire(false);
+            }
         }
     }
+
+
 
     public void ReloadWeapon()
     {

@@ -82,7 +82,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1362782738642983232
 RectTransform:
   m_ObjectHideFlags: 0
@@ -258,7 +258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2004930041064794240
 RectTransform:
   m_ObjectHideFlags: 0
@@ -318,7 +318,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 9ee137293631b9e46b1a401b72b130a4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -550,11 +550,11 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -9103484930961366303, guid: 2f422fb34f64f6f409a90c09ba8f1bdc, type: 3}
-  - {fileID: -3303489080311633890, guid: 2f422fb34f64f6f409a90c09ba8f1bdc, type: 3}
-  - {fileID: 3254086250651452113, guid: 2f422fb34f64f6f409a90c09ba8f1bdc, type: 3}
-  - {fileID: 935220640282410765, guid: 2f422fb34f64f6f409a90c09ba8f1bdc, type: 3}
-  - {fileID: 2232875878998256659, guid: 2f422fb34f64f6f409a90c09ba8f1bdc, type: 3}
+  - {fileID: 2100000, guid: 53b4143062850d84583350d72888fb5a, type: 2}
+  - {fileID: 2100000, guid: e14782e375e6c274a80d38f1726c4d5f, type: 2}
+  - {fileID: 2100000, guid: d95d3cae3724225498d597b14e7384dc, type: 2}
+  - {fileID: 2100000, guid: 53b4143062850d84583350d72888fb5a, type: 2}
+  - {fileID: 2100000, guid: d95d3cae3724225498d597b14e7384dc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -989,14 +989,15 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 6158986852728685965}
   maxAmmo: 10
-  projectileSpeed: 400
-  reloadTime: 2.96
+  projectileSpeed: 100
+  fireRate: 0.2
+  reloadTime: 2
   automatic: 0
   laser: 0
   ammoTxt: {fileID: 1445101716782839896}
   mask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 255
   socketEjection: {fileID: 5830742377374712868}
   shotOffset: {x: 0, y: 0}
   positionCrosshair: {fileID: 2004930041064794240}

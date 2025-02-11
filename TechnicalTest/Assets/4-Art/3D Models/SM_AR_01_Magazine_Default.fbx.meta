@@ -1,24 +1,9 @@
 fileFormatVersion: 2
-guid: 2f422fb34f64f6f409a90c09ba8f1bdc
+guid: 3ef7b7bc6fddf384f9680692087b2bb2
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Body
-    second: {fileID: 2100000, guid: 53b4143062850d84583350d72888fb5a, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Hammer
-    second: {fileID: 2100000, guid: 53b4143062850d84583350d72888fb5a, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Slide
-    second: {fileID: 2100000, guid: d95d3cae3724225498d597b14e7384dc, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

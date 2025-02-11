@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class Weapon : MonoBehaviour
 {
@@ -11,25 +11,26 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform firePoint;
     [SerializeField] private float maxAmmo;
     [SerializeField] private float projectileSpeed = 400.0f;
-    [SerializeField, Range(1,5)] private float reloadTime;
+    [SerializeField, Range(0.1f, 1.0f)] private float fireRate = 0.2f; // Fire rate (bullets per second)
+    [SerializeField, Range(1, 5)] private float reloadTime;
 
     [Header("Modifiers")]
-    [SerializeField] private bool automatic;
+    [SerializeField] private bool automatic; // Determines if the weapon is full-auto
     [SerializeField] private bool laser;
-    [SerializeField] private TMP_Text ammoTxt; 
+    [SerializeField] private TMP_Text ammoTxt;
     [SerializeField] private LayerMask mask;
-    [SerializeField] private Transform socketEjection; //Bullets Casting Particle System
+    [SerializeField] private Transform socketEjection; // Bullets Casting Particle System
     [SerializeField] private Vector2 shotOffset;
     [SerializeField] private Transform positionCrosshair;
-
 
     [Header("Audio Clips")]
     [SerializeField] private AudioClip audioClipReload;
     [SerializeField] private AudioClip audioClipFire;
     [SerializeField] private AudioClip audioClipFireEmpty;
 
-
     private float currentAmmo;
+    private bool canFire = true; // Used to control semi-auto firing
+    private bool isFiring = false; // Tracks if auto-fire is active
     private Vector3 rayDirection;
 
     private Camera mainCamera;
@@ -43,50 +44,127 @@ public class Weapon : MonoBehaviour
         mainCrosshair = CameraReferences.Instance.mainCrosshair;
         currentAmmo = maxAmmo;
 
-        ammoTxt.text = currentAmmo.ToString() + "|" + maxAmmo;
-        //AmmoDisplay(false);
+        ammoTxt.text = $"{currentAmmo} | {maxAmmo}";
     }
 
     private void FixedUpdate()
     {
         rayDirection = (aimObj.position - mainCamera.transform.position).normalized - new Vector3(shotOffset.x, shotOffset.y);
-        if (Physics.Raycast(new Ray(firePoint.position, rayDirection), out RaycastHit hit, 500, mask));
+
+        if (Physics.Raycast(new Ray(firePoint.position, rayDirection), out RaycastHit hit, 500, mask))
         {
             positionCrosshair.position = hit.point;
         }
     }
 
-    public void Fire(float spreadMultiplier = 1.0f)
+    public void StartFire(bool isPressed)
     {
-        Debug.LogWarning("Weapon Fired");
+        if (isPressed)
+        {
+            if (automatic)
+            {
+                if (!isFiring) // Prevent multiple invokes
+                {
+                    isFiring = true;
+                    InvokeRepeating(nameof(Fire), 0f, fireRate);
+                }
+            }
+            else
+            {
+                Fire(); // Semi-auto fires once per click
+            }
+        }
+        else
+        {
+            StopFiring(); // Stops automatic fire when released
+        }
+    }
+
+    public void StopFiring()
+    {
+        if (automatic)
+        {
+            isFiring = false;
+            CancelInvoke(nameof(Fire)); // ✅ Stops automatic fire
+        }
+    }
+
+
+
+
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        if (context.started) // Button pressed
+        {
+            if (automatic)
+            {
+                isFiring = true;
+                InvokeRepeating(nameof(Fire), 0f, fireRate);
+            }
+            else
+            {
+                Fire(); // Semi-auto fires once
+            }
+        }
+        else if (context.canceled) // Button released
+        {
+            if (automatic)
+            {
+                isFiring = false;
+                CancelInvoke(nameof(Fire));
+            }
+        }
+    }
+
+
+    private void Fire()
+    {
+        if (!canFire || currentAmmo <= 0) return;
+
+        Debug.Log("Weapon Fired");
 
         // Reduce ammo
         currentAmmo = Mathf.Clamp(currentAmmo - 1, 0, maxAmmo);
-        ammoTxt.text = currentAmmo.ToString() + "|" + maxAmmo;
+        ammoTxt.text = $"{currentAmmo} | {maxAmmo}";
 
         Quaternion rotation;
 
-        // 🔹 Raycast to check if the shot hits anything
+        // Raycast to check if the shot hits anything
         if (Physics.Raycast(new Ray(firePoint.position, rayDirection), out RaycastHit hit, 500, mask))
         {
-            // ✅ Aim at the hit point
+            // Aim at the hit point
             rotation = Quaternion.LookRotation(hit.point - firePoint.position);
         }
         else
         {
-            // ✅ No hit → Shoot straight
+            // No hit → Shoot straight
             rotation = Quaternion.LookRotation(rayDirection);
         }
 
         if (!laser)
         {
-            // ✅ Create and launch the projectile
+            // Create and launch the projectile
             GameObject projectile = Instantiate(prefabProjectile, firePoint.position, rotation);
             projectile.GetComponent<Bullet>().GetWeaponStat(projectileSpeed);
             projectile.GetComponent<Rigidbody>().velocity = projectile.transform.forward * projectileSpeed;
         }
+
+        if (!automatic) // If semi-auto, prevent firing again until cooldown
+        {
+            canFire = false;
+            Invoke(nameof(ResetFire), fireRate);
+        }
     }
 
+    private void ResetFire()
+    {
+        canFire = true; // Allow next shot
+    }
+
+    public void Reload()
+    {
+        StartCoroutine(ReloadCoroutine());
+    }
 
     public void AmmoDisplay(bool logic)
     {
@@ -106,19 +184,12 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void Reload()
+
+    private IEnumerator ReloadCoroutine()
     {
-        StartCoroutine(ReloadCorutine(reloadTime));
-    }
-
-    private IEnumerator ReloadCorutine(float time)
-    {
-        Debug.Log("Reloading");
-
-        //Play Reload Audio
-
-        yield return new WaitForSeconds(time);
-
+        Debug.Log("Reloading...");
+        yield return new WaitForSeconds(reloadTime);
+        ammoTxt.text = $"{currentAmmo} | {maxAmmo}";
         currentAmmo = maxAmmo;
     }
 }
