@@ -7,6 +7,7 @@ public class Item : MonoBehaviour
 {
     [SerializeField] private GameObject highlightObj;
     [SerializeField, Range(0,10)] private float forceScaler;
+    [SerializeField] private Quaternion customRotation;
 
     private Rigidbody rb;
     private Collider collider;
@@ -21,6 +22,7 @@ public class Item : MonoBehaviour
         camera = CameraReferences.Instance.playerCamera;
         aimObj = CameraReferences.Instance.aimObject;
 
+        if(customRotation == Quaternion.identity) { customRotation = Quaternion.identity; }
 
         rb = GetComponent<Rigidbody>();
         meshFilter = GetComponent<MeshFilter>();
@@ -35,6 +37,7 @@ public class Item : MonoBehaviour
     {
         grabbed = true;
         transform.parent = pos;
+        transform.rotation = customRotation;
         rb.isKinematic = true;
         collider.enabled = false;
         transform.localPosition = Vector3.zero;
