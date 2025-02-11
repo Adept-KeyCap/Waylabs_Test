@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class ItemOnHand_Controller : MonoBehaviour
 {
+    [Header("Item Detection")]
     public Item detected_Item;
     public Item held_Item;
 
+    [Header("Grab Attributes")]
+    [SerializeField] private Transform grabPoint;
     [SerializeField] private float grabDistance = 3f;  // Maximum grab distance
 
     private Transform aimObj;
@@ -64,11 +68,12 @@ public class ItemOnHand_Controller : MonoBehaviour
         }
     }
 
+    #region General Items Methods
     public void GrabItem()
     {
         if (itemOnHand && hitObject != null)
         {
-            hitObject.Grabbed(transform);
+            hitObject.Grabbed(grabPoint);
             held_Item = hitObject;
         }
         else
@@ -104,4 +109,34 @@ public class ItemOnHand_Controller : MonoBehaviour
             held_Item = null;
         }
     }
+    #endregion
+
+    #region Weapon Methods
+
+    public void FireWeapon()
+    {
+        if (held_Item != null && held_Item.TryGetComponent(out Weapon weapon))
+        {
+            weapon.Fire();
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    public void ReloadWeapon()
+    {
+        if (held_Item != null && held_Item.TryGetComponent(out Weapon weapon))
+        {
+            weapon.Reload();
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    #endregion
+
 }

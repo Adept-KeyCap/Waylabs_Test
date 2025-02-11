@@ -5,6 +5,7 @@ public class CameraReferences : MonoBehaviour
 
     public Camera playerCamera;
     public Transform aimObject;
+    public GameObject mainCrosshair;
 
     void Awake()
     {
