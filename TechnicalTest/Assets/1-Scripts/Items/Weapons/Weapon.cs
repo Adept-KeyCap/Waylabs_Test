@@ -36,13 +36,18 @@ public class Weapon : MonoBehaviour
     private Camera mainCamera;
     private Transform aimObj;
     private GameObject mainCrosshair;
+    private LineRenderer lineRenderer;
 
     void Start()
     {
         mainCamera = CameraReferences.Instance.playerCamera;
         aimObj = CameraReferences.Instance.aimObject;
         mainCrosshair = CameraReferences.Instance.mainCrosshair;
+        lineRenderer = GetComponent<LineRenderer>();
         currentAmmo = maxAmmo;
+
+        lineRenderer.positionCount = 2;
+        lineRenderer.enabled = false;
 
         ammoTxt.text = $"{currentAmmo} | {maxAmmo}";
     }
@@ -89,9 +94,6 @@ public class Weapon : MonoBehaviour
         }
     }
 
-
-
-
     public void OnFire(InputAction.CallbackContext context)
     {
         if (context.started) // Button pressed
@@ -116,7 +118,6 @@ public class Weapon : MonoBehaviour
         }
     }
 
-
     private void Fire()
     {
         if (!canFire || currentAmmo <= 0) return;
@@ -134,6 +135,7 @@ public class Weapon : MonoBehaviour
         {
             // Aim at the hit point
             rotation = Quaternion.LookRotation(hit.point - firePoint.position);
+    
         }
         else
         {
@@ -147,6 +149,17 @@ public class Weapon : MonoBehaviour
             GameObject projectile = Instantiate(prefabProjectile, firePoint.position, rotation);
             projectile.GetComponent<Bullet>().GetWeaponStat(projectileSpeed);
             projectile.GetComponent<Rigidbody>().velocity = projectile.transform.forward * projectileSpeed;
+        }
+        else
+        {
+            lineRenderer.enabled = true;
+            lineRenderer.SetPosition(0, firePoint.position);
+            if (hit.collider.gameObject.GetComponent<IHittable>() != null)
+            {
+                hit.collider.gameObject.GetComponent<IHittable>().OnHit(hit.collider.ClosestPoint(transform.position), Vector3.zero);
+            }
+            lineRenderer.SetPosition(1, hit.point);
+            StartCoroutine(ClearLaser(0.3f));
         }
 
         if (!automatic) // If semi-auto, prevent firing again until cooldown
@@ -191,5 +204,13 @@ public class Weapon : MonoBehaviour
         yield return new WaitForSeconds(reloadTime);
         ammoTxt.text = $"{currentAmmo} | {maxAmmo}";
         currentAmmo = maxAmmo;
+    }
+
+    private IEnumerator ClearLaser(float time)
+    {
+        
+        yield return new WaitForSeconds(time);
+
+        lineRenderer.enabled = false;
     }
 }
