@@ -7,18 +7,26 @@ using UnityEngine.UI;
 
 public class AimController : MonoBehaviour
 {
+    [SerializeField] private bool museLocked = true;
     [SerializeField] private RectTransform crosshairUI;
-    [SerializeField] private Camera mainCamera;
-    [SerializeField] private Transform aimObject;
     [SerializeField] private float radious = 15;
     [SerializeField, Range(0,0.2f)] private float speed;
+    [SerializeField] private Vector2 offset;
 
     private Vector2 aimPosition;
+    private Camera mainCamera;
+    private Transform aimObject;
+
 
     void Start()
     {
-        //mainCamera = GetComponent<Camera>();
-        Cursor.lockState = CursorLockMode.Locked;
+        mainCamera = CameraReferences.Instance.playerCamera;
+        aimObject = CameraReferences.Instance.aimObject;
+
+        if (museLocked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     void FixedUpdate()
@@ -32,13 +40,16 @@ public class AimController : MonoBehaviour
         if (screenPosition.z > 0)
         {
             // Update crosshair position in UI space
-            crosshairUI.position = screenPosition;
+            crosshairUI.position = screenPosition + new Vector3(offset.x, offset.y);
         }
     }        
 
     public void onAim(InputAction.CallbackContext context)
     {
-        aimPosition = context.ReadValue<Vector2>();
+        if (museLocked)
+        {
+            aimPosition = context.ReadValue<Vector2>();
+        }        
     }
 
     void RotateAim(Transform aimObj, Vector2 aimDelta, float radius, float sensitivity)
