@@ -99,7 +99,7 @@ public class InventoryManager : MonoBehaviour
                 objInSlot.count--;
                 if (objInSlot.count <= 0)
                 {
-                    Destroy(objInSlot);
+                    Destroy(objInSlot.gameObject);
                 }
                 else
                 {

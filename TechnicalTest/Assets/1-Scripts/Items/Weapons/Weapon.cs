@@ -65,7 +65,15 @@ public class Weapon : MonoBehaviour
 
         if (Physics.Raycast(new Ray(firePoint.position, rayDirection), out RaycastHit hit, 500, mask))
         {
-            positionCrosshair.position = hit.point;
+            positionCrosshair.position = hit.point - new Vector3(0,0.2f);
+            // Get the surface normal
+            Vector3 surfaceNormal = hit.normal;
+
+            // Align object’s UP direction with the surface normal
+            positionCrosshair.transform.forward = surfaceNormal;
+
+            // Keep the same forward direction
+            //positionCrosshair.transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, surfaceNormal), surfaceNormal);
         }
     }
 
