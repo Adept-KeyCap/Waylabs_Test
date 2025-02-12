@@ -27,7 +27,3 @@ public enum ItemType
     Weapon
 }
 
-//public enum ActionType
-//{
-
-//}

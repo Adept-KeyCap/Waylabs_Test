@@ -184,6 +184,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
+
     private void ResetFire()
     {
         canFire = true; // Allow next shot

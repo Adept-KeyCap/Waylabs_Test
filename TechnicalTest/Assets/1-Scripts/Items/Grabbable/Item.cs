@@ -35,19 +35,14 @@ public class Item : MonoBehaviour, IHittable
 
     public void Grabbed(Transform pos)
     {
+        grabbed = true;
+        transform.parent = pos;
+        transform.localRotation = Quaternion.Euler(customRotation);
+        rb.isKinematic = true;
+        selfCollider.enabled = false;
+        transform.localPosition = Vector3.zero;
 
-        bool logic = InventoryManager.Instance.AddObject(inventoryObject, gameObject);
-        if(logic)
-        {
-            grabbed = true;
-            transform.parent = pos;
-            transform.localRotation = Quaternion.Euler(customRotation);
-            rb.isKinematic = true;
-            selfCollider.enabled = false;
-            transform.localPosition = Vector3.zero;
-
-            CheckForWeapon(grabbed);
-        }
+        CheckForWeapon(grabbed);  
     }
 
     public void ThrowItem(float addedForce)

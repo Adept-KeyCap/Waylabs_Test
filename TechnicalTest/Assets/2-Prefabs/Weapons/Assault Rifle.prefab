@@ -571,7 +571,7 @@ MonoBehaviour:
   highlightObj: {fileID: 2857555111351041299}
   forceScaler: 2.49
   customRotation: {x: -90, y: 0.15906441, z: 0.15906441}
-  inventoryObject: {fileID: 0}
+  inventoryObject: {fileID: 11400000, guid: 4d85bb6becd7f45499d539837b6afab3, type: 2}
 --- !u!114 &33130809668588353
 MonoBehaviour:
   m_ObjectHideFlags: 0

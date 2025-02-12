@@ -1,7 +1,5 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -33,6 +31,19 @@ public class InventoryManager : MonoBehaviour
         itemOnHand = ItemOnHand_Controller.Instance;
     }
 
+    public void OnToolbarSelect(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            float scroll = context.ReadValue<float>();
+
+            if (scroll > 0)
+                ChangeSelectedSlot(selectedSlot - 1);
+            else if (scroll < 0)
+                ChangeSelectedSlot(selectedSlot + 1);
+        }
+    }
+
     private void ChangeSelectedSlot(int newValue)
     {
         if (selectedSlot >= 0)
@@ -40,99 +51,107 @@ public class InventoryManager : MonoBehaviour
             inventorySlots[selectedSlot].Unselect();
         }
 
-        if (newValue > 4)
+        if (newValue >= inventorySlots.Length)
         {
             newValue = 0;
         }
         else if (newValue < 0)
         {
-            newValue = 4;
+            newValue = inventorySlots.Length - 1;
         }
 
         selectedSlot = newValue;
         inventorySlots[selectedSlot].Select();
 
-        // Call SwapItem() when switching slots
+        // Ensure only the correct object is equipped
         itemOnHand.SwapItem(selectedSlot);
     }
 
 
+
+    public void MoveItemToNewSlot(GameObject movedItem, InventorySlot newSlot)
+    {
+        // Find the old slot where this item was stored
+        foreach (var slot in inventorySlots)
+        {
+            if (slot.storedGameObject == movedItem)
+            {
+                slot.storedGameObject = null; // Remove from old slot
+                break;
+            }
+        }
+
+        // Assign the item to the new slot
+        newSlot.storedGameObject = movedItem;
+    }
+
+    public GameObject GetStoredItem(int slotIndex)
+    {
+        return inventorySlots[slotIndex].storedGameObject;
+    }
+
     public bool AddObject(InventoryObject invObject, GameObject realObj)
     {
-        // Check if same item can be stacked
-        for (int i = 0; i < inventorySlots.Length; i++)
+        // 1. Check if an existing stackable item exists
+        foreach (var slot in inventorySlots)
         {
-            InventorySlot slot = inventorySlots[i];
             InventoryItem objInSlot = slot.GetComponentInChildren<InventoryItem>();
-            if (objInSlot != null && objInSlot.inventoryObject == invObject && objInSlot.count < 5 && objInSlot.inventoryObject.stackable)
+
+            if (objInSlot != null && objInSlot.inventoryObject == invObject && objInSlot.count < 5 && invObject.stackable)
             {
                 objInSlot.count++;
                 objInSlot.RefreshCount();
+                Destroy(realObj); // ✅ Destroy the duplicate GameObject (since it's stacked)
                 return true;
             }
         }
-        
-        //Check for any empty slot
-        for (int i = 0; i < inventorySlots.Length; i++)
+
+        // 2. If no stackable slot found, place in an empty slot
+        foreach (var slot in inventorySlots)
         {
-            InventorySlot slot = inventorySlots[i];
-            InventoryItem objInSlot = slot.GetComponentInChildren<InventoryItem>();
-            if(objInSlot == null)
+            if (slot.storedGameObject == null)
             {
+                slot.storedGameObject = realObj;
+                realObj.SetActive(false); // ✅ Hide the object when stored
+
+                // Spawn a new UI item for the inventory
                 SpawnNewObject(invObject, slot);
                 return true;
             }
         }
 
-        return false;
+        return false; // Inventory full
     }
 
-    public InventoryObject GetSelectedObject(bool dropped)
-    {
-        InventorySlot slot = inventorySlots[selectedSlot];
-        InventoryItem objInSlot = slot.GetComponentInChildren<InventoryItem>();
-        if (objInSlot != null)
-        {
-            InventoryObject obj = objInSlot.inventoryObject;
-            if(dropped == true)
-            {
-                objInSlot.count--;
-                if (objInSlot.count <= 0)
-                {
-                    Destroy(objInSlot.gameObject);
-                }
-                else
-                {
-                    objInSlot.RefreshCount();
-                }
-            }
-
-            return obj;
-        }
-
-        return null;
-    }
-
-    public void OnToolbarSelect(InputAction.CallbackContext context)
-    {
-        if(context.performed)
-        {
-            scroll = context.ReadValue<float>();
-            if (scroll > 0 && selectedSlot >= 0 && selectedSlot <= 4)
-            {
-                ChangeSelectedSlot(selectedSlot - 1);
-            }
-            else if (scroll < 0 && selectedSlot >= 0 && selectedSlot <= 4)
-            {
-                ChangeSelectedSlot(selectedSlot + 1);
-            }
-        }     
-    }
 
     void SpawnNewObject(InventoryObject obj, InventorySlot slot)
     {
-        GameObject newObj = Instantiate(inventoryItemPrefab, slot.transform);
+        GameObject newObj = Instantiate(inventoryItemPrefab, slot.transform); // ✅ Spawn UI icon inside the slot
         InventoryItem inventoryItem = newObj.GetComponent<InventoryItem>();
-        inventoryItem.InitializeItem(obj); 
+
+        inventoryItem.InitializeItem(obj); // ✅ Assign the correct item data
     }
+
+
+    public void RemoveObjectFromInventory(GameObject item)
+    {
+        foreach (var slot in inventorySlots)
+        {
+            if (slot.storedGameObject == item)
+            {
+                slot.storedGameObject = null; // Remove reference
+
+                // Remove UI representation
+                InventoryItem objInSlot = slot.GetComponentInChildren<InventoryItem>();
+                if (objInSlot != null)
+                {
+                    Destroy(objInSlot.gameObject); // Destroy the UI icon
+                }
+
+                Debug.Log("Item removed from inventory.");
+                return;
+            }
+        }
+    }
+
 }

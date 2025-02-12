@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class ItemOnHand_Controller : MonoBehaviour
 {
@@ -14,67 +13,46 @@ public class ItemOnHand_Controller : MonoBehaviour
 
     [Header("Grab Attributes")]
     [SerializeField] private Transform grabPoint;
-    [SerializeField] private float grabDistance = 3f;  // Maximum grab distance
+    [SerializeField] private float grabDistance = 3f;
 
     private Transform aimObj;
     private Transform playerCamera;
     private bool grabbable = false;
     private Item hitObject;
-
     private float pressStartTime = 0f;
     private bool isHolding = false;
 
     [SerializeField] private InventoryManager invManager;
-    [SerializeField] private List<GameObject> gameObjectsInInventory;
-
 
     private void Awake()
     {
         Instance = this;
-
-        if (gameObjectsInInventory == null)
-        {
-            gameObjectsInInventory = new List<GameObject>(new GameObject[17]);
-        }
     }
 
     private void Start()
     {
         aimObj = CameraReferences.Instance.aimObject.transform;
         playerCamera = CameraReferences.Instance.playerCamera.transform;
-
-        if (invManager == null)
-        {
-            Debug.LogError("InventoryManager is not assigned to ItemOnHand_Controller!");
-            return;
-        }
-
-        // Ensure the list is properly initialized
-        gameObjectsInInventory = new List<GameObject>(new GameObject[invManager.inventorySlots.Length]);
     }
-
 
     void FixedUpdate()
     {
-        // Corrected ray direction
         Vector3 rayDirection = (aimObj.position - playerCamera.position).normalized;
 
-        // Perform the Raycast
         if (Physics.Raycast(playerCamera.position, rayDirection, out RaycastHit hit, grabDistance))
         {
-            detected_Item = hit.collider.GetComponent<Item>(); // Get Item component
+            detected_Item = hit.collider.GetComponent<Item>();
 
-            if (detected_Item != null) // If an Item is detected
+            if (detected_Item != null)
             {
-                // If it's a new item, update the reference and highlight it
                 if (hitObject != detected_Item)
                 {
-                    ResetHighlight();  // Reset previous highlight
+                    ResetHighlight();
                     hitObject = detected_Item;
                     hitObject.Highlight(true);
                 }
 
-                grabbable = true;  // knows if an item is available to grab
+                grabbable = true;
             }
             else
             {
@@ -85,59 +63,67 @@ public class ItemOnHand_Controller : MonoBehaviour
         {
             ResetHighlight();
         }
-
-
-        if (isHolding)
-        {
-            float currentHoldTime = Time.time - pressStartTime;
-            Debug.Log($"Holding Q for {currentHoldTime:F2} seconds...");
-        }
     }
 
-    #region General Items Methods
     public void GrabItem()
     {
-        if (grabbable && hitObject != null && held_Item == null)
+        if (grabbable && hitObject != null)
         {
             grabbable = false;
-            hitObject.Grabbed(grabPoint);
-            held_Item = hitObject;
+            hitObject.Grabbed(grabPoint); // Attach item to grab point
 
-            // Ensure index is valid before assignment
-            if (invManager.selectedSlot >= 0 && invManager.selectedSlot < gameObjectsInInventory.Count)
+            // Store the item in inventory
+            bool added = invManager.AddObject(hitObject.inventoryObject, hitObject.gameObject);
+
+            if (!added)
             {
-                gameObjectsInInventory[invManager.selectedSlot] = held_Item.gameObject;
+                Debug.Log("Inventory full! Cannot pick up item.");
+                return;
+            }
+
+            //  If nothing is in hand, equip this item immediately
+            if (held_Item == null)
+            {
+                EquipItem(hitObject.gameObject);
             }
             else
             {
-                Debug.LogError("Invalid inventory slot index: " + invManager.selectedSlot);
+                //  If an item is already held, just store it (disable the new item)
+                hitObject.gameObject.SetActive(false);
             }
         }
-        else
+    }
+
+    private void EquipItem(GameObject item)
+    {
+        if (held_Item != null)
         {
-            Debug.LogWarning("No Item to Grab!");
+            held_Item.gameObject.SetActive(false); // Hide current item if there is one
+        }
+
+        item.SetActive(true);
+        held_Item = item.GetComponent<Item>();
+
+        if (held_Item.GetComponent<Weapon>() != null)
+        {
+            held_Item.GetComponent<Weapon>().AmmoDisplay(true);
         }
     }
 
     public void SwapItem(int newItemId)
     {
-        if (gameObjectsInInventory == null || newItemId < 0 || newItemId >= gameObjectsInInventory.Count)
-        {
-            Debug.LogWarning("SwapItem Error: gameObjectsInInventory is null or newItemId is out of range.");
-            return;
-        }
-
-        // Deactivate the current held item before switching
         if (held_Item != null)
         {
             held_Item.gameObject.SetActive(false);
         }
 
-        // Activate the new item if it exists
-        if (gameObjectsInInventory[newItemId] != null)
+        GameObject newItem = invManager.GetStoredItem(newItemId);
+
+        if (newItem != null)
         {
-            gameObjectsInInventory[newItemId].SetActive(true);
-            held_Item = gameObjectsInInventory[newItemId].GetComponent<Item>();
+            newItem.SetActive(true);
+            held_Item = newItem.GetComponent<Item>();
+
             if (held_Item.GetComponent<Weapon>() != null)
             {
                 held_Item.GetComponent<Weapon>().AmmoDisplay(true);
@@ -145,9 +131,10 @@ public class ItemOnHand_Controller : MonoBehaviour
         }
         else
         {
-            held_Item = null; // If the slot is empty, no item is held
+            held_Item = null; // Prevents equipping an item that was moved
         }
     }
+
 
 
 
@@ -157,29 +144,38 @@ public class ItemOnHand_Controller : MonoBehaviour
         {
             GrabItem();
         }
-        else if (context.performed) { }
-        else if (context.canceled) { }
     }
 
     public void OnHoldQ(InputAction.CallbackContext context)
     {
-        if (context.started) // Q Button is pressed
+        if (context.started) // Start holding Q
         {
             pressStartTime = Time.time;
             isHolding = true;
-            Debug.Log("Q key pressed.");
         }
-        else if (context.canceled) // Q Button is released
+        else if (context.canceled) // Release Q to drop item
         {
-            invManager.GetSelectedObject(true);
-
             float holdDuration = Time.time - pressStartTime;
-            Debug.Log($"Q key was held for {holdDuration:F2} seconds.");
             isHolding = false;
-            held_Item.ThrowItem(holdDuration);
-            held_Item = null;
+
+            if (held_Item != null)
+            {
+                // Remove from InventoryManager (both storage and UI)
+                invManager.RemoveObjectFromInventory(held_Item.gameObject);
+
+                // Drop the item in world space
+                held_Item.transform.SetParent(null); // Unparent from player
+                held_Item.gameObject.SetActive(true); // Ensure it's visible
+
+                // Throw it (optional)
+                held_Item.ThrowItem(holdDuration);
+
+                // Hand is now empty
+                held_Item = null;
+            }
         }
     }
+
 
     private void ResetHighlight()
     {
@@ -189,12 +185,9 @@ public class ItemOnHand_Controller : MonoBehaviour
             hitObject = null;
         }
 
-        grabbable = false;  // Ensure it resets when no item is detected
+        grabbable = false;
     }
 
-    #endregion
-
-    #region Weapon Methods
 
     public void FireWeapon(InputAction.CallbackContext context)
     {
@@ -222,7 +215,4 @@ public class ItemOnHand_Controller : MonoBehaviour
             return;
         }
     }
-
-    #endregion
-
 }

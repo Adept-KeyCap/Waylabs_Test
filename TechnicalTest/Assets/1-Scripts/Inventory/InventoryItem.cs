@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -19,9 +19,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void InitializeItem(InventoryObject newObject)
     {
         inventoryObject = newObject;
-        image.sprite = newObject.image;
+        image.sprite = newObject.image; // Assign the correct icon
         RefreshCount();
     }
+
 
     public void RefreshCount()
     {
@@ -45,6 +46,25 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnEndDrag(PointerEventData eventData)
     {
         image.raycastTarget = true;
+
+        if (parentAfterDrag != transform.parent) // Item moved to a different slot
+        {
+            // Get old and new slots
+            InventorySlot oldSlot = parentAfterDrag.GetComponent<InventorySlot>();
+            InventorySlot newSlot = transform.parent.GetComponent<InventorySlot>();
+
+            if (oldSlot != null && newSlot != null)
+            {
+                // Move the stored GameObject reference
+                newSlot.storedGameObject = oldSlot.storedGameObject;
+                oldSlot.storedGameObject = null;
+
+                // Update UI icons
+                oldSlot.UpdateIcon();
+                newSlot.UpdateIcon();
+            }
+        }
         transform.SetParent(parentAfterDrag);
     }
+
 }

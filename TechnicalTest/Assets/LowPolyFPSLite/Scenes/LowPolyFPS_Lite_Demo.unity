@@ -11041,12 +11041,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 50234141319235323, guid: 9cd15dd6e477f5346a5cd58dd4da655c,
-        type: 3}
-      propertyPath: inventoryObject
-      value: 
-      objectReference: {fileID: 11400000, guid: 4d85bb6becd7f45499d539837b6afab3,
-        type: 2}
     - target: {fileID: 2286905522712668545, guid: 9cd15dd6e477f5346a5cd58dd4da655c,
         type: 3}
       propertyPath: m_Name
@@ -11183,30 +11177,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2614423699975541449, guid: ad06a71e6a0986b45afa6040ffcfc894,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2614423699975541449, guid: ad06a71e6a0986b45afa6040ffcfc894,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 3000
-      objectReference: {fileID: 0}
-    - target: {fileID: 2614423699975541449, guid: ad06a71e6a0986b45afa6040ffcfc894,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -868847597
-      objectReference: {fileID: 0}
-    - target: {fileID: 2614423699975541449, guid: ad06a71e6a0986b45afa6040ffcfc894,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 3563203257886470254, guid: ad06a71e6a0986b45afa6040ffcfc894,
         type: 3}
-      propertyPath: m_Layer
-      value: 5
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5581990583928267368, guid: ad06a71e6a0986b45afa6040ffcfc894,
         type: 3}
