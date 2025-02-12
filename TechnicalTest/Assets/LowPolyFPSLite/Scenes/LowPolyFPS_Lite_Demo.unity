@@ -266,24 +266,6 @@ MonoBehaviour:
   grabPoint: {fileID: 810764979}
   grabDistance: 3
   invManager: {fileID: 1555930492}
-  gameObjectsInInventory:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1001 &60791777
 PrefabInstance:
   m_ObjectHideFlags: 0

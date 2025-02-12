@@ -31,19 +31,6 @@ public class InventoryManager : MonoBehaviour
         itemOnHand = ItemOnHand_Controller.Instance;
     }
 
-    public void OnToolbarSelect(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            float scroll = context.ReadValue<float>();
-
-            if (scroll > 0)
-                ChangeSelectedSlot(selectedSlot - 1);
-            else if (scroll < 0)
-                ChangeSelectedSlot(selectedSlot + 1);
-        }
-    }
-
     private void ChangeSelectedSlot(int newValue)
     {
         if (selectedSlot >= 0)
@@ -51,13 +38,13 @@ public class InventoryManager : MonoBehaviour
             inventorySlots[selectedSlot].Unselect();
         }
 
-        if (newValue >= inventorySlots.Length)
+        if (newValue > 4)
         {
             newValue = 0;
         }
         else if (newValue < 0)
         {
-            newValue = inventorySlots.Length - 1;
+            newValue = 4;
         }
 
         selectedSlot = newValue;
@@ -65,24 +52,6 @@ public class InventoryManager : MonoBehaviour
 
         // Ensure only the correct object is equipped
         itemOnHand.SwapItem(selectedSlot);
-    }
-
-
-
-    public void MoveItemToNewSlot(GameObject movedItem, InventorySlot newSlot)
-    {
-        // Find the old slot where this item was stored
-        foreach (var slot in inventorySlots)
-        {
-            if (slot.storedGameObject == movedItem)
-            {
-                slot.storedGameObject = null; // Remove from old slot
-                break;
-            }
-        }
-
-        // Assign the item to the new slot
-        newSlot.storedGameObject = movedItem;
     }
 
     public GameObject GetStoredItem(int slotIndex)
@@ -101,7 +70,7 @@ public class InventoryManager : MonoBehaviour
             {
                 objInSlot.count++;
                 objInSlot.RefreshCount();
-                Destroy(realObj); // ✅ Destroy the duplicate GameObject (since it's stacked)
+                //Destroy(realObj); // Destroy the duplicate GameObject (since it's stacked)
                 return true;
             }
         }
@@ -112,7 +81,7 @@ public class InventoryManager : MonoBehaviour
             if (slot.storedGameObject == null)
             {
                 slot.storedGameObject = realObj;
-                realObj.SetActive(false); // ✅ Hide the object when stored
+                realObj.SetActive(false); // Hide the object when stored
 
                 // Spawn a new UI item for the inventory
                 SpawnNewObject(invObject, slot);
@@ -126,10 +95,10 @@ public class InventoryManager : MonoBehaviour
 
     void SpawnNewObject(InventoryObject obj, InventorySlot slot)
     {
-        GameObject newObj = Instantiate(inventoryItemPrefab, slot.transform); // ✅ Spawn UI icon inside the slot
+        GameObject newObj = Instantiate(inventoryItemPrefab, slot.transform); // Spawn UI icon inside the slot
         InventoryItem inventoryItem = newObj.GetComponent<InventoryItem>();
 
-        inventoryItem.InitializeItem(obj); // ✅ Assign the correct item data
+        inventoryItem.InitializeItem(obj); // Assign the correct item data
     }
 
 
@@ -153,5 +122,23 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
+
+    public void OnToolbarSelect(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            float scroll = context.ReadValue<float>();
+
+            if (scroll > 0) // Scrolling up
+            {
+                ChangeSelectedSlot(selectedSlot - 1);
+            }
+            else if (scroll < 0) // Scrolling down
+            {
+                ChangeSelectedSlot(selectedSlot + 1);
+            }
+        }
+    }
+
 
 }

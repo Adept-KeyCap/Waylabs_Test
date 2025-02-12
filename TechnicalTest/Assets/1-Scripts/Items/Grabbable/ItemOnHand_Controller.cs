@@ -131,10 +131,9 @@ public class ItemOnHand_Controller : MonoBehaviour
         }
         else
         {
-            held_Item = null; // Prevents equipping an item that was moved
+            held_Item = null;
         }
     }
-
 
 
 
