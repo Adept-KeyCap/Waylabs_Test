@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
+    [SerializeField] private float maxSpeed = 5f;
     private Transform cameraTransform;
     private Rigidbody rb;
     private Vector2 moveInput;
@@ -20,8 +21,12 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 move = transform.forward * moveInput.y + transform.right * moveInput.x;
-        
-        rb.AddForce(move.normalized * speed, ForceMode.VelocityChange);
+        if (rb.velocity.magnitude <= maxSpeed)
+        {
+
+            rb.AddForce(move.normalized * speed, ForceMode.Impulse);
+
+        }
 
         //character body rotation to camera rotation
         Vector3 eulerRotation = new Vector3(0, cameraTransform.eulerAngles.y, 0);
@@ -31,5 +36,17 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
+    }
+
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            maxSpeed *= 2;
+        }
+        else if (context.canceled)
+        {
+            maxSpeed = maxSpeed/2;
+        }
     }
 }
