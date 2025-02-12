@@ -220,6 +220,10 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        mainCrosshair.gameObject.SetActive(true);
+    }
 
     private IEnumerator ReloadCoroutine()
     {

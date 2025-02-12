@@ -1,31 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InventoryManager : MonoBehaviour
 {
+    public static InventoryManager Instance;
+
     public InventorySlot[] inventorySlots;
     public GameObject inventoryItemPrefab;
 
-    [SerializeField] private int selectedSlot = -1;
+    public int selectedSlot = -1;
 
     private float scroll;
+    [SerializeField] private ItemOnHand_Controller itemOnHand;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
         ChangeSelectedSlot(0);
+        itemOnHand = ItemOnHand_Controller.Instance;
     }
 
     private void ChangeSelectedSlot(int newValue)
     {
-        if (selectedSlot >=0)
+        if (selectedSlot >= 0)
         {
             inventorySlots[selectedSlot].Unselect();
         }
 
-        if (newValue > 4 )
+        if (newValue > 4)
         {
             newValue = 0;
         }
@@ -34,11 +49,15 @@ public class InventoryManager : MonoBehaviour
             newValue = 4;
         }
 
-        inventorySlots[newValue].Select();
         selectedSlot = newValue;
+        inventorySlots[selectedSlot].Select();
+
+        // Call SwapItem() when switching slots
+        itemOnHand.SwapItem(selectedSlot);
     }
 
-    public bool AddObject(InventoryObject invObject)
+
+    public bool AddObject(InventoryObject invObject, GameObject realObj)
     {
         // Check if same item can be stacked
         for (int i = 0; i < inventorySlots.Length; i++)
@@ -47,7 +66,6 @@ public class InventoryManager : MonoBehaviour
             InventoryItem objInSlot = slot.GetComponentInChildren<InventoryItem>();
             if (objInSlot != null && objInSlot.inventoryObject == invObject && objInSlot.count < 5 && objInSlot.inventoryObject.stackable)
             {
-                //Temporal
                 objInSlot.count++;
                 objInSlot.RefreshCount();
                 return true;
@@ -58,10 +76,9 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < inventorySlots.Length; i++)
         {
             InventorySlot slot = inventorySlots[i];
-            InventoryObject objInSlot = slot.GetComponentInChildren<InventoryObject>();
+            InventoryItem objInSlot = slot.GetComponentInChildren<InventoryItem>();
             if(objInSlot == null)
             {
-                //Temporal
                 SpawnNewObject(invObject, slot);
                 return true;
             }
@@ -70,17 +87,46 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
+    public InventoryObject GetSelectedObject(bool dropped)
+    {
+        InventorySlot slot = inventorySlots[selectedSlot];
+        InventoryItem objInSlot = slot.GetComponentInChildren<InventoryItem>();
+        if (objInSlot != null)
+        {
+            InventoryObject obj = objInSlot.inventoryObject;
+            if(dropped == true)
+            {
+                objInSlot.count--;
+                if (objInSlot.count <= 0)
+                {
+                    Destroy(objInSlot);
+                }
+                else
+                {
+                    objInSlot.RefreshCount();
+                }
+            }
+
+            return obj;
+        }
+
+        return null;
+    }
+
     public void OnToolbarSelect(InputAction.CallbackContext context)
     {
-        scroll = context.ReadValue<float>();
-        if (scroll > 0)
+        if(context.performed)
         {
-            ChangeSelectedSlot(selectedSlot-1);
-        }
-        else if (scroll < 0)
-        {
-            ChangeSelectedSlot(selectedSlot+1);
-        }
+            scroll = context.ReadValue<float>();
+            if (scroll > 0 && selectedSlot >= 0 && selectedSlot <= 4)
+            {
+                ChangeSelectedSlot(selectedSlot - 1);
+            }
+            else if (scroll < 0 && selectedSlot >= 0 && selectedSlot <= 4)
+            {
+                ChangeSelectedSlot(selectedSlot + 1);
+            }
+        }     
     }
 
     void SpawnNewObject(InventoryObject obj, InventorySlot slot)

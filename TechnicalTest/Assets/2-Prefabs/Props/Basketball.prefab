@@ -186,6 +186,7 @@ MonoBehaviour:
   highlightObj: {fileID: 3281935541952236668}
   forceScaler: 2.55
   customRotation: {x: 0, y: 0, z: 0}
+  inventoryObject: {fileID: 11400000, guid: 708ad82bd404e7541a8dbd5d2fccfa0b, type: 2}
 --- !u!135 &5880545864658059883
 SphereCollider:
   m_ObjectHideFlags: 0

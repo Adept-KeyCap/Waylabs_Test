@@ -974,6 +974,7 @@ MonoBehaviour:
   highlightObj: {fileID: 4211683369094663286}
   forceScaler: 2.49
   customRotation: {x: -90, y: 0.15906441, z: 0.15906441}
+  inventoryObject: {fileID: 11400000, guid: 9d620395c387e564c81c2629f40d9910, type: 2}
 --- !u!114 &2034520950232655618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -991,10 +992,9 @@ MonoBehaviour:
   firePoint: {fileID: 6158986852728685965}
   maxAmmo: 10
   projectileSpeed: 100
-  fireRate: 0.2
+  fireRate: 0.35
   reloadTime: 2
   automatic: 0
-  laser: 1
   ammoTxt: {fileID: 1445101716782839896}
   mask:
     serializedVersion: 2
@@ -1002,6 +1002,11 @@ MonoBehaviour:
   socketEjection: {fileID: 5830742377374712868}
   shotOffset: {x: 0, y: 0}
   positionCrosshair: {fileID: 2004930041064794240}
+  laser: 0
+  skinnedMeshRenderer: {fileID: 8816508066604267168}
+  materials:
+  - {fileID: 2100000, guid: 53b4143062850d84583350d72888fb5a, type: 2}
+  - {fileID: 2100000, guid: 7977666db76a0c64cb209104b11c85a3, type: 2}
   audioClipReload: {fileID: 0}
   audioClipFire: {fileID: 0}
   audioClipFireEmpty: {fileID: 0}

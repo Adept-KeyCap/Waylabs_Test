@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class ItemOnHand_Controller : MonoBehaviour
 {
+    public static ItemOnHand_Controller Instance;
+
     [Header("Item Detection")]
     public Item detected_Item;
     public Item held_Item;
@@ -16,17 +18,41 @@ public class ItemOnHand_Controller : MonoBehaviour
 
     private Transform aimObj;
     private Transform playerCamera;
-    private bool itemOnHand = false;
+    private bool grabbable = false;
     private Item hitObject;
 
     private float pressStartTime = 0f;
     private bool isHolding = false;
 
+    [SerializeField] private InventoryManager invManager;
+    [SerializeField] private List<GameObject> gameObjectsInInventory;
+
+
+    private void Awake()
+    {
+        Instance = this;
+
+        if (gameObjectsInInventory == null)
+        {
+            gameObjectsInInventory = new List<GameObject>(new GameObject[17]);
+        }
+    }
+
     private void Start()
     {
         aimObj = CameraReferences.Instance.aimObject.transform;
         playerCamera = CameraReferences.Instance.playerCamera.transform;
+
+        if (invManager == null)
+        {
+            Debug.LogError("InventoryManager is not assigned to ItemOnHand_Controller!");
+            return;
+        }
+
+        // Ensure the list is properly initialized
+        gameObjectsInInventory = new List<GameObject>(new GameObject[invManager.inventorySlots.Length]);
     }
+
 
     void FixedUpdate()
     {
@@ -48,7 +74,7 @@ public class ItemOnHand_Controller : MonoBehaviour
                     hitObject.Highlight(true);
                 }
 
-                itemOnHand = true;  // knows if an item is available to grab
+                grabbable = true;  // knows if an item is available to grab
             }
             else
             {
@@ -71,10 +97,21 @@ public class ItemOnHand_Controller : MonoBehaviour
     #region General Items Methods
     public void GrabItem()
     {
-        if (itemOnHand && hitObject != null)
+        if (grabbable && hitObject != null && held_Item == null)
         {
+            grabbable = false;
             hitObject.Grabbed(grabPoint);
             held_Item = hitObject;
+
+            // Ensure index is valid before assignment
+            if (invManager.selectedSlot >= 0 && invManager.selectedSlot < gameObjectsInInventory.Count)
+            {
+                gameObjectsInInventory[invManager.selectedSlot] = held_Item.gameObject;
+            }
+            else
+            {
+                Debug.LogError("Invalid inventory slot index: " + invManager.selectedSlot);
+            }
         }
         else
         {
@@ -82,14 +119,46 @@ public class ItemOnHand_Controller : MonoBehaviour
         }
     }
 
-    private void ResetHighlight()
+    public void SwapItem(int newItemId)
     {
-        if (hitObject != null)
+        if (gameObjectsInInventory == null || newItemId < 0 || newItemId >= gameObjectsInInventory.Count)
         {
-            hitObject.Highlight(false);
-            hitObject = null;
+            Debug.LogWarning("SwapItem Error: gameObjectsInInventory is null or newItemId is out of range.");
+            return;
         }
-        itemOnHand = false;  // ✅ Ensure it resets when no item is detected
+
+        // Deactivate the current held item before switching
+        if (held_Item != null)
+        {
+            held_Item.gameObject.SetActive(false);
+        }
+
+        // Activate the new item if it exists
+        if (gameObjectsInInventory[newItemId] != null)
+        {
+            gameObjectsInInventory[newItemId].SetActive(true);
+            held_Item = gameObjectsInInventory[newItemId].GetComponent<Item>();
+            if (held_Item.GetComponent<Weapon>() != null)
+            {
+                held_Item.GetComponent<Weapon>().AmmoDisplay(true);
+            }
+        }
+        else
+        {
+            held_Item = null; // If the slot is empty, no item is held
+        }
+    }
+
+
+
+    public void OnGrab(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            GrabItem();
+        }
+        else if (context.performed) { }
+        else if (context.canceled) { }
     }
 
     public void OnHoldQ(InputAction.CallbackContext context)
@@ -102,6 +171,8 @@ public class ItemOnHand_Controller : MonoBehaviour
         }
         else if (context.canceled) // Q Button is released
         {
+            invManager.GetSelectedObject(true);
+
             float holdDuration = Time.time - pressStartTime;
             Debug.Log($"Q key was held for {holdDuration:F2} seconds.");
             isHolding = false;
@@ -109,6 +180,18 @@ public class ItemOnHand_Controller : MonoBehaviour
             held_Item = null;
         }
     }
+
+    private void ResetHighlight()
+    {
+        if (hitObject != null)
+        {
+            hitObject.Highlight(false);
+            hitObject = null;
+        }
+
+        grabbable = false;  // Ensure it resets when no item is detected
+    }
+
     #endregion
 
     #region Weapon Methods
@@ -127,8 +210,6 @@ public class ItemOnHand_Controller : MonoBehaviour
             }
         }
     }
-
-
 
     public void ReloadWeapon()
     {

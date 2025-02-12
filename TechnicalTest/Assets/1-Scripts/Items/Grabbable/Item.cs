@@ -9,6 +9,8 @@ public class Item : MonoBehaviour, IHittable
     [SerializeField, Range(0,10)] private float forceScaler;
     [SerializeField] private Vector3 customRotation;
 
+    public InventoryObject inventoryObject;
+
     private Rigidbody rb;
     private Collider selfCollider;
     private MeshFilter meshFilter;
@@ -33,24 +35,19 @@ public class Item : MonoBehaviour, IHittable
 
     public void Grabbed(Transform pos)
     {
-        if(gameObject.GetComponent<Weapon>() != null)
-        {
-            gameObject.GetComponent<Weapon>().AmmoDisplay(true);
-        }
-        else
-        {
-            Debug.Log("This is not a Weapon");
-            return;
-        }
 
-        grabbed = true;
-        transform.parent = pos;
-        transform.localRotation = Quaternion.Euler(customRotation);
-        rb.isKinematic = true;
-        selfCollider.enabled = false;
-        transform.localPosition = Vector3.zero;
+        bool logic = InventoryManager.Instance.AddObject(inventoryObject, gameObject);
+        if(logic)
+        {
+            grabbed = true;
+            transform.parent = pos;
+            transform.localRotation = Quaternion.Euler(customRotation);
+            rb.isKinematic = true;
+            selfCollider.enabled = false;
+            transform.localPosition = Vector3.zero;
 
-        CheckForWeapon(grabbed);
+            CheckForWeapon(grabbed);
+        }
     }
 
     public void ThrowItem(float addedForce)

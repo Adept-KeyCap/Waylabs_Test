@@ -112,7 +112,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7923812801339584721}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.31958207, z: -0, w: 0.94755864}
+  m_LocalRotation: {x: 0, y: 0.31957957, z: 0, w: 0.9475595}
   m_LocalPosition: {x: -1.709, y: 1.545, z: 7.07}
   m_LocalScale: {x: 0.5, y: 0.15, z: 0.2}
   m_ConstrainProportionsScale: 0
@@ -184,6 +184,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   highlightObj: {fileID: 3181726781064943318}
   forceScaler: 3
+  customRotation: {x: 0, y: 0, z: 0}
+  inventoryObject: {fileID: 11400000, guid: 981696a3bc283954c878d9d1a83a8403, type: 2}
 --- !u!65 &2571838163493414859
 BoxCollider:
   m_ObjectHideFlags: 0
