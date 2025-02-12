@@ -10,22 +10,22 @@ public class Item : MonoBehaviour, IHittable
     [SerializeField] private Vector3 customRotation;
 
     private Rigidbody rb;
-    private Collider collider;
+    private Collider selfCollider;
     private MeshFilter meshFilter;
     private Mesh mesh;
     private bool grabbed = false;
-    private Camera camera;
+    private Camera playerCamera;
     private Transform aimObj;
 
     void Start()
     {
-        camera = CameraReferences.Instance.playerCamera;
+        playerCamera = CameraReferences.Instance.playerCamera;
         aimObj = CameraReferences.Instance.aimObject;
 
         rb = GetComponent<Rigidbody>();
         meshFilter = GetComponent<MeshFilter>();
         mesh = meshFilter.mesh;
-        collider = GetComponent<Collider>();
+        selfCollider = GetComponent<Collider>();
 
         highlightObj.GetComponent<MeshFilter>().mesh = mesh;
         highlightObj.SetActive(false);
@@ -47,7 +47,7 @@ public class Item : MonoBehaviour, IHittable
         transform.parent = pos;
         transform.localRotation = Quaternion.Euler(customRotation);
         rb.isKinematic = true;
-        collider.enabled = false;
+        selfCollider.enabled = false;
         transform.localPosition = Vector3.zero;
 
         CheckForWeapon(grabbed);
@@ -56,13 +56,13 @@ public class Item : MonoBehaviour, IHittable
     public void ThrowItem(float addedForce)
     {
 
-        Vector3 forceVec = (aimObj.transform.position - camera.transform.position) * (addedForce * forceScaler);
+        Vector3 forceVec = (aimObj.transform.position - playerCamera.transform.position) * (addedForce * forceScaler);
 
 
         if (grabbed)
         {
             rb.isKinematic = false;
-            collider.enabled = true;
+            selfCollider.enabled = true;
             transform.parent = null;
             rb.AddForce(forceVec);
             grabbed = false;

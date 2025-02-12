@@ -6,9 +6,6 @@ using UnityEngine.InputSystem;
 public class ObjectHeldRotation : MonoBehaviour
 {
     [SerializeField] private Transform aimObject;
-    [SerializeField] float adjustmentSpeed = 5f;
-    [SerializeField, Range(0, 1)] private float movementRangeX = 0.5f;
-    [SerializeField, Range(0, 1)] private float movementRangeY = 0.5f;
 
     private Vector2 aimDelta;
     private Vector3 handCenter;
@@ -21,9 +18,7 @@ public class ObjectHeldRotation : MonoBehaviour
     void FixedUpdate()
     {
         // Make the object face the aim object
-        transform.LookAt(aimObject);
-
-        
+        transform.LookAt(aimObject);        
     }
 
     public void OnAim(InputAction.CallbackContext context)

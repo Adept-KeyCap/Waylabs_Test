@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class AimController : MonoBehaviour
 {
-    [SerializeField] private bool museLocked = true;
+    [SerializeField] private bool mouseLocked = true;
     [SerializeField] private RectTransform crosshairUI;
     [SerializeField] private float radious = 15;
     [SerializeField, Range(0,0.2f)] private float speed;
@@ -23,7 +23,7 @@ public class AimController : MonoBehaviour
         mainCamera = CameraReferences.Instance.playerCamera;
         aimObject = CameraReferences.Instance.aimObject;
 
-        if (museLocked)
+        if (mouseLocked)
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
@@ -44,9 +44,9 @@ public class AimController : MonoBehaviour
         }
     }        
 
-    public void onAim(InputAction.CallbackContext context)
+    public void OnAim(InputAction.CallbackContext context)
     {
-        if (museLocked)
+        if (mouseLocked)
         {
             aimPosition = context.ReadValue<Vector2>();
         }        
@@ -70,6 +70,20 @@ public class AimController : MonoBehaviour
 
         // Mantenemos la distancia constante
         aimObj.position = transform.position + direction * radius;
+    }
+
+    public void LockOrUnlockMouse()
+    {
+        if (!mouseLocked)
+        {
+            mouseLocked = true;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            mouseLocked = false;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
     }
 
 

@@ -591,7 +591,6 @@ MonoBehaviour:
   fireRate: 0.2
   reloadTime: 3.8
   automatic: 1
-  laser: 0
   ammoTxt: {fileID: 2186285698007924188}
   mask:
     serializedVersion: 2
@@ -599,6 +598,11 @@ MonoBehaviour:
   socketEjection: {fileID: 4904507270135494967}
   shotOffset: {x: 0, y: 0}
   positionCrosshair: {fileID: 3591988132130352214}
+  laser: 1
+  skinnedMeshRenderer: {fileID: 646147340551236293}
+  materials:
+  - {fileID: 2100000, guid: 53b4143062850d84583350d72888fb5a, type: 2}
+  - {fileID: 2100000, guid: 7977666db76a0c64cb209104b11c85a3, type: 2}
   audioClipReload: {fileID: 0}
   audioClipFire: {fileID: 0}
   audioClipFireEmpty: {fileID: 0}

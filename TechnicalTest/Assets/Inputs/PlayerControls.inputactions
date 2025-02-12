@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Toolbar Selection",
+                    "type": "PassThrough",
+                    "id": "ae6b18e3-6b36-4c50-a45a-d5db83b45d0a",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -230,6 +239,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "851b938b-90c3-46ec-a399-dea0d7c68df1",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Toolbar Selection",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

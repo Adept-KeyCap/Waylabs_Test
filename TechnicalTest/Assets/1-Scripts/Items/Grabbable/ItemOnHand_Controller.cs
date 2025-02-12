@@ -15,7 +15,7 @@ public class ItemOnHand_Controller : MonoBehaviour
     [SerializeField] private float grabDistance = 3f;  // Maximum grab distance
 
     private Transform aimObj;
-    private Transform camera;
+    private Transform playerCamera;
     private bool itemOnHand = false;
     private Item hitObject;
 
@@ -25,16 +25,16 @@ public class ItemOnHand_Controller : MonoBehaviour
     private void Start()
     {
         aimObj = CameraReferences.Instance.aimObject.transform;
-        camera = CameraReferences.Instance.playerCamera.transform;
+        playerCamera = CameraReferences.Instance.playerCamera.transform;
     }
 
     void FixedUpdate()
     {
         // Corrected ray direction
-        Vector3 rayDirection = (aimObj.position - camera.position).normalized;
+        Vector3 rayDirection = (aimObj.position - playerCamera.position).normalized;
 
         // Perform the Raycast
-        if (Physics.Raycast(camera.position, rayDirection, out RaycastHit hit, grabDistance))
+        if (Physics.Raycast(playerCamera.position, rayDirection, out RaycastHit hit, grabDistance))
         {
             detected_Item = hit.collider.GetComponent<Item>(); // Get Item component
 
@@ -48,7 +48,7 @@ public class ItemOnHand_Controller : MonoBehaviour
                     hitObject.Highlight(true);
                 }
 
-                itemOnHand = true;  // ✅ Now it knows an item is available to grab
+                itemOnHand = true;  // knows if an item is available to grab
             }
             else
             {
