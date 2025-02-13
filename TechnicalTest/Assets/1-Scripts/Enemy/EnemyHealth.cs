@@ -5,47 +5,60 @@ using UnityEngine;
 
 public class EnemyHealth: MonoBehaviour
 {
+    [Header("Stats")]
     [SerializeField] private float health;
-    [SerializeField] private GameObject bloodParticles;
-
     [SerializeField, Range(1, 10)] private int forceMitigation = 1;
 
+    [Header("References")]
+    [SerializeField] private GameObject bloodParticles;
 
-    private Rigidbody[] rb;
+
     private DamageHandler[] bodyParts;
+    private int bustedLegs;
 
-    // Start is called before the first frame update
     void Start()
     {
         bodyParts = GetComponentsInChildren<DamageHandler>();
-        rb = GetComponentsInChildren<Rigidbody>();
 
         foreach (DamageHandler handler in bodyParts)
         {
             handler.enemyHealth = this;
         }
 
-        foreach (Rigidbody rbRef in rb)
-        {
-            rbRef.isKinematic = true;
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void StackDamage(float damage)
     {
         health = health - damage;
+        Debug.Log(gameObject.name + "Remaining Health: " + health);
     }
 
     public void DropBlood(Transform position)
     {
-        GameObject blood = Instantiate(bloodParticles, position);
-        blood.gameObject.GetComponent<ParticleSystem>().Play();
+        // Instantiate at the position of the given Transform
+        GameObject blood = Instantiate(bloodParticles, position.position, Quaternion.identity);
+
+        // Get and Play the Particle System
+        ParticleSystem ps = blood.GetComponent<ParticleSystem>();
+        if (ps != null)
+        {
+            ps.Play();
+        }
+        else
+        {
+            Debug.LogError("No ParticleSystem found on the instantiated object!");
+        }
+    }
+
+
+    public void OneLegless()
+    {
+        bustedLegs++;
+        if (bustedLegs >= 2)
+        {
+            //Call the Enemy Animator to triggrer the new animation
+            Debug.LogWarning(gameObject.name + "Both Legs Busted!");
+        }
     }
 
 }
