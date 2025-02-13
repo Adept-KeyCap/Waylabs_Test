@@ -14,11 +14,13 @@ public class EnemyHealth: MonoBehaviour
 
 
     private DamageHandler[] bodyParts;
+    private EnemyStateMachine stateMachine;
     private int bustedLegs;
 
     void Start()
     {
         bodyParts = GetComponentsInChildren<DamageHandler>();
+        stateMachine = GetComponent<EnemyStateMachine>();
 
         foreach (DamageHandler handler in bodyParts)
         {
@@ -57,6 +59,7 @@ public class EnemyHealth: MonoBehaviour
         if (bustedLegs >= 2)
         {
             //Call the Enemy Animator to triggrer the new animation
+            stateMachine.LegsBusted();
             Debug.LogWarning(gameObject.name + "Both Legs Busted!");
         }
     }

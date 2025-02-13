@@ -65,11 +65,11 @@ public class Weapon : MonoBehaviour
 
         if (Physics.Raycast(new Ray(firePoint.position, rayDirection), out RaycastHit hit, 500, mask))
         {
-            positionCrosshair.position = hit.point - new Vector3(0,0.8f);
+            positionCrosshair.position = hit.point + new Vector3(0, 0, 0.05f);
             // Get the surface normal
             Vector3 surfaceNormal = hit.normal;
 
-            // Align object’s UP direction with the surface normal
+            // Align object’s direction with the surface normal
             positionCrosshair.transform.forward = surfaceNormal;
 
             // Keep the same forward direction
