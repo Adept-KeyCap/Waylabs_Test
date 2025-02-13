@@ -595,7 +595,7 @@ MonoBehaviour:
   ammoTxt: {fileID: 2186285698007924188}
   mask:
     serializedVersion: 2
-    m_Bits: 255
+    m_Bits: 767
   socketEjection: {fileID: 4904507270135494967}
   shotOffset: {x: 0, y: 0}
   positionCrosshair: {fileID: 3591988132130352214}

@@ -75,7 +75,7 @@ public class Item : MonoBehaviour, IHittable
     }
 
 
-    public void OnHit(Vector3 hitPoint, Vector3 hitForce)
+    public void OnHit(Vector3 hitPoint, float damage, Vector3 hitForce)
     {
         rb.AddForce(hitForce, ForceMode.Impulse);
         Debug.Log(gameObject.name + "Was Hit!");

@@ -315,7 +315,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyAfter: 5
-  forceSpeed: 0
   mask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 4294967295

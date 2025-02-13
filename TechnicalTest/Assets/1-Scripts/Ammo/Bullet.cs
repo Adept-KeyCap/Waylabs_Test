@@ -5,8 +5,10 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float destroyAfter;
-    [SerializeField] private float forceSpeed;
     [SerializeField] private LayerMask mask;
+
+    private float forceSpeed;
+    private float damage;
 
     void Start()
     {
@@ -14,9 +16,10 @@ public class Bullet : MonoBehaviour
         StartCoroutine(DestroyAfter());
     }
 
-    public void GetWeaponStat(float speed)
+    public void GetWeaponStat(float speed, float weaponDamage)
     {
         forceSpeed = speed;
+        damage = weaponDamage;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -29,7 +32,7 @@ public class Bullet : MonoBehaviour
         if (hittableObj != null)
         {
             Vector3 forceDir = transform.forward * forceSpeed/6;
-            hittableObj.OnHit(collision.collider.ClosestPoint(transform.position), forceDir);
+            hittableObj.OnHit(collision.collider.ClosestPoint(transform.position), damage, forceDir);
             Destroy(gameObject);
         }
     }

@@ -65,7 +65,7 @@ public class Weapon : MonoBehaviour
 
         if (Physics.Raycast(new Ray(firePoint.position, rayDirection), out RaycastHit hit, 500, mask))
         {
-            positionCrosshair.position = hit.point - new Vector3(0,0.2f);
+            positionCrosshair.position = hit.point - new Vector3(0,0.8f);
             // Get the surface normal
             Vector3 surfaceNormal = hit.normal;
 
@@ -137,8 +137,6 @@ public class Weapon : MonoBehaviour
     {
         if (!canFire || currentAmmo <= 0) return;
 
-        Debug.Log("Weapon Fired");
-
         // Reduce ammo
         currentAmmo = Mathf.Clamp(currentAmmo - 1, 0, maxAmmo);
         ammoTxt.text = $"{currentAmmo} | {maxAmmo}";
@@ -150,7 +148,6 @@ public class Weapon : MonoBehaviour
         {
             // Aim at the hit point
             rotation = Quaternion.LookRotation(hit.point - firePoint.position);
-    
         }
         else
         {
@@ -162,7 +159,8 @@ public class Weapon : MonoBehaviour
         {
             // Create and launch the projectile
             GameObject projectile = Instantiate(prefabProjectile, firePoint.position, rotation);
-            projectile.GetComponent<Bullet>().GetWeaponStat(projectileSpeed);
+            Debug.Log(projectile.name + " Fired");
+            projectile.GetComponent<Bullet>().GetWeaponStat(projectileSpeed, projectileSpeed/2);
             projectile.GetComponent<Rigidbody>().velocity = projectile.transform.forward * projectileSpeed;
         }
         else
@@ -171,10 +169,11 @@ public class Weapon : MonoBehaviour
             lineRenderer.SetPosition(0, firePoint.position);
             if (hit.collider.gameObject.GetComponent<IHittable>() != null)
             {
-                hit.collider.gameObject.GetComponent<IHittable>().OnHit(hit.collider.ClosestPoint(transform.position), Vector3.zero);
+                hit.collider.gameObject.GetComponent<IHittable>().OnHit(hit.collider.ClosestPoint(transform.position), projectileSpeed, Vector3.zero);
             }
             lineRenderer.SetPosition(1, hit.point);
             StartCoroutine(ClearLaser(0.3f));
+            Debug.Log("Weapon Fired");
         }
 
         if (!automatic) // If semi-auto, prevent firing again until cooldown

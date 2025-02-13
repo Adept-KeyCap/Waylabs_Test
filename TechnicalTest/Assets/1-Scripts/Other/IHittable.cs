@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IHittable
 {
-    void OnHit(Vector3 hitPoint, Vector3 hitForce);
+    void OnHit(Vector3 hitPoint, float damage, Vector3 hitForce);
 
 }
