@@ -55,16 +55,13 @@ public class EnemyStateMachine : MonoBehaviour
             inRange = true;
             UpdateState(EnemyState.Chase);
         }
-        else if(proximityRange < targetDistance && enemyState != EnemyState.Idle && !crawling)
+        else if (proximityRange < targetDistance && enemyState != EnemyState.Idle && !crawling)
         {
             inRange = false;
             UpdateState(EnemyState.Idle);
         }
-        else if (attackRange < targetDistance && enemyState != EnemyState.Attack)
-        {
-            UpdateState(EnemyState.Attack);
-        }
     }
+
 
     private void UpdateState(EnemyState state)
     {
@@ -160,6 +157,8 @@ public class EnemyStateMachine : MonoBehaviour
 
     private IEnumerator Dead()
     {
+        animator.SetTrigger("Die");
+
         yield return null;
     }
 
@@ -172,6 +171,11 @@ public class EnemyStateMachine : MonoBehaviour
     public void LegsBusted()
     {
         crawling = true;
+    }
+
+    public void EnemyKilled()
+    {
+        UpdateState(EnemyState.Dead);
     }
 
     private void OnDrawGizmos()
@@ -188,7 +192,6 @@ public enum EnemyState
 {
     Idle,
     Chase,
-    Attack,
     Crawl,
     Dead
 }

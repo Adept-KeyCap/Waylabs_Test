@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealth: MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class EnemyHealth: MonoBehaviour
 
     [Header("References")]
     [SerializeField] private GameObject bloodParticles;
-
+    [SerializeField] private Slider healthSlider;
+ 
 
     private DamageHandler[] bodyParts;
     private EnemyStateMachine stateMachine;
@@ -21,6 +23,9 @@ public class EnemyHealth: MonoBehaviour
     {
         bodyParts = GetComponentsInChildren<DamageHandler>();
         stateMachine = GetComponent<EnemyStateMachine>();
+
+        healthSlider.maxValue = health;
+        healthSlider.value = health;
 
         foreach (DamageHandler handler in bodyParts)
         {
@@ -32,8 +37,20 @@ public class EnemyHealth: MonoBehaviour
     public void StackDamage(float damage)
     {
         health = health - damage;
-        Debug.Log(gameObject.name + "Remaining Health: " + health);
+        DisplayHealth(health);
+
+        if (health < 0)
+        {
+            healthSlider.gameObject.SetActive(false);
+            stateMachine.EnemyKilled();
+        }
     }
+
+    private void DisplayHealth(float value)
+    {
+        healthSlider.value = value;
+    }
+
 
     public void DropBlood(Transform position)
     {
