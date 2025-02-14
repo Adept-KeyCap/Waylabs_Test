@@ -8255,6 +8255,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1804199683}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1848902702 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5465483792134946067, guid: daad489499a1b0641987064b39817383,
+    type: 3}
+  m_PrefabInstance: {fileID: 1887674832}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1869831162
 GameObject:
   m_ObjectHideFlags: 0
@@ -10433,30 +10439,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 33130809668588353, guid: 9cd15dd6e477f5346a5cd58dd4da655c,
-        type: 3}
-      propertyPath: laser
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 33130809668588353, guid: 9cd15dd6e477f5346a5cd58dd4da655c,
-        type: 3}
-      propertyPath: mask.m_Bits
-      value: 4294967295
-      objectReference: {fileID: 0}
     - target: {fileID: 2286905522712668545, guid: 9cd15dd6e477f5346a5cd58dd4da655c,
         type: 3}
       propertyPath: m_Name
       value: Assault Rifle
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483617466011909831, guid: 9cd15dd6e477f5346a5cd58dd4da655c,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.4900006
-      objectReference: {fileID: 0}
-    - target: {fileID: 5483617466011909831, guid: 9cd15dd6e477f5346a5cd58dd4da655c,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.4900004
       objectReference: {fileID: 0}
     - target: {fileID: 5483617466011909831, guid: 9cd15dd6e477f5346a5cd58dd4da655c,
         type: 3}
@@ -10673,32 +10659,7 @@ PrefabInstance:
     - target: {fileID: 2034520950232655618, guid: ad06a71e6a0986b45afa6040ffcfc894,
         type: 3}
       propertyPath: laser
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2034520950232655618, guid: ad06a71e6a0986b45afa6040ffcfc894,
-        type: 3}
-      propertyPath: mask.m_Bits
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 3563203257886470254, guid: ad06a71e6a0986b45afa6040ffcfc894,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5581990583928267368, guid: ad06a71e6a0986b45afa6040ffcfc894,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.4900004
-      objectReference: {fileID: 0}
-    - target: {fileID: 5581990583928267368, guid: ad06a71e6a0986b45afa6040ffcfc894,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.4900007
-      objectReference: {fileID: 0}
-    - target: {fileID: 5581990583928267368, guid: ad06a71e6a0986b45afa6040ffcfc894,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.4900005
       objectReference: {fileID: 0}
     - target: {fileID: 5581990583928267368, guid: ad06a71e6a0986b45afa6040ffcfc894,
         type: 3}
@@ -10754,11 +10715,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Handgun
-      objectReference: {fileID: 0}
-    - target: {fileID: 7994898707643385500, guid: ad06a71e6a0986b45afa6040ffcfc894,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12302,6 +12258,11 @@ PrefabInstance:
       propertyPath: m_TranslationOffsets.Array.data[0].z
       value: -0.0005159378
       objectReference: {fileID: 0}
+    - target: {fileID: 6409098932362773451, guid: 7a1e244bf6d5d79449a4bf3b6cd1d251,
+        type: 3}
+      propertyPath: m_StoppingDistance
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6494745028395326449, guid: 7a1e244bf6d5d79449a4bf3b6cd1d251,
         type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].x
@@ -12321,6 +12282,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].y
       value: 0.03826356
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988075164208256146, guid: 7a1e244bf6d5d79449a4bf3b6cd1d251,
+        type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1848902702}
+    - target: {fileID: 7988075164208256146, guid: 7a1e244bf6d5d79449a4bf3b6cd1d251,
+        type: 3}
+      propertyPath: enemyState
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8474756737346667836, guid: 7a1e244bf6d5d79449a4bf3b6cd1d251,
         type: 3}
@@ -12367,7 +12338,8 @@ PrefabInstance:
       propertyPath: m_TranslationOffsets.Array.data[0].z
       value: -0.012915134
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8337711397963473787, guid: 7a1e244bf6d5d79449a4bf3b6cd1d251, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
