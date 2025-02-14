@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 260230256736149263}
   - component: {fileID: 4050661269359850665}
   - component: {fileID: 6817421820727500828}
+  - component: {fileID: 7866054361784822957}
   m_Layer: 10
   m_Name: Left LowerArm
   m_TagString: Untagged
@@ -420,6 +421,23 @@ MonoBehaviour:
   leg: 0
   enemyHealth: {fileID: 9080925471221064404}
   parentOf: {fileID: 0}
+--- !u!114 &7866054361784822957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525707966471082199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252a608165201f24a9174a013e25b283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 150
+  head: 0
+  leg: 0
+  enemyHealth: {fileID: 9080925471221064404}
+  parentOf: {fileID: 0}
 --- !u!1 &552369026503923123
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,6 +485,7 @@ GameObject:
   - component: {fileID: 8891549578359414248}
   - component: {fileID: 6137738005743580107}
   - component: {fileID: 3847531210409443720}
+  - component: {fileID: 2147226030824587621}
   m_Layer: 10
   m_Name: Right UpperArm
   m_TagString: Untagged
@@ -573,7 +592,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.78, y: 0.026000023, z: 0}
   m_RotationAtRest: {x: 90, y: 0, z: -89.99996}
   m_TranslationOffsets:
-  - {x: 0, y: 0.1307373, z: -0.026000857}
+  - {x: 0, y: 0.13073635, z: -0.026000857}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -608,6 +627,23 @@ RotationConstraint:
   - sourceTransform: {fileID: 7753238679919454690}
     weight: 1
 --- !u!114 &3847531210409443720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580300809839801774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252a608165201f24a9174a013e25b283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 200
+  head: 0
+  leg: 0
+  enemyHealth: {fileID: 9080925471221064404}
+  parentOf: {fileID: 2809164872258977275}
+--- !u!114 &2147226030824587621
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -707,6 +743,7 @@ GameObject:
   - component: {fileID: 8545592520225738555}
   - component: {fileID: 8430972347678372973}
   - component: {fileID: 2234559787617186665}
+  - component: {fileID: 5922319566918386081}
   m_Layer: 10
   m_Name: Left LowerLeg
   m_TagString: Untagged
@@ -814,7 +851,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.37996, y: -1.0879, z: 0.047001}
   m_RotationAtRest: {x: 2.8046238, y: 0.016372195, z: -179.66621}
   m_TranslationOffsets:
-  - {x: -0.010990143, y: 0.17794059, z: -0.00030708313}
+  - {x: -0.01099205, y: 0.17794058, z: -0.00030612946}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -849,6 +886,23 @@ RotationConstraint:
   - sourceTransform: {fileID: 1710063934764309507}
     weight: 1
 --- !u!114 &2234559787617186665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967069115502443468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252a608165201f24a9174a013e25b283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 200
+  head: 0
+  leg: 1
+  enemyHealth: {fileID: 9080925471221064404}
+  parentOf: {fileID: 0}
+--- !u!114 &5922319566918386081
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1136,6 +1190,7 @@ GameObject:
   - component: {fileID: 1574645434814988782}
   - component: {fileID: 2607995077459736142}
   - component: {fileID: 5443441262726082612}
+  - component: {fileID: 6441415902356873823}
   m_Layer: 10
   m_Name: Head
   m_TagString: Untagged
@@ -1293,6 +1348,23 @@ MonoBehaviour:
   leg: 0
   enemyHealth: {fileID: 9080925471221064404}
   parentOf: {fileID: 0}
+--- !u!114 &6441415902356873823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800704516531627440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252a608165201f24a9174a013e25b283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 500
+  head: 1
+  leg: 0
+  enemyHealth: {fileID: 9080925471221064404}
+  parentOf: {fileID: 0}
 --- !u!1 &1921300400626267333
 GameObject:
   m_ObjectHideFlags: 0
@@ -1341,6 +1413,7 @@ GameObject:
   - component: {fileID: 2030365541562274742}
   - component: {fileID: 5391187630910657119}
   - component: {fileID: 1105381880071746580}
+  - component: {fileID: 8786832642127139760}
   m_Layer: 10
   m_Name: Right LowerLeg
   m_TagString: Untagged
@@ -1448,7 +1521,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.54466, y: -1.0881, z: 0.046994}
   m_RotationAtRest: {x: 2.8053644, y: -0.016307823, z: 179.66618}
   m_TranslationOffsets:
-  - {x: 0.0096206665, y: 0.17813268, z: -0.00030612946}
+  - {x: 0.00962162, y: 0.17813273, z: -0.00030612946}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -1483,6 +1556,23 @@ RotationConstraint:
   - sourceTransform: {fileID: 7723125423181140815}
     weight: 1
 --- !u!114 &1105381880071746580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981083465211809236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252a608165201f24a9174a013e25b283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 200
+  head: 0
+  leg: 1
+  enemyHealth: {fileID: 9080925471221064404}
+  parentOf: {fileID: 0}
+--- !u!114 &8786832642127139760
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1810,6 +1900,7 @@ GameObject:
   - component: {fileID: 2396427335098794023}
   - component: {fileID: 2213033059852438302}
   - component: {fileID: 4262251448882918186}
+  - component: {fileID: 240862554410072053}
   m_Layer: 10
   m_Name: Right LowerArm
   m_TagString: Untagged
@@ -1917,7 +2008,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 1.073, y: 0, z: 0}
   m_RotationAtRest: {x: 90, y: 0, z: -89.99996}
   m_TranslationOffsets:
-  - {x: 0, y: 0.14969063, z: 0}
+  - {x: 0, y: 0.14968967, z: 0}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -1968,6 +2059,23 @@ MonoBehaviour:
   leg: 0
   enemyHealth: {fileID: 9080925471221064404}
   parentOf: {fileID: 0}
+--- !u!114 &240862554410072053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2809164872258977275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252a608165201f24a9174a013e25b283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 150
+  head: 0
+  leg: 0
+  enemyHealth: {fileID: 9080925471221064404}
+  parentOf: {fileID: 0}
 --- !u!1 &2840077649453055539
 GameObject:
   m_ObjectHideFlags: 0
@@ -1983,6 +2091,7 @@ GameObject:
   - component: {fileID: 2994324923700013339}
   - component: {fileID: 369524650536331532}
   - component: {fileID: 4848317837673962351}
+  - component: {fileID: 7129175127658735449}
   m_Layer: 10
   m_Name: Right UpperLeg
   m_TagString: Untagged
@@ -2090,7 +2199,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.573, y: -0.722, z: 0.058}
   m_RotationAtRest: {x: 0.72574115, y: 0.0044095484, z: -179.65466}
   m_TranslationOffsets:
-  - {x: -0.018817902, y: 0.21783954, z: -0.00040245056}
+  - {x: -0.018817902, y: 0.2178396, z: -0.00040245056}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -2125,6 +2234,23 @@ RotationConstraint:
   - sourceTransform: {fileID: 8687114269799031319}
     weight: 1
 --- !u!114 &4848317837673962351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2840077649453055539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252a608165201f24a9174a013e25b283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 200
+  head: 0
+  leg: 1
+  enemyHealth: {fileID: 9080925471221064404}
+  parentOf: {fileID: 1981083465211809236}
+--- !u!114 &7129175127658735449
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2264,7 +2390,7 @@ Transform:
   m_GameObject: {fileID: 3280960186996765306}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.390625, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2750,6 +2876,7 @@ GameObject:
   - component: {fileID: 7660730689735674899}
   - component: {fileID: 740137672459952645}
   - component: {fileID: 5823998439783519605}
+  - component: {fileID: 5323324997827756253}
   m_Layer: 10
   m_Name: Chest
   m_TagString: Untagged
@@ -2856,7 +2983,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.462, y: -0.049999952, z: 0.05100012}
   m_RotationAtRest: {x: -6.7525387, y: 0, z: -0.0050210925}
   m_TranslationOffsets:
-  - {x: 0.0003490448, y: 0.03826356, z: 0.032262802}
+  - {x: 0.00034809113, y: 0.03826368, z: 0.032262802}
   m_RotationOffsets:
   - {x: -6.4285045, y: -0.0005603929, z: 0}
   m_AffectTranslationX: 1
@@ -2891,6 +3018,23 @@ RotationConstraint:
   - sourceTransform: {fileID: 8753194305296836437}
     weight: 1
 --- !u!114 &5823998439783519605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4644497839467274812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252a608165201f24a9174a013e25b283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 2000
+  head: 0
+  leg: 0
+  enemyHealth: {fileID: 9080925471221064404}
+  parentOf: {fileID: 0}
+--- !u!114 &5323324997827756253
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3070,7 +3214,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.462, y: -0.279, z: 0.071}
   m_RotationAtRest: {x: -6.941003, y: 0.0008475776, z: -0.00467777}
   m_TranslationOffsets:
-  - {x: 0.00036621094, y: -0.06085944, z: 0.028635979}
+  - {x: 0.0003681183, y: -0.06085944, z: 0.028635979}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -3399,7 +3543,7 @@ Transform:
   m_GameObject: {fileID: 5759972428066435126}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.4616251, y: -1.435655, z: 0.061715126}
+  m_LocalPosition: {x: 0.071, y: -1.435655, z: 0.061715126}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3521,6 +3665,8 @@ GameObject:
   - component: {fileID: 4440539364242107902}
   - component: {fileID: 9080925471221064404}
   - component: {fileID: 7988075164208256146}
+  - component: {fileID: 8337711397963473787}
+  - component: {fileID: 6409098932362773451}
   m_Layer: 10
   m_Name: Enemy
   m_TagString: Untagged
@@ -3576,6 +3722,43 @@ MonoBehaviour:
   enemyState: 0
   animator: {fileID: 4765805583700124319}
   target: {fileID: 0}
+--- !u!114 &8337711397963473787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6683160286703391143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f00a6c8d8383451428f2e676eda4a588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyState: 0
+  animator: {fileID: 4765805583700124319}
+  target: {fileID: 0}
+--- !u!195 &6409098932362773451
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6683160286703391143}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.8
+  m_BaseOffset: 1.42
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &6901301368286818218
 GameObject:
   m_ObjectHideFlags: 0
@@ -3696,7 +3879,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.0066502183, y: 0.7212434, z: 0.6017719}
   m_RotationAtRest: {x: -2.0843096, y: -0.2817842, z: 3.2980022}
   m_TranslationOffsets:
-  - {x: 0.013767242, y: 0.09535408, z: -0.013337612}
+  - {x: 0.013768196, y: 0.095355034, z: -0.013338089}
   m_RotationOffsets:
   - {x: -67.567, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -3792,7 +3975,7 @@ Transform:
   m_GameObject: {fileID: 6986355536328801770}
   serializedVersion: 2
   m_LocalRotation: {x: -0.018257758, y: 0.001933836, z: -0.028726196, w: 0.9994187}
-  m_LocalPosition: {x: 0.08, y: 0.712, z: 0.61}
+  m_LocalPosition: {x: 0.08, y: 0.712, z: 0.6100072}
   m_LocalScale: {x: 0.9958295, y: 0.19639662, z: 2.4682178}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3879,10 +4062,10 @@ ParentConstraint:
   m_Enabled: 1
   serializedVersion: 2
   m_Weight: 1
-  m_TranslationAtRest: {x: 0.08, y: 0.712, z: 0.61}
+  m_TranslationAtRest: {x: 0.08, y: 0.712, z: 0.6100072}
   m_RotationAtRest: {x: -2.0850625, y: 0.28176054, z: -3.2979143}
   m_TranslationOffsets:
-  - {x: -0.0031280518, y: 0.09642267, z: -0.012916088}
+  - {x: -0.003129959, y: 0.09642315, z: -0.012915611}
   m_RotationOffsets:
   - {x: -67.56696, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -4191,6 +4374,7 @@ GameObject:
   - component: {fileID: 3617316548573334038}
   - component: {fileID: 5915080795594513429}
   - component: {fileID: 1991861938166642076}
+  - component: {fileID: 3190888117848192053}
   m_Layer: 10
   m_Name: Left UpperArm
   m_TagString: Untagged
@@ -4297,7 +4481,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.15, y: 0.026, z: 0}
   m_RotationAtRest: {x: 90, y: 0, z: 90.00011}
   m_TranslationOffsets:
-  - {x: 0, y: 0.12404823, z: -0.026000023}
+  - {x: 0, y: 0.12404728, z: -0.026000023}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -4332,6 +4516,23 @@ RotationConstraint:
   - sourceTransform: {fileID: 8848968690985970807}
     weight: 1
 --- !u!114 &1991861938166642076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7783286958217561311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252a608165201f24a9174a013e25b283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 200
+  head: 0
+  leg: 0
+  enemyHealth: {fileID: 9080925471221064404}
+  parentOf: {fileID: 525707966471082199}
+--- !u!114 &3190888117848192053
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4567,7 +4768,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0, y: 0.961, z: 0}
   m_RotationAtRest: {x: 0, y: 0, z: 0}
   m_TranslationOffsets:
-  - {x: 0.0000019073486, y: 0.11144447, z: 0}
+  - {x: 0, y: 0.11144543, z: 0}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -4851,7 +5052,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0, y: 1.086533, z: 0}
   m_RotationAtRest: {x: 0, y: 0, z: 0}
   m_TranslationOffsets:
-  - {x: 0, y: 0.11485672, z: 0}
+  - {x: 0, y: 0.11485577, z: 0}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -4900,6 +5101,7 @@ GameObject:
   - component: {fileID: 6111552591448484139}
   - component: {fileID: 6721004803171511353}
   - component: {fileID: 1756943797162733331}
+  - component: {fileID: 2549548160082884433}
   m_Layer: 10
   m_Name: Left UpperLeg
   m_TagString: Untagged
@@ -5007,7 +5209,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.354, y: -0.713, z: 0.058}
   m_RotationAtRest: {x: 0.72649205, y: -0.0043559056, z: 179.65462}
   m_TranslationOffsets:
-  - {x: 0.015123367, y: 0.20881796, z: -0.0005159378}
+  - {x: 0.015122414, y: 0.20881802, z: -0.0005159378}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -5042,6 +5244,23 @@ RotationConstraint:
   - sourceTransform: {fileID: 4000499130397871877}
     weight: 1
 --- !u!114 &1756943797162733331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8802327462436078301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 252a608165201f24a9174a013e25b283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 200
+  head: 0
+  leg: 1
+  enemyHealth: {fileID: 9080925471221064404}
+  parentOf: {fileID: 967069115502443468}
+--- !u!114 &2549548160082884433
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
