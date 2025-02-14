@@ -25,6 +25,11 @@ public class EnemyStateMachine : MonoBehaviour
         
     }
 
+    private void UpateState(EnemyState state)
+    {
+
+    }
+
     public void LegsBusted()
     {
         if (animator == null)
