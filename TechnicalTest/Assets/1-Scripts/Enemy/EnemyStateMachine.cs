@@ -8,21 +8,33 @@ public class EnemyStateMachine : MonoBehaviour
 {
     public Coroutine currentBehaviour;
 
-    // float: Speed || bool: Fallen || Triggers: Fall, Die, Hit
+    [Header("NavMesh AI")]
+    // float: Speed || bool: Crawling || Triggers: Fall, Die, Hit
     [SerializeField] private EnemyState enemyState;
     [SerializeField] private NavMeshAgent agent;
-
-    [SerializeField] private Animator animator; 
     [SerializeField] private Transform target;
 
-    
+    [Header("Stats")]
+    [SerializeField] private float proximityRange;
+    [SerializeField] private float attackRange;
+    [SerializeField, Range(1, 2)] private float modifierValue;
 
-    private float movementSpeed;
+    [Header("References")]
+    [SerializeField] private Animator animator;
+
+
+    private bool inRange;
+    private bool legsBusted = false;
+    private bool crawling = false;
+    private float movementSpeed = 0;
+    private float oscillator = 0;
+
 
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        crawling = false;
 
         if (animator == null)
         {
@@ -30,13 +42,31 @@ public class EnemyStateMachine : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        float targetDistance = Vector2.Distance(target.position, transform.position);
+
+        if (enemyState != EnemyState.Crawl && crawling)
+        {
+            UpdateState(EnemyState.Crawl);
+        }
+        else if (proximityRange > targetDistance && enemyState != EnemyState.Chase && !crawling)
+        {
+            inRange = true;
+            UpdateState(EnemyState.Chase);
+        }
+        else if(proximityRange < targetDistance && enemyState != EnemyState.Idle && !crawling)
+        {
+            inRange = false;
+            UpdateState(EnemyState.Idle);
+        }
+        else if (attackRange < targetDistance && enemyState != EnemyState.Attack)
+        {
+            UpdateState(EnemyState.Attack);
+        }
     }
 
-    private void UpateState(EnemyState state)
+    private void UpdateState(EnemyState state)
     {
         if (currentBehaviour != null)
         {
@@ -65,23 +95,66 @@ public class EnemyStateMachine : MonoBehaviour
 
     private IEnumerator Idle()
     {
+
+        agent.destination = transform.position;
+        animator.SetFloat("Speed", 0);
+
         yield return null;
 
     }
 
     private IEnumerator Chase()
     {
+        agent.speed = 1.0f;
         while (true)
         {
             agent.destination = target.position;
+
+            movementSpeed = movementSpeed + 0.011f;
+            animator.SetFloat("Speed", Mathf.Lerp(0, 0.5f, movementSpeed));
+
+            oscillator = Mathf.PingPong(Time.time * modifierValue, 1);
+            agent.speed = oscillator;
 
             yield return null;
         }
     }
 
+    private IEnumerator Attack()
+    {
+
+        agent.speed = 0;
+        animator.SetFloat("Speed", 0);
+
+        yield return null;
+
+    }
+
     private IEnumerator Crawl()
     {
-        yield return null;
+        Debug.Log("Enemy Crawlling");
+
+        if (!legsBusted)
+        {
+
+            legsBusted = true;
+            animator.SetTrigger("Fall");
+            animator.SetBool("Crawling", true);
+
+            yield return new WaitForSeconds(3);
+        }
+        //else
+
+        agent.speed = 0.5f;
+
+        while (true)
+        {
+            agent.destination = target.position;
+
+
+
+            yield return null;
+        }
 
     }
 
@@ -95,16 +168,19 @@ public class EnemyStateMachine : MonoBehaviour
         yield return null;
     }
 
+
     public void LegsBusted()
     {
-        if (animator == null)
-        {
+        crawling = true;
+    }
 
-        }
-        else
-        {
-            animator.SetTrigger("Fall");
-        }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, proximityRange);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
 
@@ -112,6 +188,7 @@ public enum EnemyState
 {
     Idle,
     Chase,
+    Attack,
     Crawl,
     Dead
 }
