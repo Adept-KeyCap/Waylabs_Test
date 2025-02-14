@@ -43,6 +43,10 @@ public class EnemyHealth: MonoBehaviour
 
         if (health < 0)
         {
+            foreach(DamageHandler handler in bodyParts)
+            {
+                handler.gameObject.GetComponent<Collider>().enabled = false;
+            }
             healthSlider.gameObject.SetActive(false);
             stateMachine.EnemyKilled();
         }

@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 5f;
     [SerializeField] private float maxSpeed = 5f;
+    [SerializeField] private float jumpForce = 50f;
+
     private Transform cameraTransform;
     private Rigidbody rb;
     private Vector2 moveInput;
@@ -31,6 +33,14 @@ public class PlayerMovement : MonoBehaviour
         //character body rotation to camera rotation
         Vector3 eulerRotation = new Vector3(0, cameraTransform.eulerAngles.y, 0);
         transform.rotation = Quaternion.Euler(eulerRotation);
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)

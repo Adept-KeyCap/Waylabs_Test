@@ -127,7 +127,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42ab06b5ce166b345a8067fffbf9938b, type: 2}
+  - {fileID: 2100000, guid: 2db6ba9d56107a445b14d23acb551b17, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -536,7 +536,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42ab06b5ce166b345a8067fffbf9938b, type: 2}
+  - {fileID: 2100000, guid: fa339b614ade2be4cb3cfd3fd30870db, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -592,7 +592,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.78, y: 0.026000023, z: 0}
   m_RotationAtRest: {x: 90, y: 0, z: -89.99996}
   m_TranslationOffsets:
-  - {x: 0, y: 0.1307354, z: -0.026000738}
+  - {x: 0, y: 0.13073635, z: -0.026000738}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -719,7 +719,7 @@ Transform:
   m_GameObject: {fileID: 854826804700382816}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.311, y: 0.246, z: 0.413}
+  m_LocalPosition: {x: 0.076937735, y: -0.034902096, z: 0.5055539}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -756,14 +756,16 @@ PositionConstraint:
   m_Enabled: 1
   serializedVersion: 2
   m_Weight: 1
-  m_TranslationAtRest: {x: 0, y: 0, z: 0}
-  m_TranslationOffset: {x: 0, y: 0, z: 0}
+  m_TranslationAtRest: {x: 0.076937735, y: -0.034902096, z: 0.5055539}
+  m_TranslationOffset: {x: 0.059999526, y: -0.25, z: 0.44000024}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
   m_Active: 1
-  m_IsLocked: 1
-  m_Sources: []
+  m_IsLocked: 0
+  m_Sources:
+  - sourceTransform: {fileID: 853171451988028105}
+    weight: 1
 --- !u!114 &6026095879593385669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -881,7 +883,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42ab06b5ce166b345a8067fffbf9938b, type: 2}
+  - {fileID: 2100000, guid: 2db6ba9d56107a445b14d23acb551b17, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -937,7 +939,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.37996, y: -1.0879, z: 0.047001}
   m_RotationAtRest: {x: 2.8046238, y: 0.016372195, z: -179.66621}
   m_TranslationOffsets:
-  - {x: -0.01099205, y: 0.17794049, z: -0.00030517578}
+  - {x: -0.01099205, y: 0.17794055, z: -0.00030517578}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -1383,7 +1385,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.4616747, y: 0.2150979, z: 0.063}
   m_RotationAtRest: {x: 0, y: 0, z: -0.004999635}
   m_TranslationOffsets:
-  - {x: 0.0000019073486, y: 0.049999952, z: 0.004693985}
+  - {x: 0, y: 0.049999952, z: 0.004693508}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -1551,7 +1553,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42ab06b5ce166b345a8067fffbf9938b, type: 2}
+  - {fileID: 2100000, guid: 2db6ba9d56107a445b14d23acb551b17, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1607,7 +1609,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.54466, y: -1.0881, z: 0.046994}
   m_RotationAtRest: {x: 2.8053539, y: -0.016307823, z: 179.66618}
   m_TranslationOffsets:
-  - {x: 0.009622574, y: 0.1781326, z: -0.00030374527}
+  - {x: 0.00962162, y: 0.17813262, z: -0.0003042221}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -1987,7 +1989,7 @@ GameObject:
   - component: {fileID: 4318613259311549686}
   - component: {fileID: 4856260281359062717}
   - component: {fileID: 4810598056812900579}
-  - component: {fileID: 662909523060691991}
+  - component: {fileID: 6524115501344796799}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2002,7 +2004,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2614414731863496875}
-  m_LocalRotation: {x: 0, y: -0.99966717, z: 0.025800014, w: 0}
+  m_LocalRotation: {x: 0, y: 0.99966717, z: -0.025800014, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2078,8 +2080,8 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!1818360609 &662909523060691991
-RotationConstraint:
+--- !u!895512359 &6524115501344796799
+AimConstraint:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2089,7 +2091,12 @@ RotationConstraint:
   serializedVersion: 2
   m_Weight: 1
   m_RotationAtRest: {x: 2.9567912, y: 180, z: 0}
-  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 2.9567912, y: 180, z: 0}
+  m_AimVector: {x: 0, y: 0, z: 1}
+  m_UpVector: {x: 0, y: 1, z: 0}
+  m_WorldUpVector: {x: 0, y: 1, z: 0}
+  m_WorldUpObject: {fileID: 0}
+  m_UpType: 0
   m_AffectRotationX: 1
   m_AffectRotationY: 1
   m_AffectRotationZ: 1
@@ -2328,7 +2335,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 1.073, y: 0, z: 0}
   m_RotationAtRest: {x: 90, y: 0, z: -89.99996}
   m_TranslationOffsets:
-  - {x: 0, y: 0.14968967, z: 0}
+  - {x: 0, y: 0.14968872, z: 0}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -2463,7 +2470,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42ab06b5ce166b345a8067fffbf9938b, type: 2}
+  - {fileID: 2100000, guid: 2db6ba9d56107a445b14d23acb551b17, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2519,7 +2526,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.573, y: -0.722, z: 0.058}
   m_RotationAtRest: {x: 0.72574115, y: 0.0044095484, z: -179.65466}
   m_TranslationOffsets:
-  - {x: -0.018817902, y: 0.21783948, z: -0.00040006638}
+  - {x: -0.018817902, y: 0.21783948, z: -0.0004005432}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -3337,7 +3344,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42ab06b5ce166b345a8067fffbf9938b, type: 2}
+  - {fileID: 2100000, guid: fa339b614ade2be4cb3cfd3fd30870db, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3393,7 +3400,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.462, y: -0.049999952, z: 0.05100012}
   m_RotationAtRest: {x: -6.7525387, y: 0, z: -0.0050210925}
   m_TranslationOffsets:
-  - {x: 0.00034713745, y: 0.03826368, z: 0.03226471}
+  - {x: 0.00034809113, y: 0.03826356, z: 0.03226471}
   m_RotationOffsets:
   - {x: -6.4285045, y: -0.00056157995, z: 0}
   m_AffectTranslationX: 1
@@ -3589,7 +3596,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42ab06b5ce166b345a8067fffbf9938b, type: 2}
+  - {fileID: 2100000, guid: fa339b614ade2be4cb3cfd3fd30870db, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3624,7 +3631,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.462, y: -0.279, z: 0.071}
   m_RotationAtRest: {x: -6.941003, y: 0.0008583064, z: -0.00467777}
   m_TranslationOffsets:
-  - {x: 0.0003643036, y: -0.06085956, z: 0.028637886}
+  - {x: 0.00036621094, y: -0.06085944, z: 0.02863884}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -4223,7 +4230,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42ab06b5ce166b345a8067fffbf9938b, type: 2}
+  - {fileID: 2100000, guid: cccebab506073d8449e06aa5d74cfdd7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4279,7 +4286,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.0066502183, y: 0.7212434, z: 0.6017719}
   m_RotationAtRest: {x: -2.0843096, y: -0.2817842, z: 3.2980022}
   m_TranslationOffsets:
-  - {x: 0.013767242, y: 0.09535599, z: -0.0133366585}
+  - {x: 0.013768196, y: 0.09535599, z: -0.0133366585}
   m_RotationOffsets:
   - {x: -67.56696, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -4409,7 +4416,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42ab06b5ce166b345a8067fffbf9938b, type: 2}
+  - {fileID: 2100000, guid: cccebab506073d8449e06aa5d74cfdd7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4465,7 +4472,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.08, y: 0.712, z: 0.6100072}
   m_RotationAtRest: {x: -2.0850625, y: 0.28176054, z: -3.2979143}
   m_TranslationOffsets:
-  - {x: -0.0031280518, y: 0.09642506, z: -0.012914658}
+  - {x: -0.0031280518, y: 0.09642506, z: -0.012914419}
   m_RotationOffsets:
   - {x: -67.56696, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -4860,7 +4867,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42ab06b5ce166b345a8067fffbf9938b, type: 2}
+  - {fileID: 2100000, guid: fa339b614ade2be4cb3cfd3fd30870db, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4916,7 +4923,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.15, y: 0.026, z: 0}
   m_RotationAtRest: {x: 90, y: 0, z: 90.00011}
   m_TranslationOffsets:
-  - {x: 0, y: 0.124046326, z: -0.026000023}
+  - {x: 0.0000014305115, y: 0.12404728, z: -0.026000023}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -5203,7 +5210,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0, y: 0.961, z: 0}
   m_RotationAtRest: {x: 0, y: 0, z: 0}
   m_TranslationOffsets:
-  - {x: 0, y: 0.11144543, z: 0}
+  - {x: -0.0000014305115, y: 0.11144447, z: 0}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -5487,7 +5494,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0, y: 1.086533, z: 0}
   m_RotationAtRest: {x: 0, y: 0, z: 0}
   m_TranslationOffsets:
-  - {x: 0.0000019073486, y: 0.11485863, z: 0}
+  - {x: 0.0000023841858, y: 0.11485577, z: 0}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -5588,7 +5595,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42ab06b5ce166b345a8067fffbf9938b, type: 2}
+  - {fileID: 2100000, guid: 2db6ba9d56107a445b14d23acb551b17, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5644,7 +5651,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.354, y: -0.713, z: 0.058}
   m_RotationAtRest: {x: 0.72649205, y: -0.0043559056, z: 179.65462}
   m_TranslationOffsets:
-  - {x: 0.015123367, y: 0.20881808, z: -0.00051259995}
+  - {x: 0.015123367, y: 0.20881802, z: -0.00051164627}
   m_RotationOffsets:
   - {x: 0, y: 0, z: 0}
   m_AffectTranslationX: 1
@@ -5806,7 +5813,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 42ab06b5ce166b345a8067fffbf9938b, type: 2}
+  - {fileID: 2100000, guid: 2db6ba9d56107a445b14d23acb551b17, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

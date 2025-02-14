@@ -13,9 +13,9 @@ public class EnemyAttack : MonoBehaviour
         playerHealth = PlayerHealth.Instance;
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnTriggerStay(Collider other)
     {
-        if (collision.gameObject.GetComponent<PlayerHealth>() == playerHealth)
+        if (other.gameObject.GetComponent<PlayerHealth>() == playerHealth)
         {
             if (Time.time >= lastAttackTime + attackCooldown)
             {
