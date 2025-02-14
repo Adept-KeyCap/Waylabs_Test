@@ -986,7 +986,7 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 6158986852728685965}
   maxAmmo: 10
-  projectileSpeed: 100
+  projectileSpeed: 150
   fireRate: 0.35
   reloadTime: 2
   automatic: 0
@@ -997,7 +997,7 @@ MonoBehaviour:
   socketEjection: {fileID: 5830742377374712868}
   shotOffset: {x: 0, y: 0}
   positionCrosshair: {fileID: 127038077994909269}
-  laser: 1
+  laser: 0
   skinnedMeshRenderer: {fileID: 8816508066604267168}
   materials:
   - {fileID: 2100000, guid: 53b4143062850d84583350d72888fb5a, type: 2}

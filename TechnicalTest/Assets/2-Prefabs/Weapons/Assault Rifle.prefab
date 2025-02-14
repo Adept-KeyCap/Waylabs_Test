@@ -588,7 +588,7 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 2248482941706777585}
   maxAmmo: 35
-  projectileSpeed: 125
+  projectileSpeed: 175
   fireRate: 0.2
   reloadTime: 3.8
   automatic: 1

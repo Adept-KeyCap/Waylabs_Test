@@ -26,6 +26,7 @@ public class EnemyHealth: MonoBehaviour
 
         healthSlider.maxValue = health;
         healthSlider.value = health;
+        healthSlider.enabled = false;    
 
         foreach (DamageHandler handler in bodyParts)
         {
@@ -37,6 +38,7 @@ public class EnemyHealth: MonoBehaviour
     public void StackDamage(float damage)
     {
         health = health - damage;
+        healthSlider.enabled = false;
         DisplayHealth(health);
 
         if (health < 0)

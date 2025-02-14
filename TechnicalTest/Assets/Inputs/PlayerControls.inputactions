@@ -15,9 +15,27 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Aim",
+                    "type": "Value",
+                    "id": "f0a74c8f-8e2c-4039-9c7a-b6c7211b20a6",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Sprint",
                     "type": "Button",
                     "id": "5c0a69a5-ba28-414b-aaa7-2c8d1bc19279",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "9e716cdc-abc5-429a-a641-3c8c2f066e60",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -31,15 +49,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Aim",
-                    "type": "Value",
-                    "id": "f0a74c8f-8e2c-4039-9c7a-b6c7211b20a6",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 },
                 {
                     "name": "Grab",
@@ -156,17 +165,6 @@
                 },
                 {
                     "name": "",
-                    "id": "bd8f0ceb-925f-4aa1-ac9b-2d0f6219c314",
-                    "path": "<Keyboard>/i",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Menu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "1280221e-65d5-4f55-ae67-a78c32cbdfec",
                     "path": "<Keyboard>/shift",
                     "interactions": "",
@@ -239,6 +237,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Toolbar Selection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c62ef5ae-fa4a-438f-aa42-d9152f603064",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

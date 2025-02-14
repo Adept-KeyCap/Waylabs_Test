@@ -11,8 +11,8 @@ public class EnemyStateMachine : MonoBehaviour
     [Header("NavMesh AI")]
     // float: Speed || bool: Crawling || Triggers: Fall, Die, Hit
     [SerializeField] private EnemyState enemyState;
-    [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Transform target;
+    private NavMeshAgent agent;
 
     [Header("Stats")]
     [SerializeField] private float proximityRange;
@@ -23,7 +23,7 @@ public class EnemyStateMachine : MonoBehaviour
     [SerializeField] private Animator animator;
 
 
-    private bool inRange;
+    private bool dead = false;
     private bool legsBusted = false;
     private bool crawling = false;
     private float movementSpeed = 0;
@@ -42,24 +42,27 @@ public class EnemyStateMachine : MonoBehaviour
         }
     }
 
+    #region - State Machine Logic -
+
     void FixedUpdate()
     {
         float targetDistance = Vector2.Distance(target.position, transform.position);
-
-        if (enemyState != EnemyState.Crawl && crawling)
+        if(!dead)
         {
-            UpdateState(EnemyState.Crawl);
+            if (enemyState != EnemyState.Crawl && crawling)
+            {
+                UpdateState(EnemyState.Crawl);
+            }
+            else if (proximityRange > targetDistance && enemyState != EnemyState.Chase && !crawling)
+            {
+                UpdateState(EnemyState.Chase);
+            }
+            else if (proximityRange < targetDistance && enemyState != EnemyState.Idle && !crawling)
+            {
+                UpdateState(EnemyState.Idle);
+            }
         }
-        else if (proximityRange > targetDistance && enemyState != EnemyState.Chase && !crawling)
-        {
-            inRange = true;
-            UpdateState(EnemyState.Chase);
-        }
-        else if (proximityRange < targetDistance && enemyState != EnemyState.Idle && !crawling)
-        {
-            inRange = false;
-            UpdateState(EnemyState.Idle);
-        }
+        
     }
 
 
@@ -157,8 +160,10 @@ public class EnemyStateMachine : MonoBehaviour
 
     private IEnumerator Dead()
     {
+        dead = true;
         animator.SetTrigger("Die");
-
+        agent.enabled = false;
+        
         yield return null;
     }
 
@@ -167,6 +172,7 @@ public class EnemyStateMachine : MonoBehaviour
         yield return null;
     }
 
+    #endregion
 
     public void LegsBusted()
     {
