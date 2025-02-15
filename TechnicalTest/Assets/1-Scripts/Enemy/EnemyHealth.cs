@@ -13,7 +13,6 @@ public class EnemyHealth: MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject bloodParticles;
     [SerializeField] private Slider healthSlider;
- 
 
     private DamageHandler[] bodyParts;
     private EnemyStateMachine stateMachine;
@@ -26,7 +25,7 @@ public class EnemyHealth: MonoBehaviour
 
         healthSlider.maxValue = health;
         healthSlider.value = health;
-        healthSlider.enabled = false;    
+        healthSlider.gameObject.SetActive(false);
 
         foreach (DamageHandler handler in bodyParts)
         {
@@ -54,6 +53,7 @@ public class EnemyHealth: MonoBehaviour
 
     private void DisplayHealth(float value)
     {
+        healthSlider.gameObject.SetActive(true);
         healthSlider.value = value;
     }
 
