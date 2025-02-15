@@ -33,6 +33,16 @@ public class Item : MonoBehaviour, IHittable
         highlightObj.SetActive(false);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.GetComponent<DamageHandler>() != null && rb.velocity.magnitude >= 2)
+        {
+            DamageHandler handler = collision.gameObject.GetComponent<DamageHandler>();
+            float damage = rb.velocity.magnitude * (rb.mass * 75);
+            handler.OnHit(Vector3.zero, damage, Vector3.forward);
+        }
+    }
+
     public void Grabbed(Transform pos)
     {
         grabbed = true;
@@ -77,7 +87,7 @@ public class Item : MonoBehaviour, IHittable
 
     public void OnHit(Vector3 hitPoint, float damage, Vector3 hitForce)
     {
-        rb.AddForce(hitForce, ForceMode.Impulse);
+        rb.AddForce(hitForce/2, ForceMode.Impulse);
         Debug.Log(gameObject.name + "Was Hit!");
     }
 
@@ -88,4 +98,6 @@ public class Item : MonoBehaviour, IHittable
             gameObject.GetComponent<Weapon>().AmmoDisplay(logic);
         }
     }
+
+
 }

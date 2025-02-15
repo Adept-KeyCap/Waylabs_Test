@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class ItemOnHand_Controller : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class ItemOnHand_Controller : MonoBehaviour
     [Header("Grab Attributes")]
     [SerializeField] private Transform grabPoint;
     [SerializeField] private float grabDistance = 3f;
+    [SerializeField] private Slider throwSlider;
 
     private Transform aimObj;
     private Transform playerCamera;
@@ -33,6 +35,8 @@ public class ItemOnHand_Controller : MonoBehaviour
     {
         aimObj = CameraReferences.Instance.aimObject.transform;
         playerCamera = CameraReferences.Instance.playerCamera.transform;
+        throwSlider.value = 0;
+        throwSlider.gameObject.SetActive(false);
     }
 
     void FixedUpdate()
@@ -151,6 +155,8 @@ public class ItemOnHand_Controller : MonoBehaviour
         {
             pressStartTime = Time.time;
             isHolding = true;
+            throwSlider.gameObject.SetActive(true);
+            StartCoroutine(FillThrowBar());
         }
         else if (context.canceled) // Release Q to drop item
         {
@@ -166,8 +172,10 @@ public class ItemOnHand_Controller : MonoBehaviour
                 held_Item.transform.SetParent(null); // Unparent from player
                 held_Item.gameObject.SetActive(true); // Ensure it's visible
 
-                // Throw it (optional)
-                held_Item.ThrowItem(holdDuration);
+                // Throw it 
+                held_Item.ThrowItem(holdDuration * 2);
+                throwSlider.gameObject.SetActive(false);
+                StopCoroutine(FillThrowBar());
 
                 // Hand is now empty
                 held_Item = null;
@@ -213,5 +221,17 @@ public class ItemOnHand_Controller : MonoBehaviour
         {
             return;
         }
+    }
+
+    private IEnumerator FillThrowBar()
+    {
+        while (true)
+        {
+            float holdDuration = Time.time - pressStartTime;
+            throwSlider.value = holdDuration;
+
+            yield return null;
+        }
+
     }
 }

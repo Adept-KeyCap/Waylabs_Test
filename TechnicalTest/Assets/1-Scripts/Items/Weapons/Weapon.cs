@@ -249,6 +249,7 @@ public class Weapon : MonoBehaviour
 
     private void OnDisable()
     {
+        if(mainCrosshair != null)
         mainCrosshair.gameObject.SetActive(true);
     }
 
