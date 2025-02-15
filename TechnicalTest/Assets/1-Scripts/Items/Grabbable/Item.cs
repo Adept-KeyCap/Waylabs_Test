@@ -8,6 +8,7 @@ public class Item : MonoBehaviour, IHittable
     [SerializeField] private GameObject highlightObj;
     [SerializeField, Range(0,10)] private float forceScaler;
     [SerializeField] private Vector3 customRotation;
+    [SerializeField] private AudioClip contactAudio;
 
     public InventoryObject inventoryObject;
 
@@ -18,11 +19,13 @@ public class Item : MonoBehaviour, IHittable
     private bool grabbed = false;
     private Camera playerCamera;
     private Transform aimObj;
+    private AudioSource audioSource;
 
     void Start()
     {
         playerCamera = CameraReferences.Instance.playerCamera;
         aimObj = CameraReferences.Instance.aimObject;
+        audioSource = GetComponent<AudioSource>();
 
         rb = GetComponent<Rigidbody>();
         meshFilter = GetComponent<MeshFilter>();
@@ -31,10 +34,13 @@ public class Item : MonoBehaviour, IHittable
 
         highlightObj.GetComponent<MeshFilter>().mesh = mesh;
         highlightObj.SetActive(false);
+
+        audioSource.clip = contactAudio;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        audioSource.Play();
         if(collision.gameObject.GetComponent<DamageHandler>() != null && rb.velocity.magnitude >= 2)
         {
             DamageHandler handler = collision.gameObject.GetComponent<DamageHandler>();
@@ -51,6 +57,7 @@ public class Item : MonoBehaviour, IHittable
         rb.isKinematic = true;
         selfCollider.enabled = false;
         transform.localPosition = Vector3.zero;
+        audioSource.Play();
 
         CheckForWeapon(grabbed);  
     }

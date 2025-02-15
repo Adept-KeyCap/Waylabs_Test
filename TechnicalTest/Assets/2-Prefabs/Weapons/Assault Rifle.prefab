@@ -10379,6 +10379,7 @@ MonoBehaviour:
   highlightObj: {fileID: 2857555111351041299}
   forceScaler: 2.49
   customRotation: {x: -90, y: 0.15906441, z: 0.15906441}
+  contactAudio: {fileID: 8300000, guid: c2aa38fc4cb4c2444a30789b1b22cdf3, type: 3}
   inventoryObject: {fileID: 11400000, guid: 4d85bb6becd7f45499d539837b6afab3, type: 2}
 --- !u!114 &33130809668588353
 MonoBehaviour:
@@ -10452,7 +10453,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

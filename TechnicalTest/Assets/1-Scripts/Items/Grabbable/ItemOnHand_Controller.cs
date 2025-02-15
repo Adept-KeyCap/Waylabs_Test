@@ -8,6 +8,9 @@ public class ItemOnHand_Controller : MonoBehaviour
 {
     public static ItemOnHand_Controller Instance;
 
+    public AudioClip swapAudio; 
+    public AudioClip throwAudio; 
+
     [Header("Item Detection")]
     public Item detected_Item;
     public Item held_Item;
@@ -19,6 +22,7 @@ public class ItemOnHand_Controller : MonoBehaviour
 
     private Transform aimObj;
     private Transform playerCamera;
+    private AudioSource audioSource;
     private bool grabbable = false;
     private Item hitObject;
     private float pressStartTime = 0f;
@@ -35,6 +39,7 @@ public class ItemOnHand_Controller : MonoBehaviour
     {
         aimObj = CameraReferences.Instance.aimObject.transform;
         playerCamera = CameraReferences.Instance.playerCamera.transform;
+        audioSource = GetComponent<AudioSource>();
         throwSlider.value = 0;
         throwSlider.gameObject.SetActive(false);
     }
@@ -116,6 +121,13 @@ public class ItemOnHand_Controller : MonoBehaviour
 
     public void SwapItem(int newItemId)
     {
+        throwSlider.gameObject.SetActive(false);
+        throwSlider.value = 0;
+        StopCoroutine(FillThrowBar());
+
+        audioSource.clip = swapAudio;
+        audioSource.Play();
+
         if (held_Item != null)
         {
             held_Item.gameObject.SetActive(false);
@@ -176,6 +188,9 @@ public class ItemOnHand_Controller : MonoBehaviour
                 held_Item.ThrowItem(holdDuration * 2);
                 throwSlider.gameObject.SetActive(false);
                 StopCoroutine(FillThrowBar());
+
+                audioSource.clip = throwAudio;
+                audioSource.Play();
 
                 // Hand is now empty
                 held_Item = null;

@@ -14,14 +14,22 @@ public class EnemyHealth: MonoBehaviour
     [SerializeField] private GameObject bloodParticles;
     [SerializeField] private Slider healthSlider;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip damageAudio;
+    [SerializeField] private AudioClip bloodAudio;
+
     private DamageHandler[] bodyParts;
     private EnemyStateMachine stateMachine;
     private int bustedLegs;
+    private AudioSource audioSource;
 
     void Start()
     {
         bodyParts = GetComponentsInChildren<DamageHandler>();
         stateMachine = GetComponent<EnemyStateMachine>();
+        audioSource = GetComponent<AudioSource>();
+
+        audioSource.clip = damageAudio;
 
         healthSlider.maxValue = health;
         healthSlider.value = health;
@@ -39,6 +47,9 @@ public class EnemyHealth: MonoBehaviour
         health = health - damage;
         healthSlider.enabled = false;
         DisplayHealth(health);
+
+        audioSource.clip = damageAudio;
+        audioSource.Play();
 
         if (health < 0)
         {
@@ -62,6 +73,8 @@ public class EnemyHealth: MonoBehaviour
     {
         // Instantiate at the position of the given Transform
         GameObject blood = Instantiate(bloodParticles, position.position, Quaternion.identity);
+        audioSource.clip = bloodAudio;
+        audioSource.Play();
 
         // Get and Play the Particle System
         ParticleSystem ps = blood.GetComponent<ParticleSystem>();
