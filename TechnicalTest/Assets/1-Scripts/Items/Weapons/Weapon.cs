@@ -28,12 +28,14 @@ public class Weapon : MonoBehaviour
     [SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
     [Tooltip("0 = Standard Material \n1 = Laser Material")]
     [SerializeField] private List<Material> materials;
+ 
+
+    [Header("Feedback")]
+    [SerializeField] private ParticleSystem bulletParticles;
+    [SerializeField] private ParticleSystem castingParticles;
+    [SerializeField] private ParticleSystem laserParticles;
 
 
-    [Header("Audio Clips")]
-    [SerializeField] private AudioClip audioClipReload;
-    [SerializeField] private AudioClip audioClipFire;
-    [SerializeField] private AudioClip audioClipFireEmpty;
 
     private float currentAmmo;
     private bool canFire = true; // Used to control semi-auto firing
@@ -44,6 +46,7 @@ public class Weapon : MonoBehaviour
     private Transform aimObj;
     private GameObject mainCrosshair;
     private LineRenderer lineRenderer;
+    private WeaponSoundManager weaponSoundManager;
 
     void Start()
     {
@@ -51,8 +54,9 @@ public class Weapon : MonoBehaviour
         aimObj = CameraReferences.Instance.aimObject;
         mainCrosshair = CameraReferences.Instance.mainCrosshair;
         lineRenderer = GetComponent<LineRenderer>();
-        currentAmmo = maxAmmo;
+        weaponSoundManager = GetComponent<WeaponSoundManager>();
 
+        currentAmmo = maxAmmo;
         lineRenderer.positionCount = 2;
         lineRenderer.enabled = false;
 
@@ -105,7 +109,7 @@ public class Weapon : MonoBehaviour
         if (automatic)
         {
             isFiring = false;
-            CancelInvoke(nameof(Fire)); // ✅ Stops automatic fire
+            CancelInvoke(nameof(Fire)); // Stops automatic fire
         }
     }
 
@@ -135,7 +139,15 @@ public class Weapon : MonoBehaviour
 
     private void Fire()
     {
-        if (!canFire || currentAmmo <= 0) return;
+        if (!canFire )
+        {
+            return;
+        }
+        else if(currentAmmo <= 0)
+        {
+            weaponSoundManager.Play_FireEmpty();
+            return;
+        }
 
         // Reduce ammo
         currentAmmo = Mathf.Clamp(currentAmmo - 1, 0, maxAmmo);
@@ -157,6 +169,10 @@ public class Weapon : MonoBehaviour
 
         if (!laser)
         {
+            weaponSoundManager.Play_Fire();
+            bulletParticles.Play();
+            castingParticles.Play();
+
             // Create and launch the projectile
             GameObject projectile = Instantiate(prefabProjectile, firePoint.position, rotation);
             Debug.Log(projectile.name + " Fired");
@@ -165,6 +181,9 @@ public class Weapon : MonoBehaviour
         }
         else
         {
+            weaponSoundManager.Play_Laser();
+            laserParticles.Play();
+
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, firePoint.position);
             if (hit.collider.gameObject.GetComponent<IHittable>() != null)
@@ -236,6 +255,8 @@ public class Weapon : MonoBehaviour
     private IEnumerator ReloadCoroutine()
     {
         Debug.Log("Reloading...");
+        weaponSoundManager.Play_Reload();
+
         yield return new WaitForSeconds(reloadTime);
         ammoTxt.text = $"{currentAmmo} | {maxAmmo}";
         currentAmmo = maxAmmo;
