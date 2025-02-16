@@ -53,8 +53,94 @@ Te permite almacenar objetos que hay en el entorno, puedes tener **hasta 5 de el
 
 ![GIF del inventario.](DocResources/pt6_Invenotry.gif)
 
+> [!WARNING]
+> Lamentablemente no logré solucionar un error el cual al lanzar un objeto que está acumulado junto a otros, también saca al resto del inventario. Esto es debido a equivocarme al empezar a programar y haber creado tanto los objetos interactuables como el sistema del inventario de maneras muy aisladas. **Por lo que una oportunidad de mejora sería el reestructurar estos 2 sistemas de una manera más modular**.
+
 ## Escenas
 #### Entrenamiento / Entretenimiento
 En esta primera zona podrás probar todos los objetos disponibles en el juego, no sin antes pasar por un pequeño tutorial que te enseñará **cómo usar la nueva cámara**, haciendote pasar por un laberinto; **Cómo recoger y lanzar los objetos**, con los cuales podrás jugar un rato dentro de la escena; y finalmente el **Cómo usar las armas**, tu principal medio de defensa.
 
 ![Interactables.](DocResources/TrainingZone.png)
+
+#### Zona de la misión
+En este mapa encontraras a los enemigos esperandote, tu misión es eliminarlos a todos para limpiar el pueblo, encontrarás los 5 objetos principales por todos lados, solo una pistola que aparecerá cerca tuyo, y un rifle que tendrás que buscar, también al paso del tiempo, aparecerá un **Núcleo de energía** en alguna zona aleatoria, con el cual mejorarás tu arma para eliminar a los enemigos más fácilmente, está atento al entorno. 
+
+![Interactables.](DocResources/MissionZone.png)
+
+## Enemigos
+#### Comportamiento básico
+Empezamos por la parte del seguimiento, donde implementé el paquete de Unity [AI Navigation](https://docs.unity3d.com/Packages/com.unity.ai.navigation@2.0/manual/index.html), con el cual se puede generar fácilmente un terreno donde el **Agente** puede caminar dependiendo de ciertas condiciones o caracteristicas del **Agente** y el terreno, más conocido como **NavMesh**. 
+
+![GIF IA NavMesh.](DocResources/pt7_NavMesh.gif)
+
+
+#### Máquina de estados
+El enemigo está compuesto por la famosa estructura de al máquina de estados, la cuan permite que el enemigo reaccione bajo ciertas situaciones y cambie su comportamiento acorde a esto. En este caso tenemos una bastante simple donde el enemigo tiene 4 estados. La principal función que aprovecho de este compoente es la falcilidad de cambiar las animaciones dependiendo de las situaciones.
+
+```C#
+void FixedUpdate()
+{
+    float targetDistance = Vector2.Distance(target.position, transform.position);
+    if(!dead)
+    {
+        if (enemyState != EnemyState.Crawl && crawling)
+        {
+            UpdateState(EnemyState.Crawl);
+        }
+        else if (proximityRange > targetDistance && enemyState != EnemyState.Chase && !crawling)
+        {
+            UpdateState(EnemyState.Chase);
+        }
+        else if (proximityRange < targetDistance && enemyState != EnemyState.Idle && !crawling)
+        {
+            UpdateState(EnemyState.Idle);
+        }
+    }
+    
+}
+
+```
+
+
+
+#### Zonas de daño modulares
+Aquí es donde me quise complicar un poco más para poder darle un toque satisfactorio al juego, además como un reto personal para aplicar de manera más aferrada el **Principio de responsabilidad única**
+Básicamente esto es un sistema modular que nos permite hacerle daño en zonas específicas del cuerpo a los enemigos, donde definimos unas zonas que tienen cierta cantidad de vida, también definimos si esas zonas son dependientes de otras, lo que nos permite llegar a algo visualmente grotesco pero interesante, el cual es el desmembramiento de los enemigos.
+
+![GIF IA NavMesh.](DocResources/pt8_DamageZones.gif)
+
+Cada zona de daño funciona en su propio mundo, están atentas a que les hace daño y notifican a otra clase de que es lo que les está pasando en este momento, para que la clase que se encanga de manejar la vida de todo el enemigo pueda saber que hacer.
+
+**Principal función de la zona de Daño**
+```C#
+
+public void OnHit(Vector3 hitPoint, float damage, Vector3 hitForce)
+{
+    if (head) // triple the amount of damage if the head gets hit
+    {
+        damage = damage * 3;
+    }
+
+    // decrease global health
+    enemyHealth.StackDamage(damage);
+    health = health - damage;
+
+    if (health < 0 && parentOf == null)
+    {
+        CheckForLegs();
+
+        enemyHealth.DropBlood(transform);
+        gameObject.SetActive(false);
+    }
+    else if (health < 0 && parentOf != null) // if any other object depends on the position of this one, disable it too
+    {
+        CheckForLegs();
+
+        enemyHealth.DropBlood(transform);
+        parentOf.SetActive(false);
+        gameObject.SetActive(false);
+    }
+}
+
+
+```
