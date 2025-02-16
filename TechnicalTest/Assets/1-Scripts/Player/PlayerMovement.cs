@@ -22,12 +22,15 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate() // Move the player with physic forces
     {
+        Move();
+    }
+
+    private void Move()
+    {
         Vector3 move = transform.forward * moveInput.y + transform.right * moveInput.x;
         if (rb.velocity.magnitude <= maxSpeed)
         {
-
             rb.AddForce(move.normalized * speed, ForceMode.Impulse);
-
         }
 
         //character body rotation to camera rotation
