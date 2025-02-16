@@ -40,7 +40,10 @@ public class SceneLoaderDoor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        StartCoroutine(WhiteFlashAndLoadScene(0));
+        if (other.gameObject.GetComponent<PlayerHealth>() != null)
+        {
+            StartCoroutine(WhiteFlashAndLoadScene(sceneIndex));
+        }
     }
 
     public void ManualyLoadScene(int index)
@@ -57,8 +60,6 @@ public class SceneLoaderDoor : MonoBehaviour
 
         SceneManager.LoadScene(index);
     }
-
-
 
     public void OpenExit()
     {

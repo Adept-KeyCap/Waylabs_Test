@@ -75,9 +75,6 @@ public class Weapon : MonoBehaviour
 
             // Align object’s direction with the surface normal
             positionCrosshair.transform.forward = surfaceNormal;
-
-            // Keep the same forward direction
-            //positionCrosshair.transform.rotation = Quaternion.LookRotation(Vector3.Cross(transform.right, surfaceNormal), surfaceNormal);
         }
     }
 
@@ -186,13 +183,12 @@ public class Weapon : MonoBehaviour
 
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, firePoint.position);
+            lineRenderer.SetPosition(1, hit.point);
             if (hit.collider.gameObject.GetComponent<IHittable>() != null)
             {
-                hit.collider.gameObject.GetComponent<IHittable>().OnHit(hit.collider.ClosestPoint(transform.position), projectileSpeed, Vector3.zero);
+                hit.collider.gameObject.GetComponent<IHittable>().OnHit(Vector3.zero, projectileSpeed * 1.5f, Vector3.zero);
             }
-            lineRenderer.SetPosition(1, hit.point);
             StartCoroutine(ClearLaser(0.3f));
-            Debug.Log("Weapon Fired");
         }
 
         if (!automatic) // If semi-auto, prevent firing again until cooldown

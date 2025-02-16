@@ -42,6 +42,8 @@ public class EnemyStateMachine : MonoBehaviour
         {
             animator = GetComponentInChildren<Animator>();
         }
+
+        UpdateState(EnemyState.Idle);
     }
 
     #region - State Machine Logic -

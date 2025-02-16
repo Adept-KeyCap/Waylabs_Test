@@ -223,7 +223,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &17631813
 RectTransform:
   m_ObjectHideFlags: 0
@@ -911,6 +911,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1086829489}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &193891573
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 193891574}
+  m_Layer: 0
+  m_Name: Ammo Sp (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &193891574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193891573}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.16, y: 0.04, z: -14.24}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &203228967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3704,6 +3735,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 361662980}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &370513155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 370513156}
+  m_Layer: 0
+  m_Name: Ammo Sp (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &370513156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370513155}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.55, y: 3.531, z: -2.84}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &371712761
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5084,6 +5146,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6576198087287969049, guid: 8d76646e744371444be8c82d7f8051bd,
+        type: 3}
+      propertyPath: m_Name
+      value: Resume Button
+      objectReference: {fileID: 0}
     - target: {fileID: 7107528547841473524, guid: 8d76646e744371444be8c82d7f8051bd,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -5136,9 +5203,44 @@ PrefabInstance:
       objectReference: {fileID: 657488936}
     - target: {fileID: 8690782211233589188, guid: 8d76646e744371444be8c82d7f8051bd,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690782211233589188, guid: 8d76646e744371444be8c82d7f8051bd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690782211233589188, guid: 8d76646e744371444be8c82d7f8051bd,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1379656425}
+    - target: {fileID: 8690782211233589188, guid: 8d76646e744371444be8c82d7f8051bd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 987874324}
+    - target: {fileID: 8690782211233589188, guid: 8d76646e744371444be8c82d7f8051bd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690782211233589188, guid: 8d76646e744371444be8c82d7f8051bd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: LockOrUnlockMouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690782211233589188, guid: 8d76646e744371444be8c82d7f8051bd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: AimController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8690782211233589188, guid: 8d76646e744371444be8c82d7f8051bd,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -9317,6 +9419,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 986904637}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &987874324 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8755879407216571582, guid: 0b76c098cd2e19a45a1fc040f9fd3361,
+    type: 3}
+  m_PrefabInstance: {fileID: 840326219}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e40c5b65ab799cf4bb9d6ad7ef97451b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &990098117 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4441194852809919528, guid: 5c6a1648d6f5d8b45997037cbb0ea5ff,
@@ -20303,10 +20417,15 @@ MonoBehaviour:
   - {fileID: 350479187}
   - {fileID: 1726812898}
   - {fileID: 1769327747}
+  ammoSpawnPoint:
+  - {fileID: 370513156}
+  - {fileID: 193891574}
   victoryPanel: {fileID: 1618842323}
   missionPanel: {fileID: 17631812}
   remainingEnemies: {fileID: 1019298906}
   victorySound: {fileID: 8300000, guid: ce01b56a5b1403d4cbff6124bb80da71, type: 3}
+  ammoItemPrefab: {fileID: 265861075587376791, guid: e235d998acf5e52459d6ae3bfda11ddb,
+    type: 3}
   deadEnemies: 0
 --- !u!82 &2081255340
 AudioSource:
@@ -20320,13 +20439,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b7794dc26806ea74cbf48b6ae44ae64b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 149
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -20870,3 +20989,5 @@ SceneRoots:
   - {fileID: 1756414220721567402}
   - {fileID: 813167966}
   - {fileID: 1336477130}
+  - {fileID: 370513156}
+  - {fileID: 193891574}

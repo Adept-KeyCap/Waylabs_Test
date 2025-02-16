@@ -64,9 +64,9 @@ public class Item : MonoBehaviour, IHittable
 
     public void ThrowItem(float addedForce)
     {
-
         Vector3 forceVec = (aimObj.transform.position - playerCamera.transform.position) * (addedForce * forceScaler);
 
+        selfCollider.isTrigger = false;
 
         if (grabbed)
         {

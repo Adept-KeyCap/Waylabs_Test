@@ -9,10 +9,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance; //Singleton
 
     [SerializeField] private EnemyHealth[] enemies;
+    [SerializeField] private Transform[] ammoSpawnPoint;
     [SerializeField] private GameObject victoryPanel;
     [SerializeField] private GameObject missionPanel;
     [SerializeField] private TMP_Text remainingEnemies;
     [SerializeField] private AudioClip victorySound;
+    [SerializeField] private GameObject ammoItemPrefab;
 
     public int deadEnemies;
     private PlayerHealth PlayerHealth;
@@ -31,6 +33,8 @@ public class GameManager : MonoBehaviour
         door = SceneLoaderDoor.Instance;
         
         audioSource = GetComponent<AudioSource>();
+
+        StartCoroutine(RandomAmmoSpawn());
     }
 
     public void IncreaseKillCount()
@@ -55,5 +59,15 @@ public class GameManager : MonoBehaviour
         victoryPanel.SetActive(true);
     }
 
+
+    private IEnumerator RandomAmmoSpawn()
+    {
+        int randTime = Random.Range(60, 120);
+
+        yield return new WaitForSeconds(randTime);
+
+        int rand = Random.Range(0, ammoSpawnPoint.Length);
+        Instantiate(ammoItemPrefab, ammoSpawnPoint[rand].position, Quaternion.identity);
+    }
 
 }
