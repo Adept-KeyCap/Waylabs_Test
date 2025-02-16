@@ -171,15 +171,6 @@ public class EnemyStateMachine : MonoBehaviour
     }
 
     #endregion
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, proximityRange);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-    }
 }
 
 public enum EnemyState
