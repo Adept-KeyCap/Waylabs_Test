@@ -4758,7 +4758,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.3
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -27100,7 +27100,6 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 1791
-  socketEjection: {fileID: 8073110346269295135}
   shotOffset: {x: 0, y: 0}
   positionCrosshair: {fileID: 2387138905938901102}
   laser: 0
@@ -28823,7 +28822,6 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 1791
-  socketEjection: {fileID: 2274125447243553274}
   shotOffset: {x: 0, y: 0}
   positionCrosshair: {fileID: 0}
   laser: 0
