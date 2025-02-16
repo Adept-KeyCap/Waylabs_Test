@@ -117,9 +117,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56f2fe51225f1ff44a8fb3d22a7f9db7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthSlider: {fileID: 0}
+  defeatScreen: {fileID: 0}
   hurtAudios: []
   deathAudio: {fileID: 8300000, guid: 730473d29e5baba49b7ce88def96b224, type: 3}
-  healthSlider: {fileID: 0}
 --- !u!114 &6988979338327435927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,7 +370,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.22
+  m_Radius: 0.35
   m_Height: 1.29
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -953,8 +954,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6254880061689924623}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.014890502, y: -0.6584623, z: 0.013032216, w: 0.7523536}
-  m_LocalPosition: {x: 9.645673e-13, y: 0.77895004, z: 0}
+  m_LocalRotation: {x: 0.025806695, y: -0.0000006443745, z: 0.000000016634718, w: 0.999667}
+  m_LocalPosition: {x: -0.02, y: 0.72995, z: 3.2040005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
