@@ -25,14 +25,14 @@ public class SceneLoaderDoor : MonoBehaviour
 
     private void Start()
     {
-        colliderSelf = GetComponent<Collider>();
+        colliderSelf = GetComponent<Collider>(); // Deactivates Collider to prevent the player from exiting the level before meeting the conditions
         if (sceneIndex == 0)
         {
             colliderSelf.enabled = false;
             whiteFlashPanel.gameObject.SetActive(true);
         }
 
-        if (whiteFlashPanel.color == fadeInColor)
+        if (whiteFlashPanel.color == fadeInColor) // Do a Fade in Transition to make up loadingScreens
         {
             whiteFlashPanel.DOColor(fadeOutColor, 3).OnComplete(() => { DOTween.Kill(whiteFlashPanel); });
         }
@@ -47,12 +47,18 @@ public class SceneLoaderDoor : MonoBehaviour
         }
     }
 
-    public void ManualyLoadScene(int index)
+    public void ManualyLoadScene(int index) // Called in Buttons Unity Events
     {
         StartCoroutine(WhiteFlashAndLoadScene(index));
     }
 
-    private IEnumerator WhiteFlashAndLoadScene(int index)
+    public void OpenExit() // Enable Collider and Mesh for the player to use
+    {
+        colliderSelf.enabled = true;
+        GetComponent<MeshRenderer>().enabled = true;
+    }
+
+    private IEnumerator WhiteFlashAndLoadScene(int index) // Transition to make up loading screens
     {
         whiteFlashPanel.gameObject.SetActive(true);
         whiteFlashPanel.DOColor(fadeInColor, 1).OnComplete(() => { DOTween.Kill(whiteFlashPanel); });
@@ -60,11 +66,5 @@ public class SceneLoaderDoor : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         SceneManager.LoadScene(index);
-    }
-
-    public void OpenExit()
-    {
-        colliderSelf.enabled = true;
-        GetComponent<MeshRenderer>().enabled = true;
     }
 }

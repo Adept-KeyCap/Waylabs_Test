@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour
         StartCoroutine(DestroyAfter());
     }
 
-    public void GetWeaponStat(float speed, float weaponDamage)
+    public void GetWeaponStat(float speed, float weaponDamage) // Read the weapon stats in order to apply it to the IHittable object
     {
         forceSpeed = speed;
         damage = weaponDamage;
@@ -36,7 +36,6 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
 
     private IEnumerator DestroyAfter()
     {

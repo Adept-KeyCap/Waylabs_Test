@@ -51,26 +51,28 @@ public class EnemyHealth: MonoBehaviour
         healthSlider.enabled = false;
         DisplayHealth(health);
 
+        // Feedback
         audioSource.clip = damageAudio;
         audioSource.Play();
 
         if (health < 0 && !dead)
         {
+            // Make sure the enemy cannot attack when dead
             dead = true;
             damageDealer.SetActive(false);
 
-            foreach(DamageHandler handler in bodyParts)
+            foreach(DamageHandler handler in bodyParts) // Deactivate the other body parts "DamageHandler"
             {
                 handler.gameObject.GetComponent<Collider>().enabled = false;
             }
 
             healthSlider.gameObject.SetActive(false);
-            stateMachine.EnemyKilled();
-            gameManager.IncreaseKillCount();
+            stateMachine.EnemyKilled(); // Tell the state machine to stop
+            gameManager.IncreaseKillCount(); // Notify the kill to the gameManager
         }
     }
 
-    public void DropBlood(Transform position)
+    public void DropBlood(Transform position) // Feedback blood Particle System
     {
         // Instantiate at the position of the given Transform
         GameObject blood = Instantiate(bloodParticles, position.position, Quaternion.identity);
@@ -88,20 +90,19 @@ public class EnemyHealth: MonoBehaviour
             Debug.LogError("No ParticleSystem found on the instantiated object!");
         }
     }
-    private void DisplayHealth(float value)
-    {
-        healthSlider.gameObject.SetActive(true);
-        healthSlider.value = value;
-    }
-
     public void OneLegless()
     {
         bustedLegs++;
         if (bustedLegs >= 2)
         {
-            //Call the Enemy Animator to triggrer the new animation
+            //Call the Enemy Animator to trigger the new animation
             stateMachine.LegsBusted();
         }
     }
 
+    private void DisplayHealth(float value)
+    {
+        healthSlider.gameObject.SetActive(true);
+        healthSlider.value = value;
+    }
 }

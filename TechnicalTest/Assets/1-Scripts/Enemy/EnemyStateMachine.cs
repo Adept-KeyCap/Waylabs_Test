@@ -22,7 +22,6 @@ public class EnemyStateMachine : MonoBehaviour
     [Header("References")]
     [SerializeField] private Animator animator;
 
-
     private bool dead = false;
     private bool legsBusted = false;
     private bool crawling = false;
@@ -38,7 +37,7 @@ public class EnemyStateMachine : MonoBehaviour
 
         agent.destination = transform.position;
 
-        if (animator == null)
+        if (animator == null) // The visual model of the enemy are gameObjects attached to the bones, so the animator is placed in a children
         {
             animator = GetComponentInChildren<Animator>();
         }
@@ -69,6 +68,15 @@ public class EnemyStateMachine : MonoBehaviour
         
     }
 
+    public void LegsBusted()
+    {
+        crawling = true;
+    }
+
+    public void EnemyKilled()
+    {
+        UpdateState(EnemyState.Dead);
+    }
 
     private void UpdateState(EnemyState state)
     {
@@ -97,20 +105,18 @@ public class EnemyStateMachine : MonoBehaviour
         }
     }
 
-    private IEnumerator Idle()
+    private IEnumerator Idle() // Clears Target
     {
-
         agent.destination = transform.position;
         animator.SetFloat("Speed", 0);
 
         yield return null;
-
     }
 
     private IEnumerator Chase()
     {
         agent.speed = 1.0f;
-        while (true)
+        while (true) // Asings a target and interpolates a value between 0 and 1 in order to match the animation speed that is inconsistent
         {
             agent.destination = target.position;
 
@@ -124,21 +130,9 @@ public class EnemyStateMachine : MonoBehaviour
         }
     }
 
-    private IEnumerator Attack()
-    {
-
-        agent.speed = 0;
-        animator.SetFloat("Speed", 0);
-
-        yield return null;
-
-    }
-
     private IEnumerator Crawl()
     {
-        Debug.Log("Enemy Crawlling");
-
-        if (!legsBusted)
+        if (!legsBusted) // When this state is called for the first time, plays the falling animation
         {
 
             legsBusted = true;
@@ -177,16 +171,6 @@ public class EnemyStateMachine : MonoBehaviour
     }
 
     #endregion
-
-    public void LegsBusted()
-    {
-        crawling = true;
-    }
-
-    public void EnemyKilled()
-    {
-        UpdateState(EnemyState.Dead);
-    }
 
     private void OnDrawGizmos()
     {

@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void FixedUpdate()
+    void FixedUpdate() // Move the player with physic forces
     {
         Vector3 move = transform.forward * moveInput.y + transform.right * moveInput.x;
         if (rb.velocity.magnitude <= maxSpeed)
@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.Euler(eulerRotation);
     }
 
-    public void OnJump(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context) // Method to give player the ability to jump, but not implemented for gameplay and balance reasons
     {
         if (context.performed)
         {
@@ -43,12 +43,12 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnMove(InputAction.CallbackContext context) // Vector2 that stores the value from WASD movement Input
     {
         moveInput = context.ReadValue<Vector2>();
     }
 
-    public void OnSprint(InputAction.CallbackContext context)
+    public void OnSprint(InputAction.CallbackContext context) // Modifies the max speed the player can reach
     {
         if (context.started)
         {

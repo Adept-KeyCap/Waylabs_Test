@@ -50,7 +50,7 @@ public class AimController : MonoBehaviour
         }
     }        
 
-    public void OnAim(InputAction.CallbackContext context)
+    public void OnAim(InputAction.CallbackContext context) // Reads the value of the mouse movement
     {
         if (mouseLocked)
         {
@@ -58,27 +58,7 @@ public class AimController : MonoBehaviour
         }        
     }
 
-    void RotateAim(Transform aimObj, Vector2 aimDelta, float radius, float sensitivity)
-    {
-        // Convertimos el movimiento del mouse en ángulos
-        float yaw = aimDelta.x * sensitivity; // Movimiento horizontal (Y en espacio 3D)
-        float pitch = -aimDelta.y * sensitivity; // Movimiento vertical (X en espacio 3D)
-
-        // Obtenemos la dirección actual del AimObj respecto al jugador
-        Vector3 direction = (aimObj.position - transform.position).normalized;
-
-        // Aplicamos la rotación en ambos ejes
-        Quaternion yawRotation = Quaternion.AngleAxis(yaw, Vector3.up); // Rotación en Y
-        Quaternion pitchRotation = Quaternion.AngleAxis(pitch, transform.right); // Rotación en X
-
-        // Combinamos las rotaciones
-        direction = yawRotation * pitchRotation * direction;
-
-        // Mantenemos la distancia constante
-        aimObj.position = transform.position + direction * radius;
-    }
-
-    public void LockOrUnlockMouse()
+    public void LockOrUnlockMouse() // Changes state of the cursor in order to use Menu Interfaces
     {
         if (!mouseLocked)
         {
@@ -92,5 +72,23 @@ public class AimController : MonoBehaviour
         }
     }
 
+    private void RotateAim(Transform aimObj, Vector2 aimDelta, float radius, float sensitivity)
+    {
+        // Convert mouse movement to angles
+        float yaw = aimDelta.x * sensitivity; // Horizontal movement (Y-axis in 3D space)
+        float pitch = -aimDelta.y * sensitivity; // Vertical movement (X-axis in 3D space)
 
+        // Get the current direction of AimObj relative to the player
+        Vector3 direction = (aimObj.position - transform.position).normalized;
+
+        // Apply rotation on both axes
+        Quaternion yawRotation = Quaternion.AngleAxis(yaw, Vector3.up); // Rotation around the Y-axis
+        Quaternion pitchRotation = Quaternion.AngleAxis(pitch, transform.right); // Rotation around the X-axis
+
+        // Combine both rotations
+        direction = yawRotation * pitchRotation * direction;
+
+        // Maintain a constant distance from the player
+        aimObj.position = transform.position + direction * radius;
+    } 
 }

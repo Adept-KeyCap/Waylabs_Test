@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        remainingEnemies.text = enemies.Length.ToString() + " / " + enemies.Length.ToString();
+        remainingEnemies.text = enemies.Length.ToString() + " / " + enemies.Length.ToString(); // Displays how many enemies remain
     }
 
     private void Start()
@@ -34,10 +34,10 @@ public class GameManager : MonoBehaviour
         
         audioSource = GetComponent<AudioSource>();
 
-        StartCoroutine(RandomAmmoSpawn());
+        StartCoroutine(RandomAmmoSpawn()); // Spawns a laser Ammo pick up
     }
 
-    public void IncreaseKillCount()
+    public void IncreaseKillCount() // Update the number of remaining enemies and display it
     {
         deadEnemies++;
 
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void AllEnemiesKilled()
+    private void AllEnemiesKilled() 
     {
         door.OpenExit();
         audioSource.clip = victorySound;
@@ -59,8 +59,7 @@ public class GameManager : MonoBehaviour
         victoryPanel.SetActive(true);
     }
 
-
-    private IEnumerator RandomAmmoSpawn()
+    private IEnumerator RandomAmmoSpawn() // Chooses a random time to spawn a Laser Ammo PickUp
     {
         int randTime = Random.Range(60, 120);
 

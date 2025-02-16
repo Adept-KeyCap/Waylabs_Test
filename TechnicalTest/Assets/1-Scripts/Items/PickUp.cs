@@ -13,7 +13,6 @@ public class PickUp : MonoBehaviour
     private AudioSource audioSource;
     private Vector3 originalPosition;
 
-
     private void Awake()
     {
         originalPosition = transform.position;
@@ -26,7 +25,7 @@ public class PickUp : MonoBehaviour
         audioSource.Play();
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() // animate the 3D model
     {
         model.position = new Vector3(model.position.x, ((Mathf.PingPong(Time.time/2, 0.5f) + 4 ) / 4) + originalPosition.y, model.position.z);
         model.rotation = Quaternion.Euler(new Vector3(60 , Time.fixedTime * 50, 0));
@@ -34,19 +33,19 @@ public class PickUp : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.LogWarning("gameObject Inside: " + other.GetComponent<Weapon>());
         if (other.GetComponent<Weapon>() != null)
         {
             StartCoroutine(PowerUpWeapon(other.GetComponent<Weapon>()));
         }
     }
 
-    public IEnumerator PowerUpWeapon(Weapon weapon)
+    public IEnumerator PowerUpWeapon(Weapon weapon) // Tell the weapon to Update his state
     {
-        Debug.LogWarning("Powering Up Weapon");
+        // feedback
         audioSource.clip = pickUpAudio;
         audioSource.Play();
         powerUpParticles.Play();
+
         weapon.AmmoSwap(true);
         model.gameObject.SetActive(false);
 

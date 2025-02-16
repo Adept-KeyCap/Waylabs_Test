@@ -13,7 +13,7 @@ public class EnemyAttack : MonoBehaviour
         playerHealth = PlayerHealth.Instance;
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay(Collider other) // Attacks the player every X amount of time (attackCooldown)
     {
         if (other.gameObject.GetComponent<PlayerHealth>() == playerHealth)
         {
@@ -27,7 +27,6 @@ public class EnemyAttack : MonoBehaviour
 
     private void AttackPlayer()
     {
-        Debug.Log("Enemy Attacks Player!");
         playerHealth.TakeDamage(attackDamage);
     }
 }

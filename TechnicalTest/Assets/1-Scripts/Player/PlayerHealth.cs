@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public static PlayerHealth Instance;
+    public static PlayerHealth Instance; // Singleton
 
     [SerializeField] private Slider healthSlider;
     [SerializeField] private DefeatScreen defeatScreen;
@@ -37,6 +37,8 @@ public class PlayerHealth : MonoBehaviour
     {
         health -= damage;
         healthSlider.value = health;
+
+        // Feedback: random sound from a collection of them
         int randormNum = Random.Range(0,hurtAudios.Length);
         audioSource.clip = hurtAudios[randormNum];
         audioSource.Play();
@@ -53,10 +55,12 @@ public class PlayerHealth : MonoBehaviour
         {
             dead = true;
 
+            // Feedback
             audioSource.clip = deathAudio;
             audioSource.Play();
             defeatScreen.gameObject.SetActive(true);
 
+            // Disables the player inputs
             GetComponent<Rigidbody>().freezeRotation = false;
             GetComponent<PlayerMovement>().enabled = false;
             GetComponent<AimController>().LockOrUnlockMouse();

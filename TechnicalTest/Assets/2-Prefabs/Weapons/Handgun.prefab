@@ -10947,7 +10947,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioClipReload: {fileID: 8300000, guid: c5b9f000d86b2f349a8c11e7f1527b85, type: 3}
   audioClipFire: {fileID: 8300000, guid: 386df18811bac7d41a3da9f2bf6ffcde, type: 3}
-  audioClipFireLaser: {fileID: 8300000, guid: 130d83e3463c5b14a8eeaf212eedcc09, type: 3}
+  audioClipFireLaser: {fileID: 8300000, guid: aa8028208214bf94d87e8c291c63a96c, type: 3}
   audioClipFireEmpty: {fileID: 8300000, guid: a81553ca6b894b842a00d077744e9311, type: 3}
 --- !u!82 &5284404018943091368
 AudioSource:

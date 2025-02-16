@@ -20226,6 +20226,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 7403575054581917278, guid: 9cd15dd6e477f5346a5cd58dd4da655c,
+        type: 3}
+      propertyPath: audioClipFireLaser
+      value: 
+      objectReference: {fileID: 8300000, guid: aa8028208214bf94d87e8c291c63a96c, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

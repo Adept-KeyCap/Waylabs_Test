@@ -39,11 +39,13 @@ public class ItemOnHand_Controller : MonoBehaviour
         aimObj = CameraReferences.Instance.aimObject.transform;
         playerCamera = CameraReferences.Instance.playerCamera.transform;
         audioSource = GetComponent<AudioSource>();
+
+        //Sets the throw force slider to 0 and disable it
         throwSlider.value = 0;
         throwSlider.gameObject.SetActive(false);
     }
 
-    void FixedUpdate()
+    void FixedUpdate() // Constantly check for "Items"(Grabbable Objects) in the position of the crosshair
     {
         Vector3 rayDirection = (aimObj.position - playerCamera.position).normalized;
 
@@ -53,14 +55,14 @@ public class ItemOnHand_Controller : MonoBehaviour
 
             if (detected_Item != null)
             {
-                if (hitObject != detected_Item)
+                if (hitObject != detected_Item) // If the Item detected is not already stored as "hitObject", do it and highlight the GameObject
                 {
                     ResetHighlight();
                     hitObject = detected_Item;
                     hitObject.Highlight(true);
                 }
 
-                grabbable = true;
+                grabbable = true; // the item is grabbable
             }
             else
             {
@@ -73,36 +75,37 @@ public class ItemOnHand_Controller : MonoBehaviour
         }
     }
 
-    public void GrabItem()
+    public void GrabItem() 
     {
+        // Tell the item to attach to the player's hand when picking it up and add it to the inventory
+        // Or activate the Item stored in the inventory to equip in hand
         if (grabbable && hitObject != null)
         {
             grabbable = false;
             hitObject.Grabbed(grabPoint); // Attach item to grab point
 
-            // Store the item in inventory
-            bool added = invManager.AddObject(hitObject.inventoryObject, hitObject.gameObject);
+            
+            bool added = invManager.AddObject(hitObject.inventoryObject, hitObject.gameObject); // Store the item in inventory
 
             if (!added)
             {
-                Debug.Log("Inventory full! Cannot pick up item.");
+                // Inventory full, cannot pick up more items
                 return;
             }
 
-            //  If nothing is in hand, equip this item immediately
-            if (held_Item == null)
+            
+            if (held_Item == null) // If nothing is in hand, equip this item immediately
             {
                 EquipItem(hitObject.gameObject);
             }
             else
             {
-                //  If an item is already held, just store it (disable the new item)
-                hitObject.gameObject.SetActive(false);
+                hitObject.gameObject.SetActive(false); // If an item is already held, just store it (disable the new item)
             }
         }
     }
 
-    private void EquipItem(GameObject item)
+    private void EquipItem(GameObject item) //Set the item as the "held_Item"(The one we have at hand) and then check if it is a weapon
     {
         if (held_Item != null)
         {
@@ -112,31 +115,32 @@ public class ItemOnHand_Controller : MonoBehaviour
         item.SetActive(true);
         held_Item = item.GetComponent<Item>();
 
-        if (held_Item.GetComponent<Weapon>() != null)
+        if (held_Item.GetComponent<Weapon>() != null) // if the Held item is a Weapon and it isn't null, display the bullet count
         {
             held_Item.GetComponent<Weapon>().AmmoDisplay(true);
         }
     }
 
-    public void SwapItem(int newItemId)
+    public void SwapItem(int newItemId) // Used when whe use the scroll wheel to navigate through the inventory
     {
         throwSlider.gameObject.SetActive(false);
         throwSlider.value = 0;
         StopCoroutine(FillThrowBar());
 
+        // Player Feedback audio
         audioSource.clip = swapAudio;
         audioSource.Play();
 
-        if (held_Item != null)
+        if (held_Item != null) // deactivate the current held item
         {
             held_Item.gameObject.SetActive(false);
         }
 
-        GameObject newItem = invManager.GetStoredItem(newItemId);
+        GameObject newItem = invManager.GetStoredItem(newItemId); // Get the reference from "InventoryManager"
 
         if (newItem != null)
         {
-            newItem.SetActive(true);
+            newItem.SetActive(true); // activate the GameObject associated with the InventorySlot and set is as the held_Item
             held_Item = newItem.GetComponent<Item>();
 
             if (held_Item.GetComponent<Weapon>() != null)
@@ -146,11 +150,13 @@ public class ItemOnHand_Controller : MonoBehaviour
         }
         else
         {
-            held_Item = null;
+            held_Item = null; // If there is nothing in the InventorySlot, there is not held_Item
         }
     }
 
 
+
+    #region - New InputSystem -
 
     public void OnGrab(InputAction.CallbackContext context)
     {
@@ -196,19 +202,6 @@ public class ItemOnHand_Controller : MonoBehaviour
         }
     }
 
-
-    private void ResetHighlight()
-    {
-        if (hitObject != null)
-        {
-            hitObject.Highlight(false);
-            hitObject = null;
-        }
-
-        grabbable = false;
-    }
-
-
     public void FireWeapon(InputAction.CallbackContext context)
     {
         if (held_Item != null && held_Item.TryGetComponent(out Weapon weapon))
@@ -236,7 +229,21 @@ public class ItemOnHand_Controller : MonoBehaviour
         }
     }
 
-    private IEnumerator FillThrowBar()
+    #endregion
+
+
+    private void ResetHighlight()
+    {
+        if (hitObject != null)
+        {
+            hitObject.Highlight(false);
+            hitObject = null;
+        }
+
+        grabbable = false;
+    }
+
+    private IEnumerator FillThrowBar() // Cycle through this to fill the throw force slider
     {
         while (true)
         {

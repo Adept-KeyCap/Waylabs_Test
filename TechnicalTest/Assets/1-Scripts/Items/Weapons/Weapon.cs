@@ -20,7 +20,6 @@ public class Weapon : MonoBehaviour
     [SerializeField] private bool automatic; // Determines if the weapon is full-auto
     [SerializeField] private TMP_Text ammoTxt;
     [SerializeField] private LayerMask mask;
-    [SerializeField] private Transform socketEjection; // Bullets Casting Particle System
     [SerializeField] private Vector2 shotOffset;
     [SerializeField] private Transform positionCrosshair;
 
@@ -30,13 +29,10 @@ public class Weapon : MonoBehaviour
     [Tooltip("0 = Standard Material \n1 = Laser Material")]
     [SerializeField] private List<Material> materials;
  
-
     [Header("Feedback")]
     [SerializeField] private ParticleSystem bulletParticles;
     [SerializeField] private ParticleSystem castingParticles;
     [SerializeField] private ParticleSystem laserParticles;
-
-
 
     private float currentAmmo;
     private bool canFire = true; // Used to control semi-auto firing
@@ -64,7 +60,7 @@ public class Weapon : MonoBehaviour
         ammoTxt.text = $"{currentAmmo} | {maxAmmo}";
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() // Constantly Updates the 3D Crosshair Position
     {
         rayDirection = (aimObj.position - mainCamera.transform.position).normalized - new Vector3(shotOffset.x, shotOffset.y);
 
@@ -78,8 +74,13 @@ public class Weapon : MonoBehaviour
             positionCrosshair.transform.forward = surfaceNormal;
         }
     }
+    private void OnDisable() // Changes Crosshairs when disabled
+    {
+        if (mainCrosshair != null)
+            mainCrosshair.gameObject.SetActive(true);
+    }
 
-    public void StartFire(bool isPressed)
+    public void StartFire(bool isPressed) // checker method to change weapon shooting behavior: Automatic or Semi-Automatic
     {
         if (isPressed)
         {
@@ -111,6 +112,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    #region - New Input System -
     public void OnFire(InputAction.CallbackContext context)
     {
         if (context.started) // Button pressed
@@ -134,10 +136,11 @@ public class Weapon : MonoBehaviour
             }
         }
     }
+    #endregion
 
-    private void Fire()
+    private void Fire() // If the weapon have available ammo, shoot and refresh the ammo display 
     {
-        if (!canFire )
+        if (!canFire ) //checks for fire timing (Semi-Automatic Fire)
         {
             return;
         }
@@ -147,7 +150,7 @@ public class Weapon : MonoBehaviour
             return;
         }
 
-        // Reduce ammo
+        // Reduce ammo and refresh display
         currentAmmo = Mathf.Clamp(currentAmmo - 1, 0, maxAmmo);
         ammoTxt.text = $"{currentAmmo} | {maxAmmo}";
 
@@ -165,8 +168,9 @@ public class Weapon : MonoBehaviour
             rotation = Quaternion.LookRotation(rayDirection);
         }
 
-        if (!laser)
+        if (!laser)  // Checks if this weapon has laser ammo enabled
         {
+            // Shot feedback
             weaponSoundManager.Play_Fire();
             bulletParticles.Play();
             castingParticles.Play();
@@ -177,8 +181,9 @@ public class Weapon : MonoBehaviour
             projectile.GetComponent<Bullet>().GetWeaponStat(projectileSpeed, projectileSpeed/2);
             projectile.GetComponent<Rigidbody>().velocity = projectile.transform.forward * projectileSpeed;
         }
-        else
-        {
+        else 
+        {    
+            // Laser shot feedback
             weaponSoundManager.Play_Laser();
             laserParticles.Play();
 
@@ -201,18 +206,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-
-    private void ResetFire()
-    {
-        canFire = true; // Allow next shot
-    }
-
-    public void Reload()
-    {
-        StartCoroutine(ReloadCoroutine());
-    }
-
-    public void AmmoDisplay(bool logic)
+    public void AmmoDisplay(bool logic) // Decides whether to display current ammo, or not
     {
         switch (logic)
         {
@@ -230,9 +224,9 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void AmmoSwap(bool logic) // Decides how to dsiplay the weapon depending on the type of Ammo
+    public void AmmoSwap(bool logic) // Decides how to display the weapon depending on the type of Ammo
     {
-        switch(logic)
+        switch (logic)
         {
             case false:
                 laser = false;
@@ -246,15 +240,19 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    private void ResetFire()
     {
-        if(mainCrosshair != null)
-        mainCrosshair.gameObject.SetActive(true);
+        canFire = true; // Allow next shot
+    }
+
+    public void Reload()
+    {
+        StartCoroutine(ReloadCoroutine());
     }
 
     private IEnumerator ReloadCoroutine()
     {
-        Debug.Log("Reloading...");
+        // Feedback
         weaponSoundManager.Play_Reload();
 
         yield return new WaitForSeconds(reloadTime);
@@ -262,9 +260,8 @@ public class Weapon : MonoBehaviour
         currentAmmo = maxAmmo;
     }
 
-    private IEnumerator ClearLaser(float time)
+    private IEnumerator ClearLaser(float time) // Laser visuals are shown with a "LineRenderer" component, we have to disable it a bit after the shot was taken
     {
-        
         yield return new WaitForSeconds(time);
 
         lineRenderer.enabled = false;

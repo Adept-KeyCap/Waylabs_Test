@@ -11,7 +11,7 @@ public class DefeatScreen : MonoBehaviour
 
     private void Start()
     {
-        text.color = Color.clear;
+        text.color = Color.clear; // Set the text color to alpha value = 0
     }
 
     private void OnEnable()

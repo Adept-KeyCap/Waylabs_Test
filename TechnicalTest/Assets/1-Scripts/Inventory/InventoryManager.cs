@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class InventoryManager : MonoBehaviour
 {
-    public static InventoryManager Instance;
+    public static InventoryManager Instance; // Singleton
 
     public InventorySlot[] inventorySlots;
     public GameObject inventoryItemPrefab;
@@ -27,7 +27,7 @@ public class InventoryManager : MonoBehaviour
             Instance = this;
         }
 
-        ChangeSelectedSlot(0);
+        ChangeSelectedSlot(0); // Starter Slot
         itemOnHand = ItemOnHand_Controller.Instance;
     }
 
@@ -38,6 +38,7 @@ public class InventoryManager : MonoBehaviour
             inventorySlots[selectedSlot].Unselect();
         }
 
+        // If the newValue tries to go below or above the limit, selects the slot from the other end
         if (newValue > 4)
         {
             newValue = 0;
@@ -59,7 +60,7 @@ public class InventoryManager : MonoBehaviour
         return inventorySlots[slotIndex].storedGameObject;
     }
 
-    public bool AddObject(InventoryObject invObject, GameObject realObj)
+    public bool AddObject(InventoryObject invObject, GameObject realObj) // When picking up an Item, check if there any space and assign it to the first empty slot found
     {
         // 1. Check if an existing stackable item exists
         foreach (var slot in inventorySlots)
@@ -70,7 +71,8 @@ public class InventoryManager : MonoBehaviour
             {
                 objInSlot.count++;
                 objInSlot.RefreshCount();
-                //Destroy(realObj); // Destroy the duplicate GameObject (since it's stacked)
+                realObj.SetActive(false); // Hide the object when stored
+
                 return true;
             }
         }
@@ -83,7 +85,7 @@ public class InventoryManager : MonoBehaviour
                 slot.storedGameObject = realObj;
                 realObj.SetActive(false); // Hide the object when stored
 
-                // Spawn a new UI item for the inventory
+                // New UI item for the inventory
                 SpawnNewObject(invObject, slot);
                 return true;
             }
@@ -92,15 +94,14 @@ public class InventoryManager : MonoBehaviour
         return false; // Inventory full
     }
 
-
+    //Create a New UI Icon GameObject inside the selected InventroySlot
     void SpawnNewObject(InventoryObject obj, InventorySlot slot)
     {
-        GameObject newObj = Instantiate(inventoryItemPrefab, slot.transform); // Spawn UI icon inside the slot
+        GameObject newObj = Instantiate(inventoryItemPrefab, slot.transform);
         InventoryItem inventoryItem = newObj.GetComponent<InventoryItem>();
 
         inventoryItem.InitializeItem(obj); // Assign the correct item data
     }
-
 
     public void RemoveObjectFromInventory(GameObject item)
     {
@@ -117,11 +118,12 @@ public class InventoryManager : MonoBehaviour
                     Destroy(objInSlot.gameObject); // Destroy the UI icon
                 }
 
-                Debug.Log("Item removed from inventory.");
                 return;
             }
         }
     }
+
+    #region - New Imput System -
 
     public void OnToolbarSelect(InputAction.CallbackContext context)
     {
@@ -140,5 +142,5 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-
+    #endregion
 }

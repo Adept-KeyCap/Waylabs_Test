@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Item : MonoBehaviour, IHittable
+public class Item : MonoBehaviour, IHittable  // Impacts can affect this class, so "IHittable" interface is implemented
 {
     [SerializeField] private GameObject highlightObj;
     [SerializeField, Range(0,10)] private float forceScaler;
@@ -40,14 +40,13 @@ public class Item : MonoBehaviour, IHittable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(audioSource.clip != contactAudio)
+        if(audioSource.clip != contactAudio) // if the GameObject collides with anything, it will play a sound
         {
             audioSource.clip = contactAudio;
         }
-
         audioSource.Play();
 
-        if(collision.gameObject.GetComponent<DamageHandler>() != null && rb.velocity.magnitude >= 2)
+        if(collision.gameObject.GetComponent<DamageHandler>() != null && rb.velocity.magnitude >= 2) // is the GameObject velocity is greater than a threshold and collides, deal damage to a Enemy part
         {
             DamageHandler handler = collision.gameObject.GetComponent<DamageHandler>();
             float damage = rb.velocity.magnitude * (rb.mass * 75);
@@ -55,7 +54,7 @@ public class Item : MonoBehaviour, IHittable
         }
     }
 
-    public void Grabbed(Transform pos)
+    public void Grabbed(Transform pos)  // Sets position to players hand
     {
         grabbed = true;
         transform.parent = pos;
@@ -85,7 +84,7 @@ public class Item : MonoBehaviour, IHittable
         }
     }
 
-    public void Highlight(bool logic)
+    public void Highlight(bool logic) // Highlight GameObject gets activated or deactivated
     {
         if (logic && !grabbed)
         {
@@ -104,7 +103,7 @@ public class Item : MonoBehaviour, IHittable
         Debug.Log(gameObject.name + "Was Hit!");
     }
 
-    private void CheckForWeapon(bool logic)
+    private void CheckForWeapon(bool logic) // See if this item is a weapon
     {
         if (gameObject.GetComponent<Weapon>() != null)
         {
