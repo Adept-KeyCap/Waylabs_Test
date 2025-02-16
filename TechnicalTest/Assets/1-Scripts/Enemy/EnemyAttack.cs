@@ -4,7 +4,7 @@ public class EnemyAttack : MonoBehaviour
 {
     [SerializeField] private float attackDamage;
 
-    private float attackCooldown = 2; 
+    private float attackCooldown = 1.6f; 
     private float lastAttackTime = 0;   
     private PlayerHealth playerHealth;
 

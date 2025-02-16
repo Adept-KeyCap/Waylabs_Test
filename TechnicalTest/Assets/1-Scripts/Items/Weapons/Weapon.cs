@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class Weapon : MonoBehaviour
 {
@@ -183,12 +184,14 @@ public class Weapon : MonoBehaviour
 
             lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, firePoint.position);
-            lineRenderer.SetPosition(1, hit.point);
+            lineRenderer.SetPosition(1, positionCrosshair.position);
+            StartCoroutine(ClearLaser(0.3f));
+
             if (hit.collider.gameObject.GetComponent<IHittable>() != null)
             {
                 hit.collider.gameObject.GetComponent<IHittable>().OnHit(Vector3.zero, projectileSpeed * 1.5f, Vector3.zero);
+                lineRenderer.SetPosition(1, hit.point);
             }
-            StartCoroutine(ClearLaser(0.3f));
         }
 
         if (!automatic) // If semi-auto, prevent firing again until cooldown

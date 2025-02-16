@@ -40,7 +40,13 @@ public class Item : MonoBehaviour, IHittable
 
     private void OnCollisionEnter(Collision collision)
     {
+        if(audioSource.clip != contactAudio)
+        {
+            audioSource.clip = contactAudio;
+        }
+
         audioSource.Play();
+
         if(collision.gameObject.GetComponent<DamageHandler>() != null && rb.velocity.magnitude >= 2)
         {
             DamageHandler handler = collision.gameObject.GetComponent<DamageHandler>();

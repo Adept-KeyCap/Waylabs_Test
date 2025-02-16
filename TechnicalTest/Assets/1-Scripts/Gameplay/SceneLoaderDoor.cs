@@ -43,6 +43,7 @@ public class SceneLoaderDoor : MonoBehaviour
         if (other.gameObject.GetComponent<PlayerHealth>() != null)
         {
             StartCoroutine(WhiteFlashAndLoadScene(sceneIndex));
+            AimController.Instance.LockOrUnlockMouse();
         }
     }
 
