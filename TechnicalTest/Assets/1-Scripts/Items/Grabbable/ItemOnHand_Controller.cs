@@ -26,7 +26,6 @@ public class ItemOnHand_Controller : MonoBehaviour
     private bool grabbable = false;
     private Item hitObject;
     private float pressStartTime = 0f;
-    private bool isHolding = false;
 
     [SerializeField] private InventoryManager invManager;
 
@@ -166,14 +165,13 @@ public class ItemOnHand_Controller : MonoBehaviour
         if (context.started) // Start holding Q
         {
             pressStartTime = Time.time;
-            isHolding = true;
+
             throwSlider.gameObject.SetActive(true);
             StartCoroutine(FillThrowBar());
         }
         else if (context.canceled) // Release Q to drop item
         {
             float holdDuration = Time.time - pressStartTime;
-            isHolding = false;
 
             if (held_Item != null)
             {

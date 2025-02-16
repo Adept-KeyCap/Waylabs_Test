@@ -55,7 +55,7 @@ public class Item : MonoBehaviour, IHittable
         transform.parent = pos;
         transform.localRotation = Quaternion.Euler(customRotation);
         rb.isKinematic = true;
-        selfCollider.enabled = false;
+        selfCollider.isTrigger = true;
         transform.localPosition = Vector3.zero;
         audioSource.Play();
 

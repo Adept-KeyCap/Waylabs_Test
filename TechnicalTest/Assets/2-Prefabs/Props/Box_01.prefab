@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightObj: {fileID: 2292271312114821647}
-  forceScaler: 2
+  forceScaler: 4
   customRotation: {x: 0, y: 0, z: 0}
   contactAudio: {fileID: 8300000, guid: 62de44552d87738499b009a2a2c18dda, type: 3}
   inventoryObject: {fileID: 11400000, guid: 7ec52cf341bafa74d96db3d725fa1521, type: 2}

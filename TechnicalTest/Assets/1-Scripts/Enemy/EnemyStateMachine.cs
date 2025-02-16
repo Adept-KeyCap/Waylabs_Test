@@ -36,6 +36,8 @@ public class EnemyStateMachine : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         crawling = false;
 
+        agent.destination = transform.position;
+
         if (animator == null)
         {
             animator = GetComponentInChildren<Animator>();

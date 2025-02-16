@@ -4127,6 +4127,7 @@ MonoBehaviour:
   bloodParticles: {fileID: 2670661504927031036, guid: d8e6f9ec204ac514eaaec13ff27d24bc,
     type: 3}
   healthSlider: {fileID: 6493051253484585475}
+  damageDealer: {fileID: 854826804700382816}
   damageAudio: {fileID: 8300000, guid: 5f378353ed3970e4d9df4f78999326e8, type: 3}
   bloodAudio: {fileID: 8300000, guid: 10c06a72a61633f44996e192db0e9b68, type: 3}
 --- !u!114 &7988075164208256146

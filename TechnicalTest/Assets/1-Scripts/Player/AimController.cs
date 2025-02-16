@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class AimController : MonoBehaviour
 {
+    public static AimController Instance;
+
     [SerializeField] private bool mouseLocked = true;
     [SerializeField] private RectTransform crosshairUI;
     [SerializeField] private float radious = 15;
@@ -17,6 +19,10 @@ public class AimController : MonoBehaviour
     private Camera mainCamera;
     private Transform aimObject;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {

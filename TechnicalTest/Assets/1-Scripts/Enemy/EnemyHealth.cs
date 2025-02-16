@@ -8,11 +8,11 @@ public class EnemyHealth: MonoBehaviour
 {
     [Header("Stats")]
     [SerializeField] private float health;
-    [SerializeField, Range(1, 10)] private int forceMitigation = 1;
 
     [Header("References")]
     [SerializeField] private GameObject bloodParticles;
     [SerializeField] private Slider healthSlider;
+    [SerializeField] private GameObject damageDealer;
 
     [Header("Audio")]
     [SerializeField] private AudioClip damageAudio;
@@ -20,11 +20,15 @@ public class EnemyHealth: MonoBehaviour
 
     private DamageHandler[] bodyParts;
     private EnemyStateMachine stateMachine;
-    private int bustedLegs;
+    private GameManager gameManager;
     private AudioSource audioSource;
+    private int bustedLegs;
+    private bool dead = false;
 
     void Start()
     {
+        gameManager = GameManager.Instance;
+
         bodyParts = GetComponentsInChildren<DamageHandler>();
         stateMachine = GetComponent<EnemyStateMachine>();
         audioSource = GetComponent<AudioSource>();
@@ -39,7 +43,6 @@ public class EnemyHealth: MonoBehaviour
         {
             handler.enemyHealth = this;
         }
-
     }
 
     public void StackDamage(float damage)
@@ -51,23 +54,21 @@ public class EnemyHealth: MonoBehaviour
         audioSource.clip = damageAudio;
         audioSource.Play();
 
-        if (health < 0)
+        if (health < 0 && !dead)
         {
+            dead = true;
+            damageDealer.SetActive(false);
+
             foreach(DamageHandler handler in bodyParts)
             {
                 handler.gameObject.GetComponent<Collider>().enabled = false;
             }
+
             healthSlider.gameObject.SetActive(false);
             stateMachine.EnemyKilled();
+            gameManager.IncreaseKillCount();
         }
     }
-
-    private void DisplayHealth(float value)
-    {
-        healthSlider.gameObject.SetActive(true);
-        healthSlider.value = value;
-    }
-
 
     public void DropBlood(Transform position)
     {
@@ -87,7 +88,11 @@ public class EnemyHealth: MonoBehaviour
             Debug.LogError("No ParticleSystem found on the instantiated object!");
         }
     }
-
+    private void DisplayHealth(float value)
+    {
+        healthSlider.gameObject.SetActive(true);
+        healthSlider.value = value;
+    }
 
     public void OneLegless()
     {
@@ -96,7 +101,6 @@ public class EnemyHealth: MonoBehaviour
         {
             //Call the Enemy Animator to triggrer the new animation
             stateMachine.LegsBusted();
-            Debug.LogWarning(gameObject.name + "Both Legs Busted!");
         }
     }
 

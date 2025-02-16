@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightObj: {fileID: 3181726781064943318}
-  forceScaler: 4.41
+  forceScaler: 4.5
   customRotation: {x: 0, y: 0, z: 0}
   contactAudio: {fileID: 8300000, guid: 6e3841bb638583149b30e27de65c8acd, type: 3}
   inventoryObject: {fileID: 11400000, guid: 981696a3bc283954c878d9d1a83a8403, type: 2}

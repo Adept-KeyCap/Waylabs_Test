@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,18 +40,25 @@ public class SceneLoaderDoor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        StartCoroutine(WhiteFlashAndLoadScene());
+        StartCoroutine(WhiteFlashAndLoadScene(0));
     }
 
-    private IEnumerator WhiteFlashAndLoadScene()
+    public void ManualyLoadScene(int index)
+    {
+        StartCoroutine(WhiteFlashAndLoadScene(index));
+    }
+
+    private IEnumerator WhiteFlashAndLoadScene(int index)
     {
         whiteFlashPanel.gameObject.SetActive(true);
         whiteFlashPanel.DOColor(fadeInColor, 1).OnComplete(() => { DOTween.Kill(whiteFlashPanel); });
 
         yield return new WaitForSeconds(1);
 
-        SceneManager.LoadScene(sceneIndex);
+        SceneManager.LoadScene(index);
     }
+
+
 
     public void OpenExit()
     {

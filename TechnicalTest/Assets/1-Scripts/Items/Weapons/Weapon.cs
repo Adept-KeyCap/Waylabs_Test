@@ -231,18 +231,18 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private void AmmoSwap(bool logic) // Decides how to dsiplay the weapon depending on the type of Ammo
+    public void AmmoSwap(bool logic) // Decides how to dsiplay the weapon depending on the type of Ammo
     {
         switch(logic)
         {
             case false:
                 laser = false;
-                skinnedMeshRenderer.materials[0] = materials[0];
+                skinnedMeshRenderer.material = materials[0];
                 break;
 
             case true:
                 laser = true;
-                skinnedMeshRenderer.materials[0] = materials[1];
+                skinnedMeshRenderer.material = materials[1];
                 break;
         }
     }

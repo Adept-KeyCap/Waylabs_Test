@@ -9,13 +9,15 @@ public class PlayerHealth : MonoBehaviour
 {
     public static PlayerHealth Instance;
 
+    [SerializeField] private Slider healthSlider;
+    [SerializeField] private DefeatScreen defeatScreen;
+
     public AudioClip[] hurtAudios;
     public AudioClip deathAudio;
 
-    [SerializeField] private Slider healthSlider;
-
     private float health = 100;
     private AudioSource audioSource;
+    private bool dead;
 
     private void Awake()
     {
@@ -26,6 +28,7 @@ public class PlayerHealth : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+
         healthSlider.maxValue = health;
         healthSlider.value = health;
     }
@@ -46,9 +49,20 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
-        audioSource.clip = deathAudio;
-        audioSource.Play();
-        GetComponent<Rigidbody>().freezeRotation = false;
+        if (!dead)
+        {
+            dead = true;
+
+            audioSource.clip = deathAudio;
+            audioSource.Play();
+            defeatScreen.gameObject.SetActive(true);
+
+            GetComponent<Rigidbody>().freezeRotation = false;
+            GetComponent<PlayerMovement>().enabled = false;
+            GetComponent<AimController>().LockOrUnlockMouse();
+            GetComponent<AimController>().enabled = false;
+        }
+
     }
 
     
