@@ -1,5 +1,5 @@
 # Prueba Técnica - Waylabs
-A continuación les presento la documentación de este pequeño proyecto, donde está explicado punto por punto los requerimientos de la prueba, el cómo se implementó y que decisiones creativas tomé al interpretar los mismos.
+**Documentación del proyecto:** está explicado punto por punto los requerimientos de la prueba, el cómo se implementó y que decisiones creativas tomé al interpretar los mismos.
 
  0. [Base del juego](#basde-del-juego)
  1. [Objetos básicos](#objetos-básicos)
@@ -9,7 +9,7 @@ A continuación les presento la documentación de este pequeño proyecto, donde 
  5. [Enemigos](#enemigos) 
  6. [Feedback](#feedback)
  7. [UI](#ui)
- 8. [Añadidos](#añadidos)
+ 8. [Notas finales](#notas-finales)
 ##
 
 ## Base del juego
@@ -253,12 +253,12 @@ public bool AddObject(InventoryObject invObject, GameObject realObj)
 #### Entrenamiento / Entretenimiento
 En esta primera zona podrás probar todos los objetos disponibles en el juego, no sin antes pasar por un pequeño tutorial que te enseñará **cómo usar la nueva cámara**, haciendote pasar por un laberinto; **Cómo recoger y lanzar los objetos**, con los cuales podrás jugar un rato dentro de la escena; y finalmente el **Cómo usar las armas**, tu principal medio de defensa.
 
-![Interactables.](DocResources/TrainingZone.png)
+![TrainingZone.](DocResources/TrainingZone.png)
 
 #### Zona de la misión
 En este mapa encontraras a los enemigos esperandote, tu misión es eliminarlos a todos para limpiar el pueblo, encontrarás los 5 objetos principales por todos lados, solo una pistola que aparecerá cerca tuyo, y un rifle que tendrás que buscar, también al paso del tiempo, aparecerá un **Núcleo de energía** en alguna zona aleatoria, con el cual mejorarás tu arma para eliminar a los enemigos más fácilmente, está atento al entorno. 
 
-![Interactables.](DocResources/MissionZone.png)
+![MissionZone.](DocResources/MissionZone.png)
 
 ## Enemigos
 #### Comportamiento básico
@@ -368,7 +368,22 @@ public void StackDamage(float damage)
 ```
 
 ## Feedback
+Aquí tengo un video corto mostrando el **feedback** más relevante en el juego, el de los objetos y los enemigos, ya que son los protagonistas del gameplay.
+
+https://github.com/user-attachments/assets/22935442-6cc5-4075-826e-186eaf7c1494
 
 ## UI
+Se implementó interfaces simples que asemejaran un estilo medianamente moderno en algunas cosas como el punto de mira 3D del arma, el contador de munición y la barra de vida de los zombies.
 
-## Añadidos
+![image](https://github.com/user-attachments/assets/9a9b3056-d3c5-4975-8b4d-c58e704ceea7)
+
+## Notas finales
+Muchas gracias por tomarte el tiempo de leer la documentación, espero todos los puntos de los requisitos de la prueba se hayan explicado claramente y se hayan implementado según las expectativas. Aprovecho este espacio para resaltar lo que logré aplicar en cuanto a **POO** y **SOLID**, siento que dentro de lo que se necesitaba usar **POO** se usó, como la **interfaz** para recibir los goldes de las armas, la cual implementan los enemigos y los objetos interactuables. También aproceché bastante el úso del patrón **Singleton**. En cuanto a **SOLID**, llevo poco tiempo estudiandolo entonces siento que el trabajo que hice con el sistema de las zonas de daño de los enemigos fue un buen acercamiento al principio de responsabilidad única. 
+> [!NOTE]
+> Por cuestiones de mi organización del tiempo del proyecto, no pude implementar todas las mejoras o patrones que quería, por lo que quiero resaltar algunas **oportunidades de mejora**.
+>
+> - Implementación de **Pooling** para los proyectiles, es un sistema bastante estandar para poder evitar al máximo operaciones costosas como **```Instansiate()```** o **```Destroy()```**
+>
+> - Hacer la clase **Weapon** una clase que hereda de **Item** para poder externder algunas funcionalidades y potencialmente simplificar el inventario, de mismo modo permitiría cumplir con el principio de **Sustitución de Liskov**
+>
+> - A pesar de que **DamageZone** es un concepto técnicamente modular, sigue atado a algunas clases a la hora de llamar o notificar los eventos que le pasan a esta clase, por lo que otra oportunidad de mejora, sería implementar llamados por **Eventos de Unity**, para poder hacerlo más modular y menos dependiente de tener referenciada una clase.
