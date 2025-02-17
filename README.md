@@ -15,7 +15,7 @@
 ## Base del juego
 #### Movimiento
 Decidí tomar la ruta del movimiento basádo en físicas ya que sabía que más adelante iba a implementar varios objetos con los que se comportarían con físicas y quería que estos objetos, fueran los protagonistas principales de la Demo.
-Implementé el new Input System de Unity. Se puede mover con **WASD** ``` PlayerMovement.Move() ``` y **SHIFT** para correr ``` PlayerMovement.OnSprint(InputAction.CallbackContext context) ```
+Implementé el new Input System de Unity. Se puede mover con **WASD** ``` PlayerMovement.Move() ``` y **SHIFT** para correr ``` PlayerMovement.OnSprint(InputAction.CallbackContext context) ``` - [PlayerMovemenvt.cs](https://github.com/Adept-KeyCap/Waylabs_Test/blob/main/TechnicalTest/Assets/1-Scripts/Player/PlayerMovement.cs)
 
 #### Cámara
 Implementé un sistema diferente a las cámaras en primera persona convencionales, ya que quería darle cierta ambietación al estilo de [BODYCAM](https://youtu.be/bL-TWFgJpIw?si=2v-roGyF3kvR0L8v) o [Puck](https://youtu.be/GA2iLu3Heek?si=a4x7oO9h05XwOIEO), pero siendo más arcade.
@@ -26,7 +26,7 @@ Esto se logra usando una ```CinemachineVirtualCamera``` un componente el cual no
 
 ![GIF de movimiento de cámara.](DocResources/pt2_Camera.gif)
 
-**AimController**
+[**AimController.cs**](https://github.com/Adept-KeyCap/Waylabs_Test/blob/main/TechnicalTest/Assets/1-Scripts/Player/AimController.cs)
 Esta función modifica la posición de un objeto vacío, el cual será el ```CinemachineVirtualCamera.Target```, este objeto tiene que mantenerse a una distancia constante de la cámara y este debe rotar alrededor de ella. implementar este método es necesario debido a que el game object debe seguir el cambio de la posición del mosue en la pantalla, por lo que es necesario convertir las coordenadas de esta manera.
 ```C#
 private void RotateAim(Transform aimObj, Vector2 aimDelta, float radius, float sensitivity)
@@ -61,7 +61,7 @@ Los objetos se recogen pulsando la **Tecla E** cuando están señalados por un d
 
 ![GIF de Recoger objetos.](DocResources/pt4_ItemsPickUp.gif)
 
-**ItemOnHand_Controller**
+[**ItemOnHand_Controller.cs**](https://github.com/Adept-KeyCap/Waylabs_Test/blob/main/TechnicalTest/Assets/1-Scripts/Items/Grabbable/ItemOnHand_Controller.cs)
 Esta función es la principal responsable por la lógica de cómo se agarran y se encanrga de avisarle al Inventario de que objeto va a almacenar
 ```C#
 public void GrabItem() 
@@ -103,7 +103,7 @@ Hay 5 objetos de los cuales se puede interactuar, los 3 primeros son la caja de 
 > [!TIP]
 > ¡Puedes lanzar objetos contra los enemigos! el daño dependerá del peso y la velocidad con la que se lance el objeto:
 
-**Item**
+[**Item.cs**](https://github.com/Adept-KeyCap/Waylabs_Test/blob/main/TechnicalTest/Assets/1-Scripts/Items/Grabbable/Item.cs)
 ```C#
 private void OnCollisionEnter(Collision collision)
 {
@@ -130,7 +130,7 @@ Cuando aparezca un **Núcleo de enegría** (Objeto que ilumina rojo) Podremos to
 
 ![GIF de las Armas.](DocResources/pt5_Weapons.gif)
 
-**Weapon**
+[**Weapon.cs**](https://github.com/Adept-KeyCap/Waylabs_Test/blob/main/TechnicalTest/Assets/1-Scripts/Items/Weapons/Weapon.cs)
 La siguente extensa función, lo que nos permite es realizar ciertas acciones a la hora de disparar, dependiendod el tipo de munición que tenga equipada el arma, así podemos cambiar la lógica entre la creación de proyectiles físicos, y la munición laser que es un raycast, haciendo la configuración de las armas algo bastante odular ne caso de que tipo de arma queremos, con ciertas estadísticas.
 ```C#
 private void Fire() // If the weapon have available ammo, shoot and refresh the ammo display 
@@ -207,7 +207,7 @@ Te permite almacenar objetos que hay en el entorno, puedes tener **hasta 5 de el
 
 El inventario está compuesto por 4 clases principales, el **InventoryManager, InventorySlot, InventoryItem e InventoryObject**. Cada uno maneja una capa de profundidad, hay cierto número limitado de **Slots** donde se instancian **InventoryItems** los cuales son las visuales dentro de la interfaz, por medio de un _ScriptableObjects_ se encargan de pre-cargar os atributos del objeto, cómo el ícono que llevará en el inventario **o si es acumulable o no**.
 
-**InventoryManager**
+[**InventoryManager.cs**](https://github.com/Adept-KeyCap/Waylabs_Test/blob/main/TechnicalTest/Assets/1-Scripts/Inventory/InventoryManager.cs)
 Este método es el más relevante dentro del inventario ya que se encarga de añadir los objetos al inventario. Primero verifica que haya algún **Slot** disponible para almacenar el objeto que se acaba de agarrar; procede a veirificar los datos del objeto para saber si este puede ser acumulado junto a otros o no.
 ```C#
 // When picking up an Item, check if there any space and assign it to the first empty slot found
@@ -270,6 +270,7 @@ Empezamos por la parte del seguimiento, donde implementé el paquete de Unity [A
 #### Máquina de estados
 El enemigo está compuesto por la famosa estructura de al máquina de estados, la cuan permite que el enemigo reaccione bajo ciertas situaciones y cambie su comportamiento acorde a esto. En este caso tenemos una bastante simple donde el enemigo tiene 4 estados. La principal función que aprovecho de este compoente es la falcilidad de cambiar las animaciones dependiendo de las situaciones.
 
+[**EnemyStateMachine.cs**](https://github.com/Adept-KeyCap/Waylabs_Test/blob/main/TechnicalTest/Assets/1-Scripts/Enemy/EnemyStateMachine.cs)
 ```C#
 void FixedUpdate()
 {
@@ -303,7 +304,7 @@ Básicamente esto es un sistema modular que nos permite hacerle daño en zonas e
 
 Cada zona de daño funciona en su propio mundo, están atentas a que les hace daño y notifican a otra clase de que es lo que les está pasando en este momento, para que la clase que se encanga de manejar la vida de todo el enemigo pueda saber que hacer.
 
-**DamageHandler**
+[**DamageHandler.cs**](https://github.com/Adept-KeyCap/Waylabs_Test/blob/main/TechnicalTest/Assets/1-Scripts/Enemy/DamageHandler.cs)
 Interfaz que permite recibir parametros de cualquier objeto que lo pueda golpear.
 ```C#
 public void OnHit(Vector3 hitPoint, float damage, Vector3 hitForce)
@@ -336,7 +337,7 @@ public void OnHit(Vector3 hitPoint, float damage, Vector3 hitForce)
 ```
 
 
-**EnemyHealth**
+[**EnemyHealth.cs**](https://github.com/Adept-KeyCap/Waylabs_Test/blob/main/TechnicalTest/Assets/1-Scripts/Enemy/EnemyHealth.cs)
 _StackDamage(),_ función pricnipal que recibe información de las zonas de daño
 ```C#
 public void StackDamage(float damage)
