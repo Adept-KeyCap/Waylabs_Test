@@ -4,13 +4,12 @@ A continuación les presento la documentación de este pequeño proyecto, donde 
  0. [Base del juego](#basde-del-juego)
  1. [Objetos básicos](#objetos-básicos)
  2. [Armas](#armas)
- 3. [Munición](#munición)
- 4. [Inventario](#inventario)
- 5. [Escenas](#escenas)
- 6. [Enemigos](#enemigos) 
- 7. [Feedback](#feedback)
- 8. [UI](#ui)
- 9. [Añadidos](#añadidos)
+ 3. [Inventario](#inventario)
+ 4. [Escenas](#escenas)
+ 5. [Enemigos](#enemigos) 
+ 6. [Feedback](#feedback)
+ 7. [UI](#ui)
+ 8. [Añadidos](#añadidos)
 ##
 
 ## Base del juego
