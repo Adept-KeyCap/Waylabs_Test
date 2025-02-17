@@ -1,16 +1,16 @@
 # Prueba Técnica - Waylabs
 A continuación les presento la documentación de este pequeño proyecto, donde está explicado punto por punto los requerimientos de la prueba, el cómo se implementó y que decisiones creativas tomé al interpretar los mismos.
 
- 0. [Base del juego](#basde-del-jeugo)
- 1. [Objetos básicos](#objetos-basicos)
+ 0. [Base del juego](#basde-del-juego)
+ 1. [Objetos básicos](#objetos-básicos)
  2. [Armas](#armas)
- 3. [Munición](#municion)
+ 3. [Munición](#munición)
  4. [Inventario](#inventario)
  5. [Escenas](#escenas)
- 6. [Enemigos](#Enemigos) 
- 7. [Feedback]()
- 8. [UI]()
- 9. [Añadidos]()
+ 6. [Enemigos](#enemigos) 
+ 7. [Feedback](#feedback)
+ 8. [UI](#ui)
+ 9. [Añadidos](#añadidos)
 ##
 
 ## Base del juego
@@ -62,12 +62,67 @@ Los objetos se recogen pulsando la **Tecla E** cuando están señalados por un d
 
 ![GIF de Recoger objetos.](DocResources/pt4_ItemsPickUp.gif)
 
+**ItemOnHand_Controller**
+Esta función es la principal responsable por la lógica de cómo se agarran y se encanrga de avisarle al Inventario de que objeto va a almacenar
+```C#
+public void GrabItem() 
+{
+    // Tell the item to attach to the player's hand when picking it up and add it to the inventory
+    // Or activate the Item stored in the inventory to equip in hand
+    if (grabbable && hitObject != null)
+    {
+        grabbable = false;
+        hitObject.Grabbed(grabPoint); // Attach item to grab point
+
+        
+        bool added = invManager.AddObject(hitObject.inventoryObject, hitObject.gameObject); // Store the item in inventory
+
+        if (!added)
+        {
+            // Inventory full, cannot pick up more items
+            return;
+        }
+
+        
+        if (held_Item == null) // If nothing is in hand, equip this item immediately
+        {
+            EquipItem(hitObject.gameObject);
+        }
+        else
+        {
+            hitObject.gameObject.SetActive(false); // If an item is already held, just store it (disable the new item)
+        }
+    }
+}
+
+```
+
 Hay 5 objetos de los cuales se puede interactuar, los 3 primeros son la caja de madera, el ladrillo y la pelota de baloncesto, estos 3 reaccionan de manera diferente a las físicas debido a sus diferntes propiedades como la masa, la fricción y su elastícidad.
 
 ![Interactables.](DocResources/Interactables.png)
 
 > [!TIP]
-> ¡Puedes lanzar objetos contra los enemigos! el daño dependerá del peso y la velocidad con la que se lance el objeto
+> ¡Puedes lanzar objetos contra los enemigos! el daño dependerá del peso y la velocidad con la que se lance el objeto:
+
+**Item**
+```C#
+private void OnCollisionEnter(Collision collision)
+{
+    if(audioSource.clip != contactAudio) // if the GameObject collides with anything, it will play a sound
+    {
+        audioSource.clip = contactAudio;
+    }
+    audioSource.Play();
+
+    // is the GameObject velocity is greater than a threshold and collides, deal damage to a Enemy part
+    if(collision.gameObject.GetComponent<DamageHandler>() != null && rb.velocity.magnitude >= 2) 
+    {
+        DamageHandler handler = collision.gameObject.GetComponent<DamageHandler>();
+        float damage = rb.velocity.magnitude * (rb.mass * 75);
+        handler.OnHit(Vector3.zero, damage, Vector3.forward);
+    }
+}
+```
 
 ## Armas
 Tu **Crosshair** cambiará para poder operarlas con precisión. Tenemos 2 armas, **la pistola Semi-Automática**, solo se dispara una vez al presionarse el **Click Izquierdo**. También hay un **Rifle de asalto automático**, disparará mientras se mantenga pulsado el **Click Izquierdo**.
@@ -75,6 +130,76 @@ Si nos quedamos sin munición en el cargador actual, hay que presionar la **Tecl
 Cuando aparezca un **Núcleo de enegría** (Objeto que ilumina rojo) Podremos tocarlo con un arma para mejorarla y así disparar municiones laser, las cuales hacen más daño e impactan instantaneamente al objetivo.
 
 ![GIF de las Armas.](DocResources/pt5_Weapons.gif)
+
+**Weapon**
+La siguente extensa función, lo que nos permite es realizar ciertas acciones a la hora de disparar, dependiendod el tipo de munición que tenga equipada el arma, así podemos cambiar la lógica entre la creación de proyectiles físicos, y la munición laser que es un raycast, haciendo la configuración de las armas algo bastante odular ne caso de que tipo de arma queremos, con ciertas estadísticas.
+```C#
+private void Fire() // If the weapon have available ammo, shoot and refresh the ammo display 
+{
+    if (!canFire ) //checks for fire timing (Semi-Automatic Fire)
+    {
+        return;
+    }
+    else if(currentAmmo <= 0)
+    {
+        weaponSoundManager.Play_FireEmpty();
+        return;
+    }
+
+    // Reduce ammo and refresh display
+    currentAmmo = Mathf.Clamp(currentAmmo - 1, 0, maxAmmo);
+    ammoTxt.text = $"{currentAmmo} | {maxAmmo}";
+
+    Quaternion rotation;
+
+    // Raycast to check if the shot hits anything
+    if (Physics.Raycast(new Ray(firePoint.position, rayDirection), out RaycastHit hit, 500, mask))
+    {
+        rotation = Quaternion.LookRotation(hit.point - firePoint.position); // Aim at the hit point
+    }
+    else
+    {
+        rotation = Quaternion.LookRotation(rayDirection); // No hit, then Shoot straight
+    }
+
+    if (!laser)  // Checks if this weapon has laser ammo enabled
+    {
+        // Shot feedback
+        weaponSoundManager.Play_Fire();
+        bulletParticles.Play();
+        castingParticles.Play();
+
+        // Create and launch the projectile
+        GameObject projectile = Instantiate(prefabProjectile, firePoint.position, rotation);
+        Debug.Log(projectile.name + " Fired");
+        projectile.GetComponent<Bullet>().GetWeaponStat(projectileSpeed, projectileSpeed/2);
+        projectile.GetComponent<Rigidbody>().velocity = projectile.transform.forward * projectileSpeed;
+    }
+    else 
+    {    
+        // Laser shot feedback
+        weaponSoundManager.Play_Laser();
+        laserParticles.Play();
+
+        lineRenderer.enabled = true;
+        lineRenderer.SetPosition(0, firePoint.position);
+        lineRenderer.SetPosition(1, positionCrosshair.position);
+        StartCoroutine(ClearLaser(0.3f));
+
+        if (hit.collider.gameObject.GetComponent<IHittable>() != null)
+        {
+            hit.collider.gameObject.GetComponent<IHittable>().OnHit(Vector3.zero, projectileSpeed * 1.5f, Vector3.zero);
+            lineRenderer.SetPosition(1, hit.point);
+        }
+    }
+
+    if (!automatic) // If semi-auto, prevent firing again until cooldown
+    {
+        canFire = false;
+        Invoke(nameof(ResetFire), fireRate);
+    }
+}
+```
 
 ## Inventario
 Te permite almacenar objetos que hay en el entorno, puedes tener **hasta 5 de ellos en un solo espacio** _(Las armas no se pueden acumular)_, para poder cambiar los Objetos que tengas guardados en el inventario, debes subir o bajar con la **Rueda del Mouse**. 
@@ -126,22 +251,21 @@ void FixedUpdate()
     }
     
 }
-
 ```
 
 
 
 #### Zonas de daño modulares
-Aquí es donde me quise complicar un poco más para poder darle un toque satisfactorio al juego, además como un reto personal para aplicar de manera más aferrada el **Principio de responsabilidad única**
+Aquí es donde me quise complicar un poco más para poder darle un toque satisfactorio al juego, además como un reto personal para aplicar de manera más aferrada el **Principio de responsabilidad única**.
 Básicamente esto es un sistema modular que nos permite hacerle daño en zonas específicas del cuerpo a los enemigos, donde definimos unas zonas que tienen cierta cantidad de vida, también definimos si esas zonas son dependientes de otras, lo que nos permite llegar a algo visualmente grotesco pero interesante, el cual es el desmembramiento de los enemigos.
 
 ![GIF IA NavMesh.](DocResources/pt8_DamageZones.gif)
 
 Cada zona de daño funciona en su propio mundo, están atentas a que les hace daño y notifican a otra clase de que es lo que les está pasando en este momento, para que la clase que se encanga de manejar la vida de todo el enemigo pueda saber que hacer.
 
-**DamageHandler.OnHit(), función principal**
+**DamageHandler**
+Interfaz que permite recibir parametros de cualquier objeto que lo pueda golpear.
 ```C#
-
 public void OnHit(Vector3 hitPoint, float damage, Vector3 hitForce)
 {
     if (head) // triple the amount of damage if the head gets hit
@@ -169,14 +293,12 @@ public void OnHit(Vector3 hitPoint, float damage, Vector3 hitForce)
         gameObject.SetActive(false);
     }
 }
-
-
 ```
 
 
-**EnemyHealth.StackDamage(), función pricnipal que recibe información de las zonas de daño**
+**EnemyHealth**
+_StackDamage(),_ función pricnipal que recibe información de las zonas de daño
 ```C#
-
 public void StackDamage(float damage)
 {
     health = health - damage;
@@ -203,5 +325,10 @@ public void StackDamage(float damage)
         gameManager.IncreaseKillCount(); // Notify the kill to the gameManager
     }
 }
-
 ```
+
+## Feedback
+
+## UI
+
+## Añadidos
