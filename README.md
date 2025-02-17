@@ -1,7 +1,9 @@
 # Prueba Técnica - Waylabs
-**Documentación del proyecto:** está explicado punto por punto los requerimientos de la prueba, el cómo se implementó y que decisiones creativas tomé al interpretar los mismos.
+### [¡Descarga el prototipo aquí!](https://github.com/Adept-KeyCap/Waylabs_Test/releases/tag/Prototype)
 
- 0. [Base del juego](#basde-del-juego)
+**Documentación del proyecto:** Aquí encontrará explicado punto por punto los requerimientos de la prueba, el cómo se implementó y que decisiones creativas tomé al interpretar los mismos.
+
+ 0. [Base del juego](#base-del-juego)
  1. [Objetos básicos](#objetos-básicos)
  2. [Armas](#armas)
  3. [Inventario](#inventario)
