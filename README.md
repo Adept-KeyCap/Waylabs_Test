@@ -1,16 +1,16 @@
 # Prueba Técnica - Waylabs
 A continuación les presento la documentación de este pequeño proyecto, donde está explicado punto por punto los requerimientos de la prueba, el cómo se implementó y que decisiones creativas tomé al interpretar los mismos.
 
-### 0 - Base del juego
-### 1 - Objetos básicos
-### 2 - Armas
-### 3 - Munición
-### 4 - Inventario
-### 5 - Escenas
-### 6 - Enemigos 
-### 7 - Feedback
-### 8 - UI
-### 9 - Añadidos
+ 0. [Base del juego](#basde-del-jeugo)
+ 1. [Objetos básicos](#objetos-basicos)
+ 2. [Armas](#armas)
+ 3. [Munición](#municion)
+ 4. [Inventario](#inventario)
+ 5. [Escenas](#escenas)
+ 6. [Enemigos](#Enemigos) 
+ 7. [Feedback]()
+ 8. [UI]()
+ 9. [Añadidos]()
 ##
 
 ## Base del juego
@@ -20,11 +20,39 @@ Implementé el new Input System de Unity. Se puede mover con **WASD** ``` Player
 
 #### Cámara
 Implementé un sistema diferente a las cámaras en primera persona convencionales, ya que quería darle cierta ambietación al estilo de [BODYCAM](https://youtu.be/bL-TWFgJpIw?si=2v-roGyF3kvR0L8v) o [Puck](https://youtu.be/GA2iLu3Heek?si=a4x7oO9h05XwOIEO), pero siendo más arcade.
+
 Se aprovecha de algunas funcionalidades adicionales del paquete para Unity [Cinemachine](https://unity.com/features/cinemachine), creando una zona "Libre" donde el punto de mira se puede mover libremente, pero cuando el cursor llega a unos límites establecidos, empieza a girar lentamente la cámara, entre más se salga del límite, más rápido va a girar la cámara.
+
+Esto se logra usando una ```CinemachineVirtualCamera``` un componente el cual no está hecho para juegos 3D, solo para el apartado 2D, pero resulta que esta cámara también tiene una propiedad llamada ```CinemachineVirtualCamera.Body``` el cual es responsable de establecer diferentes algoritmos para controlar el cómo se mueve la cámara, en este caso, hay uno que se llama **[Body.Hard Lock to Target](https://docs.unity3d.com/Packages/com.unity.cinemachine@2.2/manual/CinemachineBodyHardLockTarget.html)**, el cual indica que se va a usar la propiedad ```Follow``` como una montura para la cámara, lo cual hace que la ```CinemachineVirtualCamera``` *(Que no rota por ser usada para juegos 2D)* tenga que ajustarse a cualquier trasnformación para poder mantener su objetivo dentro de la vista de la cámara, y por estar literalmente pegada a la cabeza del jugador, esta se ve obligada a rotar, así después ajustando nuestro jugador a la rotaciónd de la cámara misma.
 
 ![GIF de movimiento de cámara.](DocResources/pt2_Camera.gif)
 
-Para crear el punto de mira se usa el valo de la **posición del Mouse** para ubicar un **Crosshair**, este se usa para poder interactuar con los objetos por medio de un ``` Raycast ``` desde la cámara hasta la posición del mundo donde se encuentra apuntando el cursor. A lo que nos lleva a el siguiente punto.
+**AimController**
+Esta función modifica la posición de un objeto vacío, el cual será el ```CinemachineVirtualCamera.Target```, este objeto tiene que mantenerse a una distancia constante de la cámara y este debe rotar alrededor de ella. implementar este método es necesario debido a que el game object debe seguir el cambio de la posición del mosue en la pantalla, por lo que es necesario convertir las coordenadas de esta manera.
+```C#
+private void RotateAim(Transform aimObj, Vector2 aimDelta, float radius, float sensitivity)
+{
+    // Convert mouse movement to angles
+    float yaw = aimDelta.x * sensitivity; // Horizontal movement (Y-axis in 3D space)
+    float pitch = -aimDelta.y * sensitivity; // Vertical movement (X-axis in 3D space)
+
+    // Get the current direction of AimObj relative to the player
+    Vector3 direction = (aimObj.position - transform.position).normalized;
+
+    // Apply rotation on both axes
+    Quaternion yawRotation = Quaternion.AngleAxis(yaw, Vector3.up); // Rotation around the Y-axis
+    Quaternion pitchRotation = Quaternion.AngleAxis(pitch, transform.right); // Rotation around the X-axis
+
+    // Combine both rotations
+    direction = yawRotation * pitchRotation * direction;
+
+    // Maintain a constant distance from the player
+    aimObj.position = transform.position + direction * radius;
+} 
+
+```
+
+Para crear el punto de mira se usa el valo de la **Posición del Mouse** para ubicar un **Crosshair**, este se usa para poder interactuar con los objetos por medio de un ```Raycast``` desde la cámara hasta la posición del mundo donde se encuentra apuntando el cursor. A lo que nos lleva a el siguiente punto.
 
 
 
@@ -111,7 +139,7 @@ Básicamente esto es un sistema modular que nos permite hacerle daño en zonas e
 
 Cada zona de daño funciona en su propio mundo, están atentas a que les hace daño y notifican a otra clase de que es lo que les está pasando en este momento, para que la clase que se encanga de manejar la vida de todo el enemigo pueda saber que hacer.
 
-**Principal función de la zona de Daño**
+**DamageHandler.OnHit(), función principal**
 ```C#
 
 public void OnHit(Vector3 hitPoint, float damage, Vector3 hitForce)
@@ -142,5 +170,38 @@ public void OnHit(Vector3 hitPoint, float damage, Vector3 hitForce)
     }
 }
 
+
+```
+
+
+**EnemyHealth.StackDamage(), función pricnipal que recibe información de las zonas de daño**
+```C#
+
+public void StackDamage(float damage)
+{
+    health = health - damage;
+    healthSlider.enabled = false;
+    DisplayHealth(health);
+
+    // Feedback
+    audioSource.clip = damageAudio;
+    audioSource.Play();
+
+    if (health < 0 && !dead)
+    {
+        // Make sure the enemy cannot attack when dead
+        dead = true;
+        damageDealer.SetActive(false);
+
+        foreach(DamageHandler handler in bodyParts) // Deactivate the other body parts "DamageHandler"
+        {
+            handler.gameObject.GetComponent<Collider>().enabled = false;
+        }
+
+        healthSlider.gameObject.SetActive(false);
+        stateMachine.EnemyKilled(); // Tell the state machine to stop
+        gameManager.IncreaseKillCount(); // Notify the kill to the gameManager
+    }
+}
 
 ```
