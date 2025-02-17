@@ -206,6 +206,47 @@ Te permite almacenar objetos que hay en el entorno, puedes tener **hasta 5 de el
 
 ![GIF del inventario.](DocResources/pt6_Invenotry.gif)
 
+El inventario está compuesto por 4 clases principales, el **InventoryManager, InventorySlot, InventoryItem e InventoryObject**. Cada uno maneja una capa de profundidad, hay cierto número limitado de **Slots** donde se instancian **InventoryItems** los cuales son las visuales dentro de la interfaz, por medio de un _ScriptableObjects_ se encargan de pre-cargar os atributos del objeto, cómo el ícono que llevará en el inventario **o si es acumulable o no**.
+
+**InventoryManager**
+Este método es el más relevante dentro del inventario ya que se encarga de añadir los objetos al inventario. Primero verifica que haya algún **Slot** disponible para almacenar el objeto que se acaba de agarrar; procede a veirificar los datos del objeto para saber si este puede ser acumulado junto a otros o no.
+```C#
+// When picking up an Item, check if there any space and assign it to the first empty slot found
+public bool AddObject(InventoryObject invObject, GameObject realObj)
+{
+    // 1. Check if an existing stackable item exists
+    foreach (var slot in inventorySlots)
+    {
+        InventoryItem objInSlot = slot.GetComponentInChildren<InventoryItem>();
+
+        if (objInSlot != null && objInSlot.inventoryObject == invObject && objInSlot.count < 5 && invObject.stackable)
+        {
+            objInSlot.count++;
+            objInSlot.RefreshCount();
+            realObj.SetActive(false); // Hide the object when stored
+
+            return true;
+        }
+    }
+
+    // 2. If no stackable slot found, place in an empty slot
+    foreach (var slot in inventorySlots)
+    {
+        if (slot.storedGameObject == null)
+        {
+            slot.storedGameObject = realObj;
+            realObj.SetActive(false); // Hide the object when stored
+
+            // New UI item for the inventory
+            SpawnNewObject(invObject, slot);
+            return true;
+        }
+    }
+
+    return false; // Inventory full
+}
+```
+
 > [!WARNING]
 > Lamentablemente no logré solucionar un error el cual al lanzar un objeto que está acumulado junto a otros, también saca al resto del inventario. Esto es debido a equivocarme al empezar a programar y haber creado tanto los objetos interactuables como el sistema del inventario de maneras muy aisladas. **Por lo que una oportunidad de mejora sería el reestructurar estos 2 sistemas de una manera más modular**.
 
